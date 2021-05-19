@@ -1,0 +1,189 @@
+<div class="container">
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-sm-12">
+
+      <div class="pt-5">
+        <h2>Ingrese la información</h2>
+        <form  [formGroup]="form" (submit)="send()">
+        <div >
+        <label class="pt-4" for="nombre">Nombre</label>
+        <input class="form-control" mb-5 type="text" id="nombre" formControlName="nombre">
+        </div>
+        <div>
+          <label class="pt-4"  for="precio">Precio</label>
+          <input  class="form-control"  type="text" id="precio" formControlName="precio">
+        </div>
+
+        <div>
+          <label  class="pt-4" for="estado">Estado</label>
+          <input  class="form-control mb-4"  type="text" id="estado" formControlName="estado">
+        </div>
+
+        <div>
+          <button class=" btn btn-success" [disabled]="form.invalid">Enviar</button>
+        </div>
+
+      </form>
+      </div>
+
+
+
+
+    </div>
+    <div class="col-md-8 pt-5 col-sm-12">
+
+      <h1 class="text-center" ><strong >Listado de Servicios</strong></h1>
+      <table class="table ">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+
+          </tr>
+        </thead>
+        <tbody class=" texto ">
+          <tr >
+            <th  scope="row">1</th>
+            <td >Mark</td>
+            <td >Otto</td>
+            <td >@mdo</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td   align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">1</th>
+            <td >Mark</td>
+            <td >Otto</td>
+            <td >@mdo</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td   align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">1</th>
+            <td >Mark</td>
+            <td >Otto</td>
+            <td >@mdo</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td   align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">1</th>
+            <td >Mark</td>
+            <td >Otto</td>
+            <td >@mdo</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td   align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">1</th>
+            <td >Mark</td>
+            <td >Otto</td>
+            <td >@mdo</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td   align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">1</th>
+            <td >Mark</td>
+            <td >Otto</td>
+            <td >@mdo</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td   align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">2</th>
+            <td >Jacob</td>
+            <td >Thornton</td>
+            <td >@fat</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">2</th>
+            <td >Jacob</td>
+            <td >Thornton</td>
+            <td >@fat</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">2</th>
+            <td >Jacob</td>
+            <td >Thornton</td>
+            <td >@fat</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">2</th>
+            <td >Jacob</td>
+            <td >Thornton</td>
+            <td >@fat</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">2</th>
+            <td >Jacob</td>
+            <td >Thornton</td>
+            <td >@fat</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">3</th>
+            <td >Larry</td>
+            <td >the Bird</td>
+            <td >@twitter</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+          <tr>
+            <th  scope="row">3</th>
+            <td >Larry</td>
+            <td >the Bird</td>
+            <td >@twitter</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+
+          <tr>
+            <th  scope="row">3</th>
+            <td >Larry</td>
+            <td >the Bird</td>
+            <td >@twitter</td>
+            <td  align="left"> <fa-icon [icon]="faedit"></fa-icon></td>
+            <td  align="left"><fa-icon [icon]="fatrash"></fa-icon></td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="btn btn-primary" pull-right pt-5 routerLink="/cards" routerLinkActive="true">Regresar</button>
+
+
+    </div>
+  </div>
+</div>
+
+`
