@@ -27,7 +27,20 @@ export class ServicioComponent implements OnInit {
 
   }
 
-
+  Mes = {
+    1:"Enero",
+    2: "Febrero",
+    3: "Marzo",
+    4: "Abril",
+    5: "Mayo",
+    6: "Junio",
+    7: "Julio",
+    8: "Agosto",
+    9: "Septiembre",
+    10: "Octumbre",
+    11: "Noviembre",
+    12: "Diciembre",
+  }
 
 
 "Lista"=[
@@ -54,6 +67,7 @@ export class ServicioComponent implements OnInit {
   retornar(){
     console.log(this.Lista[1].imagen);
     console.log(this.id);
+    console.log(this.Mes['1']);
   }
 
 

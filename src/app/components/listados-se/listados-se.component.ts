@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-listados-se',
   templateUrl: './listados-se.component.html',
@@ -14,7 +14,7 @@ export class ListadosSeComponent implements OnInit {
 
   fatrash = faTrash;
   faedit=faEdit;
-  constructor( private formBuilder:FormBuilder) { }
+  constructor(private _location: Location, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -27,6 +27,9 @@ export class ListadosSeComponent implements OnInit {
 
   send():any{
     console.log(this.form.value);
+  }
+  backClicked() {
+    this._location.back();
   }
 
 }

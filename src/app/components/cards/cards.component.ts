@@ -22,4 +22,21 @@ export class CardsComponent implements OnInit {
   }
 
 
-}
+  "listaMeses"=[
+    {
+        "id": 1,
+        "Mes":"Enero",
+
+    },
+    {
+        "id": 2,
+        "Mes":"Febrero",
+    },
+    {
+        "id": 3,
+        "Mes":"Marzo",
+    }
+
+  ]
+
+  }
