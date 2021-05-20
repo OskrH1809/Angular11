@@ -47,7 +47,7 @@
               <button (click)="pago=!pago" (click)="subirArchivo()"  (click)="clearImage()"  class="mat-buttonn mb-3 btn btn-primary" type="button">Subir Archivo</button>
             </div>
 
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>
           <button mat-button class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
           </div>
           <!-- ............. -->
@@ -69,13 +69,13 @@
               <br>
 
 
-              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Crear ticket</button>
+              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>
               <button mat-button class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
             </div>
 
             <!-- ..... -->
           <div *ngIf="isClicked1 == true && pago==true">
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>
           <!-- <button mat-button class="mat-buttonn" (click)="bloquear1()">Bloquear Servicios</button> -->
           </div>
 

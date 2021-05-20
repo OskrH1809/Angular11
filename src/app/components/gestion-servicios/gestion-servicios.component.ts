@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 interface ItemData {
   id: string;
   name: string;
@@ -11,8 +13,9 @@ interface ItemData {
   styleUrls: ['./gestion-servicios.component.css']
 })
 export class GestionServiciosComponent implements OnInit {
+  form: any;
 
-  constructor() { }
+  constructor(private modalService: NgbModal, private formBuilder:FormBuilder) { }
 
   i = 0;
   editId: string | null = null;
@@ -24,6 +27,7 @@ export class GestionServiciosComponent implements OnInit {
 
   stopEdit(): void {
     this.editId = null;
+
   }
 
   addRow(): void {
@@ -31,9 +35,9 @@ export class GestionServiciosComponent implements OnInit {
       ...this.listOfData,
       {
         id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
+        name: `${this.form.value.name}`,
+        age: `${this.form.value.age}`,
+        address: `${this.form.value.address}`
       }
     ];
     this.i++;
@@ -44,7 +48,36 @@ export class GestionServiciosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addRow();
-    this.addRow();
+
+    this.form = this.formBuilder.group({
+      name: ['',[Validators.required]],
+      age: ['',Validators.required],
+      address: ['',Validators.required]
+
+    });
   }
+
+  send():any{
+    console.log(this.form.value.name);
+  }
+  // Modal
+  closeModal: string;
+  triggerModal(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
+      this.closeModal = `Closed with: ${res}`;
+    }, (res) => {
+      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
 }

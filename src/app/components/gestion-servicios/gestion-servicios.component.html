@@ -1,7 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-sm-12 pt-5">
-      <button nz-button (click)="addRow()" nzType="primary">Ingresar Nueva Solicitud</button>
+      <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Ingresar Nueva Solicitud</button>
+      <!--{# (click)="addRow()" #}-->
       <br />
       <br />
       <nz-table #editRowTable nzBordered [nzData]="listOfData">
@@ -15,6 +16,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of editRowTable.data" class="editable-row">
+
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.name }}
@@ -28,8 +30,51 @@
             </td>
           </tr>
         </tbody>
+        <ng-template #modalData let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title"><strong>Nueva solicitud</strong></h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <form  [formGroup]="form" (submit)="send()">
+                  <div >
+                  <label class="pt-4" for="name">name</label>
+                  <input class="form-control" mb-5 type="text" id="name" formControlName="name">
+                  </div>
+                  <div>
+                    <label class="pt-4"  for="age">age</label>
+                    <input  class="form-control"  type="text" id="age" formControlName="age">
+                  </div>
+
+                  <div>
+                    <label  class="pt-4" for="address">address</label>
+                    <input  class="form-control mb-4"  type="text" id="address" formControlName="address">
+                  </div>
+
+                  <div>
+                    <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid">Enviar</button>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+          </div>
+        </ng-template>
       </nz-table>
+
     </div>
     <div class="col-md-4 col-sm-12 pt-5"></div>
   </div>
+
 </div>
+
+

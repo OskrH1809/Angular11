@@ -10,12 +10,12 @@ import {Location} from '@angular/common';
 })
 export class ListadosSeComponent implements OnInit {
 
-  public form: FormGroup;
+
 
   fatrash = faTrash;
   faedit=faEdit;
   constructor(private _location: Location, private formBuilder:FormBuilder) { }
-
+  public form: FormGroup;
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       nombre: ['',[Validators.required]],
