@@ -8,7 +8,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import { CardsComponent } from './components/cards/cards.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -19,6 +19,14 @@ import { ListadosSeComponent } from './components/listados-se/listados-se.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ServicioComponent } from './components/servicio/servicio.component';
 import { GestionServiciosComponent } from './components/gestion-servicios/gestion-servicios.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { es_ES } from 'ng-zorro-antd/i18n';
+import es from '@angular/common/locales/es';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+registerLocaleData(es);
 
 
 @NgModule({
@@ -42,12 +50,18 @@ import { GestionServiciosComponent } from './components/gestion-servicios/gestio
     FontAwesomeModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzTableModule,
+    NzTableModule,
+    NzButtonModule,
+    NzPaginationModule,
+    NzPopconfirmModule
 
 
   ],
   providers: [
     InfoCardsService,
+    { provide: NZ_I18N, useValue: es_ES },
   ],
   bootstrap: [AppComponent]
 })
