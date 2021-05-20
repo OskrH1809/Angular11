@@ -18,6 +18,7 @@ import { InfoCardsService } from './Services/info-cards.service';
 import { ListadosSeComponent } from './components/listados-se/listados-se.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ServicioComponent } from './components/servicio/servicio.component';
+import { GestionServiciosComponent } from './components/gestion-servicios/gestion-servicios.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ServicioComponent } from './components/servicio/servicio.component';
     AppComponent,
     CardsComponent,
     ListadosSeComponent,
-    ServicioComponent
+    ServicioComponent,
+    GestionServiciosComponent
   ],
   imports: [
     BrowserModule,
