@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Location} from '@angular/common';
+
 interface ItemData {
   id: string;
   name: string;
@@ -15,7 +17,7 @@ interface ItemData {
 export class GestionServiciosComponent implements OnInit {
   form: any;
 
-  constructor(private modalService: NgbModal, private formBuilder:FormBuilder) { }
+  constructor(private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
 
   i = 0;
   editId: string | null = null;
@@ -79,5 +81,10 @@ export class GestionServiciosComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+  backClicked() {
+    this._location.back();
+  }
+
 
 }

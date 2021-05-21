@@ -44,7 +44,7 @@
               <input class="mb-3 form-control" (change)="capturarFile($event)" width="100px" type="file" >
             </div>
             <div>
-              <button (click)="pago=!pago" (click)="subirArchivo()"  (click)="clearImage()"  class="mat-buttonn mb-3 btn btn-primary" type="button">Subir Archivo</button>
+              <button (click)="pago=!pago" (click)="subirArchivo()" [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary" type="button" (click)="clearImage()">Subir Archivo</button>
             </div>
 
           <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>

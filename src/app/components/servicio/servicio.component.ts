@@ -19,6 +19,7 @@ export class ServicioComponent implements OnInit {
   panelOpenState = false;
 
   closeModal: string;
+  fileExist= false; //declara si la imagen existe
   constructor(private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -172,7 +173,9 @@ capturarFile(event): any {
   })
   this.archivos.push(archivoCapturado)
   // //
-  // console.log(event.target.files);
+  console.log(event.target.files);
+  console.log(archivoCapturado);
+  this.fileExist=true;
 
 
 }
