@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 
 // upload
 
@@ -17,16 +18,47 @@ export class ServicioComponent implements OnInit {
   id: string;
 
   panelOpenState = false;
-
+  administrarService: any;
+  role:string;
   closeModal: string;
   fileExist= false; //declara si la imagen existe
-  constructor(private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) { }
+  constructor(administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
+    this.administrarService = administrar.validarUser();
+    this.role= administrar.retornarRol();
+  }
 
   ngOnInit(): void {
     this.retornar();
     this.id = this.route.snapshot.paramMap.get("id");
+    console.log(this.administrarService );
+    console.log(this.role );
+    console.log(this.Mess);
+    console.log("Year = " + this.date.getFullYear());
+console.log("Date = " + this.date.getDate());
+console.log("Month = " + this.date.getMonth());
+console.log("Day = " + this.date.getDay());
+console.log("Hours = " + this.date.getHours());
+console.log("Minutes = " + this.date.getMinutes());
+console.log("Seconds = " + this.date.getSeconds());
+console.log(this.Mes[this.date.getMonth()]);
+
 
   }
+
+    // CAPTURAR MES ACTUAL
+   date: Date = new Date();
+    Mess: number = new Date().getUTCMonth();
+
+    // CAPTURAR MES ACTUAL ^
+
+  user =  {
+    "nombre": 'Oscar',
+    "role": ['USER'],
+    "correo":'hoscar161@gmail.com'
+     }
+
+
+
 
   Mes = {
     1:"Enero",
@@ -89,8 +121,6 @@ export class ServicioComponent implements OnInit {
   public isClicked4: boolean = false;
   public isClicked5: boolean = false;
   public isClicked6: boolean = false;
-
-
 
 
 
@@ -243,6 +273,7 @@ capturarFile2(event): any {
 
     }
   }
+
   subirArchivo2(): any {
     try {
 
@@ -272,6 +303,15 @@ capturarFile2(event): any {
   clearImage(): any {
     this.previsualizacion = '';
     this.archivos = [];
+  }
+
+  ///localstorege agregar
+
+  agregarUsuario(){
+    localStorage.setItem('usuario', JSON.stringify(this.user));
+  }
+  removerUsuario(){
+    localStorage.clear();
   }
 
 

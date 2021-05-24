@@ -1,8 +1,8 @@
 <div class="container">
-  <h1 class="text-center  pt-5"><strong>Gestión de servicios </strong></h1>
+  <h1 class="text-center  pt-5"><strong>Gestión de Clientes </strong></h1>
   <div class="row">
     <div class="col-md-8 col-sm-12 pt-5">
-      <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Ingresar Nueva Solicitud</button>
+      <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Registrar Cliente</button>
       <!--{# (click)="addRow()" #}-->
       <br />
       <br />
@@ -11,43 +11,41 @@
           <tr>
             <th>Id</th>
             <th nzWidth="30%">Nombre</th>
-            <th>Edad</th>
-            <th>dirección</th>
+            <th>Apellido</th>
+            <th>Dirección</th>
             <th>Accion</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of editRowTable.data" class="editable-row">
+            <td>{{data.id}}</td>
             <td>
-            {{data.id}}
+              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                {{ data.nombre }}
+              </div>
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit()" />
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.name }}
+                {{ data.apellido }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
-            </td>
-            <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.age }}
-              </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.age" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.apellido" (blur)="stopEdit()" />
 
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.address }}
+                {{ data.direccion }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.direccion" (blur)="stopEdit()" />
 
             <td>
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.name}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
             </td>
           </tr>
         </tbody>
         <ng-template #modalData let-modal>
           <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title"><strong>Nueva solicitud</strong></h4>
+            <h4 class="modal-title" id="modal-basic-title"><strong>Nuevo Cliente</strong></h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">×</span>
             </button>
@@ -55,24 +53,24 @@
           <div class="modal-body">
 
             <div class="row">
-              <div class="col-md-8 col-sm-12">
+              <div class="col-md-10 col-sm-12">
                 <form  [formGroup]="form" (submit)="send()">
                   <div >
-                  <label class="pt-4" for="name">nombre</label>
-                  <input class="form-control" mb-5 type="text" id="name" formControlName="name">
+                  <label class="pt-4" for="nombre">Nombre</label>
+                  <input class="form-control" mb-5 type="text" id="nombre" formControlName="nombre">
                   </div>
                   <div>
-                    <label class="pt-4"  for="age">edad</label>
-                    <input  class="form-control"  type="text" id="age" formControlName="age">
-                  </div>
-
-                  <div>
-                    <label  class="pt-4" for="address">direccion</label>
-                    <input  class="form-control mb-4"  type="text" id="address" formControlName="address">
+                    <label class="pt-4"  for="apellido">Apellido</label>
+                    <input  class="form-control"  type="text" id="apellido" formControlName="apellido">
                   </div>
 
                   <div>
-                    <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" (click)="modal.close('Save click')" (click)="clearModal()">Enviar</button>
+                    <label  class="pt-4" for="direccion">Direccion</label>
+                    <input  class="form-control mb-4"  type="text" id="direccion" formControlName="direccion">
+                  </div>
+
+                  <div>
+                    <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" (click)="modal.close('Save click')" (click)="clearModal()">Registrar</button>
                   </div>
 
                 </form>
@@ -81,7 +79,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
+            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')" (click)="clearModal()">Cerrar</button>
           </div>
         </ng-template>
       </nz-table>

@@ -1,5 +1,7 @@
 <div class="container">
   <h1 class=" text-center"><strong>Servicios del mes de {{Mes[id]}}</strong></h1>
+    <button (click)="agregarUsuario()">Agregar </button>
+    <button (click)="removerUsuario()">Remover </button>
   <div class="row">
 
     <!-- servicio 1 -->
@@ -47,8 +49,9 @@
               <button (click)="pago=!pago" (click)="subirArchivo()" [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary" type="button" (click)="clearImage()">Subir Archivo</button>
             </div>
 
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>
-          <button mat-button class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
+          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios" routerLinkActive="active" mat-button>Crear ticket</button>
+            <button mat-button *ngIf="role=='ADMIN'"  class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
+
           </div>
           <!-- ............. -->
           <div *ngIf="isClicked1 == false && pago==true">
@@ -69,13 +72,13 @@
               <br>
 
 
-              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>
-              <button mat-button class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
+              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios" routerLinkActive="active" mat-button>Crear ticket</button>
+              <button mat-button *ngIf="role=='ADMIN'" class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
             </div>
 
             <!-- ..... -->
           <div *ngIf="isClicked1 == true && pago==true">
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestion" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios" routerLinkActive="active" mat-button>Crear ticket</button>
           <!-- <button mat-button class="mat-buttonn" (click)="bloquear1()">Bloquear Servicios</button> -->
           </div>
 

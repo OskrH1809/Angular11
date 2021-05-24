@@ -1,0 +1,43 @@
+<div class="container">
+  <h1 class="text-center pt-5 mb-5"><strong>Solicitar Servicios</strong></h1>
+  <div class="row">
+
+    <br>
+    <div class="col-md-6 ">
+      <div class="send-request">
+        <button nz-button nzType="primary" [disabled]="setOfCheckedId.size === 0" [nzLoading]="loading" (click)="sendRequest()">
+         Solicitar Servicio
+        </button>
+        <span>seleccionado {{ setOfCheckedId.size }} servicios</span>
+      </div>
+      <nz-table
+        #rowSelectionTable
+        nzShowPagination
+        nzShowSizeChanger
+        [nzData]="listOfData"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+      >
+        <thead>
+          <tr>
+            <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+            <th>Nombre Servicio</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td
+              [nzChecked]="setOfCheckedId.has(data.id)"
+              [nzDisabled]="data.disabled"
+              (nzCheckedChange)="onItemChecked(data.id, $event)"
+            ></td>
+            <td>{{ data.nombre }}</td>
+
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <div class="col-md-6"></div>
+  </div>
+
+</div>

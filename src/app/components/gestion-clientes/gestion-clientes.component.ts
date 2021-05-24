@@ -5,17 +5,16 @@ import {Location} from '@angular/common';
 
 interface ItemData {
   id: string;
-  name: string;
-  age: string;
-  address: string;
+  nombre: string;
+  apellido: string;
+  direccion: string;
 }
 @Component({
-  selector: 'app-gestion-servicios',
-  templateUrl: './gestion-servicios.component.html',
-  styleUrls: ['./gestion-servicios.component.css']
+  selector: 'app-gestion-clientes',
+  templateUrl: './gestion-clientes.component.html',
+  styleUrls: ['./gestion-clientes.component.css']
 })
-export class GestionServiciosComponent implements OnInit {
-
+export class GestionClientesComponent implements OnInit {
   form: any;
 
   constructor(private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
@@ -38,9 +37,9 @@ export class GestionServiciosComponent implements OnInit {
       ...this.listOfData,
       {
         id: `${this.i}`,
-        name: `${this.form.value.name}`,
-        age: `${this.form.value.age}`,
-        address: `${this.form.value.address}`
+        nombre: `${this.form.value.nombre}`,
+        apellido: `${this.form.value.apellido}`,
+        direccion: `${this.form.value.direccion}`
       }
     ];
     this.i++;
@@ -53,15 +52,15 @@ export class GestionServiciosComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
-      name: ['',[Validators.required]],
-      age: ['',Validators.required],
-      address: ['',Validators.required]
+      nombre: ['',[Validators.required]],
+      apellido: ['',Validators.required],
+      direccion: ['',Validators.required]
 
     });
   }
 
   send():any{
-    console.log(this.form.value.name);
+    console.log(this.form.value.nombre);
   }
   // Modal
   closeModal: string;
@@ -72,15 +71,15 @@ export class GestionServiciosComponent implements OnInit {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
     });
   }
+
   clearModal(){
     this.form = this.formBuilder.group({
-      name: ['',[Validators.required]],
-      age: ['',Validators.required],
-      address: ['',Validators.required]
+      nombre: ['',[Validators.required]],
+      apellido: ['',Validators.required],
+      direccion: ['',Validators.required]
 
     });
   }
-
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

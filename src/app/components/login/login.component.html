@@ -1,0 +1,40 @@
+<div class="container">
+  <h1 class=" pt-5 text-center"><strong>Bienvenidos</strong></h1>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div align="center" class="col-md-10 ">
+      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your username!">
+            <nz-input-group nzPrefixIcon="user">
+              <input type="text" nz-input formControlName="userName" placeholder="Username" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-input-group nzPrefixIcon="lock">
+              <input type="password" nz-input formControlName="password" placeholder="Password" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <div nz-row class="login-form-margin">
+          <div nz-col [nzSpan]="12">
+            <label nz-checkbox formControlName="remember">
+              <span>Recordarme</span>
+            </label>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <a href="/" class="login-form-forgot">Olvide mi contraseña </a>
+          </div>
+        </div>
+        <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Iniciar sesión </button>
+        Or <a  href="/">Registrarse </a>
+      </form>
+    </div>
+
+   <div class="col-md-1"></div>
+  </div>
+
+
+</div>

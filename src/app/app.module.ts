@@ -26,6 +26,21 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { AdministrarUserService } from './Services/administrar-user.service';
+import { GestionClientesComponent } from './components/gestion-clientes/gestion-clientes.component';
+import { CreacionServiciosComponent } from './components/creacion-servicios/creacion-servicios.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { LoginComponent } from './components/login/login.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+import { RegistroComponent } from './components/registro/registro.component';
+import { RecuperarContraComponent } from './components/recuperar-contra/recuperar-contra.component';
+import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
+
 registerLocaleData(es);
 
 
@@ -35,7 +50,13 @@ registerLocaleData(es);
     CardsComponent,
     ListadosSeComponent,
     ServicioComponent,
-    GestionServiciosComponent
+    GestionServiciosComponent,
+    GestionClientesComponent,
+    CreacionServiciosComponent,
+    LoginComponent,
+    RegistroComponent,
+    RecuperarContraComponent,
+    ContratarServiciosComponent
   ],
   imports: [
     BrowserModule,
@@ -52,15 +73,23 @@ registerLocaleData(es);
     NgbModule,
     ReactiveFormsModule,
     NzTableModule,
-    NzTableModule,
     NzButtonModule,
     NzPaginationModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzSelectModule,
+    NzToolTipModule,
+    NzFormModule,
+    NzIconModule,
+    NzCheckboxModule,
+    NzInputModule,
+    NzCarouselModule,
+
 
 
   ],
   providers: [
     InfoCardsService,
+    AdministrarUserService,
     { provide: NZ_I18N, useValue: es_ES },
   ],
   bootstrap: [AppComponent]
