@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 
 // upload
@@ -32,23 +33,15 @@ export class ServicioComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get("id");
     console.log(this.administrarService );
     console.log(this.role );
-    console.log(this.Mess);
-    console.log("Year = " + this.date.getFullYear());
-console.log("Date = " + this.date.getDate());
-console.log("Month = " + this.date.getMonth());
-console.log("Day = " + this.date.getDay());
-console.log("Hours = " + this.date.getHours());
-console.log("Minutes = " + this.date.getMinutes());
-console.log("Seconds = " + this.date.getSeconds());
-console.log(this.Mes[this.date.getMonth()]);
 
+
+    console.log(this.mesActual);
 
   }
 
     // CAPTURAR MES ACTUAL
-   date: Date = new Date();
-    Mess: number = new Date().getUTCMonth();
 
+    mesActual= moment().format('M');
     // CAPTURAR MES ACTUAL ^
 
   user =  {
@@ -195,6 +188,7 @@ public previsualizacion: string;
 public previsualizacion2: string;
 public archivos: any = []
 public loading: boolean
+
 capturarFile(event): any {
   const archivoCapturado = event.target.files[0]
   this.extraerBase64(archivoCapturado).then((imagen:any)=>{
