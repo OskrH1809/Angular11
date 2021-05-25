@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Location} from '@angular/common';
+import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 interface ItemData {
   id: string;
@@ -15,10 +17,12 @@ interface ItemData {
   styleUrls: ['./gestion-servicios.component.css']
 })
 export class GestionServiciosComponent implements OnInit {
-
+  mesActual= moment().format('M').toString();
+  id:string;
   form: any;
 
-  constructor(private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
+
+  constructor( private route: ActivatedRoute,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
 
   i = 1;
   editId: string | null = null;
@@ -37,11 +41,17 @@ export class GestionServiciosComponent implements OnInit {
     this.listOfData = [
       ...this.listOfData,
       {
-        id: `${this.i}`,
-        name: `${this.form.value.name}`,
-        age: `${this.form.value.age}`,
-        address: `${this.form.value.address}`
+        id: `1 `,
+        name: `canales`,
+        age: `12`,
+        address: `morazan`
       }
+      // {
+      //   id: `${this.i}`,
+      //   name: `${this.form.value.name}`,
+      //   age: `${this.form.value.age}`,
+      //   address: `${this.form.value.address}`
+      // }
     ];
     this.i++;
   }
@@ -52,12 +62,16 @@ export class GestionServiciosComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.id = this.route.snapshot.paramMap.get("id");
+
     this.form = this.formBuilder.group({
       name: ['',[Validators.required]],
       age: ['',Validators.required],
       address: ['',Validators.required]
 
     });
+    this.addRow();
+
   }
 
   send():any{

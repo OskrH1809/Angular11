@@ -15,7 +15,7 @@ const routes: Routes = [
   {path:'', component:CardsComponent},
   {path:'listadosse', component:ListadosSeComponent},
   {path:'servicio/:id', component:ServicioComponent},
-  {path:'gestionservicios', component:GestionServiciosComponent},
+  {path:'gestionservicios/:id', component:GestionServiciosComponent},
   {path:'gestionclientes', component:GestionClientesComponent},
   {path:'creacionservicios', component:CreacionServiciosComponent},
   {path:'login', component:LoginComponent},

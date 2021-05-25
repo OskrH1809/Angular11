@@ -21,15 +21,15 @@
         <div nz-row class="login-form-margin">
           <div nz-col [nzSpan]="12">
             <label nz-checkbox formControlName="remember">
-              <span>Recordarme</span>
+              <span>Recuerdame</span>
             </label>
           </div>
           <div nz-col [nzSpan]="12">
-            <a href="/" class="login-form-forgot">Olvide mi contraseña </a>
+            <a routerLinkActive="true" routerLink="/recuperar" class="login-form-forgot">Olvide mi contraseña </a>
           </div>
         </div>
         <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Iniciar sesión </button>
-        Or <a  href="/">Registrarse </a>
+        Or <a routerLinkActive="true" routerLink="/registro">Registrarse </a>
       </form>
     </div>
 

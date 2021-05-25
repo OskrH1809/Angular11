@@ -40,7 +40,7 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { RegistroComponent } from './components/registro/registro.component';
 import { RecuperarContraComponent } from './components/recuperar-contra/recuperar-contra.component';
 import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
-
+import { NzImageModule } from 'ng-zorro-antd/image';
 registerLocaleData(es);
 
 
@@ -83,6 +83,7 @@ registerLocaleData(es);
     NzCheckboxModule,
     NzInputModule,
     NzCarouselModule,
+    NzImageModule
 
 
 
