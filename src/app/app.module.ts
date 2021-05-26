@@ -41,6 +41,7 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { RecuperarContraComponent } from './components/recuperar-contra/recuperar-contra.component';
 import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
 registerLocaleData(es);
 
 
@@ -56,7 +57,8 @@ registerLocaleData(es);
     LoginComponent,
     RegistroComponent,
     RecuperarContraComponent,
-    ContratarServiciosComponent
+    ContratarServiciosComponent,
+    TextoEditorComponent
   ],
   imports: [
     BrowserModule,
