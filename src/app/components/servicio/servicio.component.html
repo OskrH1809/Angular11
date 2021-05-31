@@ -10,6 +10,7 @@
         <mat-card-header class="mat-card-header2" *ngIf="isClicked1==false && pago == false ">
 
           <mat-card-title class="titulo1">{{Lista[0].id}}</mat-card-title>
+          <p><strong class="pull-right pl-3">$ 300.00</strong></p>
           <mat-card-title class="titulo2">{{Lista[0].servicio}}</mat-card-title>
         </mat-card-header>
 
@@ -17,12 +18,14 @@
         <mat-card-header class="mat-card-header3" *ngIf="isClicked1==false && pago == true ">
 
             <mat-card-title class="titulo1">{{Lista[0].id}}</mat-card-title>
+            <p><strong class="pull-right pl-3">$ 300.00</strong></p>
             <mat-card-title class="titulo2">{{Lista[0].servicio}}</mat-card-title>
         </mat-card-header>
 
         <mat-card-header class="mat-card-header1" *ngIf="isClicked1==true && pago == true ">
 
           <mat-card-title class="titulo1">{{Lista[0].id}}</mat-card-title>
+          <s class="pull-right pl-3"><strong >$ 300.00</strong></s>
           <mat-card-title class="titulo2">{{Lista[0].servicio}}</mat-card-title>
       </mat-card-header>
 
@@ -53,7 +56,7 @@
               <button (click)="pago=!pago" (click)="subirArchivo()" [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary" type="button" (click)="clearImage()">Subir Archivo</button>
             </div>
 
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios/{{id}}" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
             <button mat-button [disabled]="pago==false" *ngIf="role=='ADMIN'"  class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
 
           </div>
@@ -87,13 +90,13 @@
               <br>
 
 
-              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios/{{id}}" routerLinkActive="active" mat-button>Crear ticket</button>
+              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
               <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
             </div>
 
             <!-- ..... -->
           <div *ngIf="isClicked1 == true && pago==true">
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios/{{id}}" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestionservicios/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
           <!-- <button mat-button class="mat-buttonn" (click)="bloquear1()">Bloquear Servicios</button> -->
           </div>
 
@@ -196,6 +199,7 @@
     </div>
 
 
+
     <!-- Servicio 2 -->
     <div class="col-md-4 mb-5 col-sm-6 col-12 pt-4 sombreado">
       <mat-card class="example-card">
@@ -243,7 +247,7 @@
               <button (click)="pago2=!pago2" (click)="subirArchivo2()"  (click)="clearImage()"  class="mat-buttonn mb-3 btn btn-primary" type="button">Subir Archivo</button>
             </div>
 
-          <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Gestion tickets</button>
           <button mat-button [disabled]="!isClicked2" class="mat-buttonn" (click)="desbloquear2()">Desbloquear Servicios</button>
           </div>
           <!-- ............. -->
@@ -261,13 +265,13 @@
 
             <br>
 
-              <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Crear ticket</button>
+              <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Gestion tickets</button>
               <button mat-button class="mat-buttonn" (click)="desbloquear2()">Desbloquear Servicios</button>
             </div>
 
             <!-- ..... -->
           <div *ngIf="isClicked2 == true && pago2==true">
-          <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Crear ticket</button>
+          <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Gestion tickets</button>
           <!-- <button mat-button class="mat-buttonn" (click)="bloquear1()">Bloquear Servicios</button> -->
           </div>
 

@@ -7,18 +7,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cards.component.css']
 })
 export class CardsComponent implements OnInit {
+  administrarService: any;
+  Meses:string[];
 
 
 
 
 
-  constructor( private InfoCardsService:InfoCardsService,) {
-    this.InfoCardsService = InfoCardsService;
+  constructor( private infocardsService:InfoCardsService,) {
+
    }
 
+   cargarData(){
+    this.infocardsService.getMeses()
+    .subscribe(respuesta => {
+      this.Meses=respuesta;
+      console.log(this.Meses);
+    })
+  }
+  //
 
   ngOnInit(): void {
-
+  this.cargarData();
   }
 
 

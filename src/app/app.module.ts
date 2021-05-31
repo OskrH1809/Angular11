@@ -23,7 +23,6 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { es_ES } from 'ng-zorro-antd/i18n';
 import es from '@angular/common/locales/es';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { AdministrarUserService } from './Services/administrar-user.service';
@@ -42,6 +41,9 @@ import { RecuperarContraComponent } from './components/recuperar-contra/recupera
 import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 registerLocaleData(es);
 
 
@@ -58,7 +60,8 @@ registerLocaleData(es);
     RegistroComponent,
     RecuperarContraComponent,
     ContratarServiciosComponent,
-    TextoEditorComponent
+    TextoEditorComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +88,9 @@ registerLocaleData(es);
     NzCheckboxModule,
     NzInputModule,
     NzCarouselModule,
-    NzImageModule
+    NzImageModule,
+    CKEditorModule,
+    NzButtonModule
 
 
 

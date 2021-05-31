@@ -3,34 +3,15 @@
 <div class="row">
 
   <!-- enero -->
-  <div class="col-md-4 mb-5 col-sm-6 col-12 ">
+  <div class="col-md-4 mb-5 col-sm-6 col-12  " *ngFor="let mes of Meses" >
 
-    <a routerLink="/servicio/{{listaMeses[0].id}}">
-
-      <mat-card class="example-card sombreado" >
-        <mat-card-header class="mat-card-header1" >
-
-          <mat-card-title class="titulo1">{{listaMeses[0].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{listaMeses[0].Mes}}</mat-card-title>
-        </mat-card-header>
-      </mat-card>
-
-    </a>
-
-
-  </div>
-
-  <!-- Febrero  -->
-
-  <div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-    <a routerLink="/servicio/{{listaMeses[1].id}}">
+    <a routerLink="/servicio/{{mes.id}}">
 
       <mat-card class="example-card sombreado" >
         <mat-card-header class="mat-card-header1" >
 
-          <mat-card-title class="titulo1">{{listaMeses[1].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{listaMeses[1].Mes}}</mat-card-title>
+          <mat-card-title class="titulo1">{{mes.id}}</mat-card-title>
+          <mat-card-title class="titulo2">{{mes.nombre}}</mat-card-title>
         </mat-card-header>
       </mat-card>
 
@@ -40,183 +21,6 @@
   </div>
 
 
-  <!-- Marzo -->
-  <div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-    <a routerLink="/servicio/{{listaMeses[2].id}}">
-
-      <mat-card class="example-card sombreado" >
-        <mat-card-header class="mat-card-header1" >
-
-          <mat-card-title class="titulo1">{{listaMeses[2].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{listaMeses[2].Mes}}</mat-card-title>
-        </mat-card-header>
-      </mat-card>
-
-    </a>
-
-
-  </div>
-
-
-
-  <!-- Abril -->
-  <div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-    <a routerLink="/servicio/{{listaMeses[3].id}}">
-
-      <mat-card class="example-card sombreado" >
-        <mat-card-header class="mat-card-header1" >
-
-          <mat-card-title class="titulo1">{{listaMeses[3].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{listaMeses[3].Mes}}</mat-card-title>
-        </mat-card-header>
-      </mat-card>
-
-    </a>
-
-
-  </div>
-
-<!-- Mayo -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/{{listaMeses[4].id}}">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">{{listaMeses[4].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{listaMeses[4].Mes}}</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-
-<!-- Junio -->
-
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">06</mat-card-title>
-        <mat-card-title class="titulo2">Junio</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-
-<!-- Julio -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">07</mat-card-title>
-        <mat-card-title class="titulo2">Julio</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-<!-- Agosto -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">08</mat-card-title>
-        <mat-card-title class="titulo2">Agosto</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-
-<!-- Septiembre -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">09</mat-card-title>
-        <mat-card-title class="titulo2">Septiembre</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-
-<!-- Octumbre -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">10</mat-card-title>
-        <mat-card-title class="titulo2">Octubre</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-
-<!-- Noviembre -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">11</mat-card-title>
-        <mat-card-title class="titulo2">Noviembre</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
-
-
-</div>
-<!-- Diciembre -->
-<div class="col-md-4 mb-5 col-sm-6 col-12 ">
-
-  <a routerLink="/servicio/1">
-
-    <mat-card class="example-card sombreado" >
-      <mat-card-header class="mat-card-header1" >
-
-        <mat-card-title class="titulo1">12</mat-card-title>
-        <mat-card-title class="titulo2">Diciembre</mat-card-title>
-      </mat-card-header>
-    </mat-card>
-
-  </a>
 
 
 </div>
@@ -228,4 +32,3 @@
 
 
 
-</div>

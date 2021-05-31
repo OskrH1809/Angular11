@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="text-center  pt-5"><strong>Gestión de servicios </strong></h1>
+  <h1 class="text-center  pt-5"><strong>Gestión de Tareas </strong></h1>
   <div class="row">
     <div class="col-md-2   col-sm-12 pt-5"></div>
     <div class="col-md-8 col-sm-12 pt-5">
@@ -11,10 +11,11 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th nzWidth="30%">Nombre</th>
-            <th>Edad</th>
-            <th>dirección</th>
-            <th>Accion</th>
+            <th nzWidth="30%">Titulo</th>
+            <th>Descripción</th>
+            <th>Documento</th>
+            <th>Acción</th>
+
           </tr>
         </thead>
         <tbody *ngIf="id==mesActual">
@@ -25,25 +26,22 @@
             <!-- si se encuentra en el mes -->
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.name }}
+                {{ data.titulo }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.titulo" (blur)="stopEdit()" />
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.age }}
+                {{ data.descripcion }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.age" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.descripcion" (blur)="stopEdit()" />
 
             </td>
             <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.address }}
-              </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" (blur)="stopEdit()" />
-
+              <button nz-button routerLinkActive="router-link-active"  nzType="primary" [nzSize]="size" nzShape="round"><i nz-icon nzType="download"></i>Descargar </button>
             <td>
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.name}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
+              <a  nz-popconfirm *ngIf="role=='ADMIN'" nzPopconfirmTitle="seguro que desea eliminar a {{data.name}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
+              <span *ngIf="role=='USER'" >Eliminar</span>
             </td>
 
           </tr>
@@ -75,42 +73,104 @@
 
 
         </tbody>
-        <ng-template #modalData let-modal>
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title"><strong>Nueva solicitud</strong></h4>
+
+        <ng-template  class="pull-left " #modalData let-modal>
+          <div class="modal-body">
+            <h4 class="modal-title" id="modal-basic-title"><strong>Nueva Tarea</strong></h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div class="modal-body">
 
-            <div class="row">
-              <div class="col-md-8 col-sm-12">
-                <form  [formGroup]="form" (submit)="send()">
-                  <div >
-                  <label class="pt-4" for="name">nombre</label>
-                  <input class="form-control" mb-5 type="text" id="name" formControlName="name">
-                  </div>
-                  <div>
-                    <label class="pt-4"  for="age">edad</label>
-                    <input  class="form-control"  type="text" id="age" formControlName="age">
-                  </div>
+            <div class="container">
+              <div class="row ">
+                <div class="col-md-12 col-sm-12 ">
+                  <!-- form -->
+                  <!-- <h2>Integration with reactive forms (<code>ngModel</code>)</h2> -->
 
-                  <div>
-                    <label  class="pt-4" for="address">direccion</label>
-                    <input  class="form-control mb-4"  type="text" id="address" formControlName="address">
-                  </div>
+                  <form (ngSubmit)="onSubmit()" [formGroup]="demoReactiveForm">
+                    <!-- <h3>User profile form</h3> -->
 
-                  <div>
-                    <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" (click)="modal.close('Save click')" (click)="clearModal()">Enviar</button>
-                  </div>
+                    <div>
+                      <label for="titulo">Titulo</label>
+                      <input class="form-control" formControlName="titulo" type="text" name="titulo" id="titulo">
+                    </div>
 
-                </form>
+                    <label class="pt-2" for="descripcion">Descripción</label>
+                    <ckeditor
+                      formControlName="descripcion"
+                      [editor]="Editor"
+                      id="descripcion"
+                      name="descripcion">
+                    </ckeditor>
+                      <!-- file -->
+                      <div class="form-group">
+
+                        <label class="pt-4" for="file">Documento</label>
+
+                        <input
+
+                            formControlName="file"
+
+                            id="file"
+
+                            type="file"
+
+                            class="form-control"
+
+                            (change)="onFileChange($event)">
+
+                        <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+
+                            <div *ngIf="f.file.errors.required">File is required.</div>
+
+                        </div>
+
+                    </div>
+                      <!-- end File -->
+                    <!-- <p *ngIf="description && description.dirty" class="alert">Description is "dirty".</p>
+                    <p *ngIf="description && description.touched" class="alert">Description has been "touched".</p> -->
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                          <div class="col-md-2 pr-5 col-sm-12">
+                            <p><button class="btn btn-primary" type="submit" [disabled]="!demoReactiveForm.valid" (click)="addRow()">Enviar</button> </p>
+
+                          </div>
+                          <div class="col-md-10 pl-5 col-sm-12">
+                            <p><button class="btn btn-primary" type="reset" (click)="reset()">Limpiar</button></p>
+
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+
+                      </div>
+                    </div>
+                  </form>
+
+                  <!-- <h3>Editor data preview (readable)</h3>
+                  <p>
+                    Note that it's only a prove of concept of using the `ngModel`.
+                    It allows editing, but the editor instantly strips out unknown tags and autoparagraphs text outside of block elements.
+                  </p>
+                  <textarea [value]="description.value" style="width: 100%; height: 40px"></textarea>
+
+                  <h3>Form data preview</h3>
+                  <pre>{{ formDataPreview }}</pre> -->
+
+
+
+                  <!--  -->
+                </div>
               </div>
             </div>
 
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer ">
             <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
           </div>
         </ng-template>
@@ -119,8 +179,7 @@
 
     </div>
 
-    <div class="col-md-2 col-sm-12 pt-5"></div>
-  </div>
+
 
 </div>
 

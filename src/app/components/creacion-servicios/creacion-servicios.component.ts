@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Observer } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ServiciosService } from 'src/app/Services/servicios.service';
+import { InfoCardsService } from 'src/app/Services/info-cards.service';
 interface ItemData {
   id: string;
   nombre: string;
@@ -23,6 +25,7 @@ export class CreacionServiciosComponent implements OnInit {
   i = 1;
   editId: string | null = null;
   listOfData: ItemData[] = [];
+  nuevoClienteSelect: { userName: string; };
 
   startEdit(id: string): void {
     this.editId = id;
@@ -44,9 +47,14 @@ export class CreacionServiciosComponent implements OnInit {
         clienteNombre: `${this.form.value.clienteNombre}`,
 
       }
+
+
     ];
+    this.CrearServicio();
     console.log(this.form.value.nombre);
     this.i++;
+
+
   }
 
   deleteRow(id: string): void {
@@ -75,6 +83,7 @@ submitForm(value: { userName: string; }): void {
     this.validateForm.controls[key].updateValueAndValidity();
   }
   console.log(value);
+  this.clientes.push(value.userName);
 
 }
 
@@ -126,7 +135,7 @@ clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
 
 // select ^
 public form: FormGroup;
-  constructor(private fb: FormBuilder,private modalService: NgbModal,private http: HttpClient,private _location: Location, private formBuilder:FormBuilder) {
+  constructor(private infocards:InfoCardsService,private ServiciosService: ServiciosService,private fb: FormBuilder,private modalService: NgbModal,private http: HttpClient,private _location: Location, private formBuilder:FormBuilder) {
 
 
 
@@ -145,8 +154,27 @@ public form: FormGroup;
 
    }
 
+        // peticion post
+        servicios: any;
+          // peticion post ^
+
+  CrearServicio(){
+     // peticion post
+     const nuevoServicio ={ nombre: `${this.form.value.nombre}`, precio: `${this.form.value.precio}`, }
+    //  this.ServiciosService.createServicio({nuevoServicio});
+
+  // peticion post ^
+  this.ServiciosService.sendPos(nuevoServicio).subscribe(
+    res => {
+      console.log(res);
+    }
+);
+  }
 
   ngOnInit(): void {
+
+
+
 
     this.form = this.formBuilder.group({
       nombre: ['',[Validators.required]],
@@ -216,6 +244,12 @@ public form: FormGroup;
   backClicked() {
     this._location.back();
   }
+
+
+
+
+
+
 
 
 

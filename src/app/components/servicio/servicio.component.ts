@@ -7,6 +7,7 @@ import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
+import { InfoCardsService } from 'src/app/Services/info-cards.service';
 
 // upload
 
@@ -23,12 +24,13 @@ export class ServicioComponent implements OnInit {
   role:string;
   closeModal: string;
   fileExist= false; //declara si la imagen existe
-  constructor(administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
+  constructor(private infocardsService:InfoCardsService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
   }
 
   ngOnInit(): void {
+    this.cargarData();
     this.retornar();
     this.id = this.route.snapshot.paramMap.get("id");
     console.log(this.administrarService );
@@ -49,6 +51,17 @@ export class ServicioComponent implements OnInit {
     "role": ['USER'],
     "correo":'hoscar161@gmail.com'
      }
+
+
+    // perticion get a la api
+    cargarData(){
+      this.infocardsService.getMeses()
+      .subscribe(respuesta => {
+        console.log(respuesta);
+      })
+    }
+    // perticion get a la api ^
+
 
 
 

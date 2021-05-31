@@ -7,5 +7,60 @@
 .editable-row:hover .editable-cell {
   border: 1px solid #d9d9d9;
   border-radius: 4px;
+
+  align-content: initial;
   padding: 4px 11px;
 }
+
+.modal-body.modal-footer{
+  width: 200%;
+  justify-content: left;
+  margin: auto;
+}
+
+[nz-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
+
+nz-button-group [nz-button] {
+  margin-right: 0;
+}
+
+
+/* form */
+textarea {
+	font-family: monospace;
+}
+
+form {
+	background: #eee;
+	padding: 1em 1.5em;
+}
+
+form label {
+	display: block;
+	font-weight: bold;
+}
+
+form input {
+	width: 30em;
+}
+
+form > div {
+	margin-bottom: 1em;
+}
+
+pre {
+	word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+p.alert {
+	color: orange;
+}
+
+p.alert::before {
+	content: "⚠️ ";
+}
+/* end form */

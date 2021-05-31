@@ -10,18 +10,22 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent} from './components/registro/registro.component'
 import { RecuperarContraComponent } from './components/recuperar-contra/recuperar-contra.component';
 import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
+import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
 
 const routes: Routes = [
   {path:'', component:CardsComponent},
   {path:'listadosse', component:ListadosSeComponent},
   {path:'servicio/:id', component:ServicioComponent},
-  {path:'gestionservicios/:id', component:GestionServiciosComponent},
+  {path:'gestiontareas/:id', component:GestionServiciosComponent},
   {path:'gestionclientes', component:GestionClientesComponent},
   {path:'creacionservicios', component:CreacionServiciosComponent},
   {path:'login', component:LoginComponent},
   {path:'registro', component:RegistroComponent},
   {path:'recuperar', component:RecuperarContraComponent},
   {path:'contratar', component:ContratarServiciosComponent},
+  {path:'editor', component:TextoEditorComponent},
+
+
 
 
 
