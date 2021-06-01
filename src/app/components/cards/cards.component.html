@@ -3,7 +3,7 @@
 <div class="row">
 
   <!-- enero -->
-  <div class="col-md-4 mb-5 col-sm-6 col-12  " *ngFor="let mes of Meses" >
+  <div class="col-md-4 mb-5 col-sm-6 col-12  " *ngFor="let mes of listaMeses" >
 
     <a routerLink="/servicio/{{mes.id}}">
 
@@ -11,7 +11,7 @@
         <mat-card-header class="mat-card-header1" >
 
           <mat-card-title class="titulo1">{{mes.id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{mes.nombre}}</mat-card-title>
+          <mat-card-title class="titulo2">{{mes.Mes}}</mat-card-title>
         </mat-card-header>
       </mat-card>
 

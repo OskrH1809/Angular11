@@ -30,7 +30,6 @@ export class ServicioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarData();
     this.retornar();
     this.id = this.route.snapshot.paramMap.get("id");
     console.log(this.administrarService );
@@ -54,12 +53,7 @@ export class ServicioComponent implements OnInit {
 
 
     // perticion get a la api
-    cargarData(){
-      this.infocardsService.getMeses()
-      .subscribe(respuesta => {
-        console.log(respuesta);
-      })
-    }
+
     // perticion get a la api ^
 
 

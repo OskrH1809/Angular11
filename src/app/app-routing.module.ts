@@ -19,7 +19,7 @@ const routes: Routes = [
   {path:'servicio/:id', component:ServicioComponent},
   {path:'gestiontareas/:id', component:GestionServiciosComponent},
   {path:'gestionclientes', component:GestionClientesComponent},
-  {path:'creacionservicios', component:CreacionServiciosComponent},
+  {path:'gestionservicios', component:CreacionServiciosComponent},
   {path:'login', component:LoginComponent},
   {path:'registro', component:RegistroComponent},
   {path:'recuperar', component:RecuperarContraComponent},

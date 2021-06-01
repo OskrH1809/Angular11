@@ -8,31 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CardsComponent implements OnInit {
   administrarService: any;
-  Meses:string[];
 
 
 
 
 
-  constructor( private infocardsService:InfoCardsService,) {
+
+  constructor() {
 
    }
 
-   cargarData(){
-    this.infocardsService.getMeses()
-    .subscribe(respuesta => {
-      this.Meses=respuesta;
-      console.log(this.Meses);
-    })
-  }
+
   //
 
   ngOnInit(): void {
-  this.cargarData();
+
   }
 
 
-  "listaMeses"=[
+  listaMeses =[
     {
         "id": 1,
         "Mes":"Enero",
@@ -53,6 +47,34 @@ export class CardsComponent implements OnInit {
     {
       "id":5,
       "Mes":"Mayo"
+    },
+    {
+      "id":6,
+      "Mes":"Junio"
+    },
+    {
+      "id":7,
+      "Mes":"Julio"
+    },
+    {
+      "id":8,
+      "Mes":"Agosto"
+    },
+    {
+      "id":9,
+      "Mes":"Septiembre"
+    },
+    {
+      "id":10,
+      "Mes":"Octubre"
+    },
+    {
+      "id":11,
+      "Mes":"Noviembre"
+    },
+    {
+      "id":12,
+      "Mes":"Diciembre"
     }
 
   ]

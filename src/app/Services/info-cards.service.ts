@@ -10,7 +10,7 @@ const baseUrl = environment.baseURL;
 })
 export class InfoCardsService {
 
-  apiURL  = 'http://127.0.0.1:8000/infocards';
+
 
 
 
@@ -18,18 +18,13 @@ export class InfoCardsService {
   constructor(private http: HttpClient,private httpClient: HttpClient) { }
 
 
-  getMeses() {
-
-    return this.http.get<any>(this.apiURL);
-  }
-
-  sendPos(data: any): Observable<any> {
-    return this.httpClient.post<any>('http://127.0.0.1:8000/servicio', data);
-}
 
 
 
 }
+
+
+
 
 // cargarMedicos() {
 //   return this.http.get(`${baseUrl}/medicos`).pipe(
