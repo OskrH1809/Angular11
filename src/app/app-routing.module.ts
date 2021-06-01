@@ -11,6 +11,7 @@ import { RegistroComponent} from './components/registro/registro.component'
 import { RecuperarContraComponent } from './components/recuperar-contra/recuperar-contra.component';
 import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
 import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {path:'', component:CardsComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:'recuperar', component:RecuperarContraComponent},
   {path:'contratar', component:ContratarServiciosComponent},
   {path:'editor', component:TextoEditorComponent},
+  {path:'dashboard', component:DashboardComponent},
 
 
 

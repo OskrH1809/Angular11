@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServiciosService } from 'src/app/Services/servicios.service';
 import { InfoCardsService } from 'src/app/Services/info-cards.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 interface ItemData {
   id: string;
   nombre: string;
@@ -75,6 +76,20 @@ export class CreacionServiciosComponent implements OnInit {
     }
   }
 
+
+  // notificacion
+  createServicioNotification(): void {
+    this.notification
+      .blank(
+        'Creacion de servicio',
+        'El servicio se ha creado correctamente'
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
+  }
+  // notificacion
+
   //  formulario modal
 validateForm: FormGroup;
 submitForm(value: { userName: string; }): void {
@@ -135,7 +150,7 @@ clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
 
 // select ^
 public form: FormGroup;
-  constructor(private infocards:InfoCardsService,private ServiciosService: ServiciosService,private fb: FormBuilder,private modalService: NgbModal,private http: HttpClient,private _location: Location, private formBuilder:FormBuilder) {
+  constructor(private notification: NzNotificationService,private ServiciosService: ServiciosService,private fb: FormBuilder,private modalService: NgbModal,private http: HttpClient,private _location: Location, private formBuilder:FormBuilder) {
 
 
 
@@ -167,8 +182,8 @@ public form: FormGroup;
   this.ServiciosService.sendPos(nuevoServicio).subscribe(
     res => {
       console.log(res);
-    }
-);
+    });
+    this.createServicioNotification();
   }
 
   ngOnInit(): void {

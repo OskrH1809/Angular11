@@ -11,6 +11,7 @@
   }
 
 
+
   .custom-select{
     font-size: 16px;
   }
@@ -100,4 +101,11 @@ transition: 0.2s;
   height: 100%;
   float:left ;
 
+}
+
+
+
+.espacio{
+
+  padding-bottom:200px;
 }

@@ -64,3 +64,9 @@ p.alert::before {
 	content: "⚠️ ";
 }
 /* end form */
+
+
+.espacio{
+
+  padding-bottom:95px;
+}

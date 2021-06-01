@@ -44,6 +44,8 @@ import { TextoEditorComponent } from './components/texto-editor/texto-editor.com
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HeaderComponent } from './componentIndex/header/header.component';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 registerLocaleData(es);
 
 
@@ -61,7 +63,8 @@ registerLocaleData(es);
     RecuperarContraComponent,
     ContratarServiciosComponent,
     TextoEditorComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +93,8 @@ registerLocaleData(es);
     NzCarouselModule,
     NzImageModule,
     CKEditorModule,
-    NzButtonModule
+    NzButtonModule,
+    NzNotificationModule
 
 
 
