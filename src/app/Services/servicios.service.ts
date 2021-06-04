@@ -18,8 +18,6 @@ export class ServiciosService {
     return this.http.post('http://127.0.0.1:8000/servicio', user);
   }
 
-  sendPos(data: any): Observable<any> {
-    return this.httpClient.post<any>('http://127.0.0.1:8000/servicio', data);
-}
+
 
 }
