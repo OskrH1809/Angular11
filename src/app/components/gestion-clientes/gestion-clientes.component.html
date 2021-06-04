@@ -1,9 +1,30 @@
-<div class="container">
+<div class="container espacio">
   <h1 class="text-center  pt-5"><strong>Gestión de Clientes </strong></h1>
   <div class="row">
-    <div class="col-md-2 col-sm-12 pt-5"></div>
-    <div class="col-md-8 col-sm-12 pt-5">
-      <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Registrar Cliente</button>
+    <div class="col-md-3 col-sm-12 pt-5">
+      <form  [formGroup]="form" (submit)="send()">
+        <div >
+        <label class="pt-4" for="nombre">Nombre</label>
+        <input class="form-control" mb-5 type="text" id="nombre" formControlName="nombre">
+        </div>
+        <div>
+          <label class="pt-4"  for="apellido">Apellido</label>
+          <input  class="form-control"  type="text" id="apellido" formControlName="apellido">
+        </div>
+
+        <div>
+          <label  class="pt-4" for="direccion">Direccion</label>
+          <input  class="form-control mb-4"  type="text" id="direccion" formControlName="direccion">
+        </div>
+
+        <div>
+          <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" >Registrar</button>
+        </div>
+
+      </form>
+    </div>
+    <div class="col-md-9 pl-5 col-sm-12 pt-5">
+     <!-- <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Registrar Cliente</button>-->
       <!--{# (click)="addRow()" #}-->
       <br />
       <br />
@@ -11,10 +32,11 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th nzWidth="30%">Nombre</th>
-            <th>Apellido</th>
-            <th>Dirección</th>
-            <th>Accion</th>
+            <th >Nombre</th>
+            <th nzWidth="30%">Correo</th>
+            <th>Perfil</th>
+            <th nzWidth="5%">Mostrar Servicios</th>
+            <th nzWidth="5%">Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -28,19 +50,23 @@
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.apellido }}
+                {{ data.correo }}
               </div>
               <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.apellido" (blur)="stopEdit()" />
 
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.direccion }}
+                {{ data.perfil }}
               </div>
               <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.direccion" (blur)="stopEdit()" />
+            </td>
+            <td class="text-center">
+              <a routerLink="" routerLinkActive="true" ><i nz-icon nzType="eye" nzTheme="outline"></i></a>
 
-            <td>
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
+            </td>
+            <td class="text-center">
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id) "><span ><i nz-icon nzType="delete" nzTheme="twotone" [nzTwotoneColor]="red"></i></span></a>
             </td>
           </tr>
         </tbody>
@@ -55,26 +81,7 @@
 
             <div class="row">
               <div class="col-md-10 col-sm-12">
-                <form  [formGroup]="form" (submit)="send()">
-                  <div >
-                  <label class="pt-4" for="nombre">Nombre</label>
-                  <input class="form-control" mb-5 type="text" id="nombre" formControlName="nombre">
-                  </div>
-                  <div>
-                    <label class="pt-4"  for="apellido">Apellido</label>
-                    <input  class="form-control"  type="text" id="apellido" formControlName="apellido">
-                  </div>
 
-                  <div>
-                    <label  class="pt-4" for="direccion">Direccion</label>
-                    <input  class="form-control mb-4"  type="text" id="direccion" formControlName="direccion">
-                  </div>
-
-                  <div>
-                    <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" (click)="modal.close('Save click')" (click)="clearModal()">Registrar</button>
-                  </div>
-
-                </form>
               </div>
             </div>
 
@@ -88,7 +95,7 @@
 
     </div>
 
-    <div class="col-md-2 col-sm-12 pt-5"></div>
+
   </div>
 
 </div>

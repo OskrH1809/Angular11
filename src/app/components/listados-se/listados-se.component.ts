@@ -3,6 +3,12 @@ import { ControlContainer, FormBuilder, FormGroup, Validators } from '@angular/f
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import {Location} from '@angular/common';
+interface ItemData {
+  id: string;
+  name: string;
+  age: string;
+  address: string;
+}
 @Component({
   selector: 'app-listados-se',
   templateUrl: './listados-se.component.html',
@@ -10,6 +16,37 @@ import {Location} from '@angular/common';
 })
 export class ListadosSeComponent implements OnInit {
 
+
+  // tabla
+  i = 0;
+  editId: string | null = null;
+  listOfData: ItemData[] = [];
+
+  startEdit(id: string): void {
+    this.editId = id;
+  }
+
+  stopEdit(): void {
+    this.editId = null;
+  }
+
+  addRow(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: `${this.i}`,
+        name: `Edward King ${this.i}`,
+        age: '32',
+        address: `London, Park Lane no. ${this.i}`
+      }
+    ];
+    this.i++;
+  }
+
+  deleteRow(id: string): void {
+    this.listOfData = this.listOfData.filter(d => d.id !== id);
+  }
+  //
 
 
   fatrash = faTrash;
@@ -31,5 +68,7 @@ export class ListadosSeComponent implements OnInit {
   backClicked() {
     this._location.back();
   }
+
+
 
 }

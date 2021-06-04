@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Location} from '@angular/common';
+import { GestionClientesService } from 'src/app/Services/gestion-clientes.service';
 
 interface ItemData {
   id: string;
   nombre: string;
-  apellido: string;
-  direccion: string;
+  correo: string;
+
 }
 @Component({
   selector: 'app-gestion-clientes',
@@ -17,7 +18,7 @@ interface ItemData {
 export class GestionClientesComponent implements OnInit {
   form: any;
 
-  constructor(private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
+  constructor(private userService:GestionClientesService,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
 
   i = 1;
   editId: string | null = null;
@@ -38,9 +39,8 @@ export class GestionClientesComponent implements OnInit {
       {
         id: `${this.i}`,
         nombre: `${this.form.value.nombre}`,
-        apellido: `${this.form.value.apellido}`,
-        direccion: `${this.form.value.direccion}`
-      }
+        correo: `${this.form.value.apellido}`,
+            }
     ];
     this.i++;
   }
@@ -50,7 +50,7 @@ export class GestionClientesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.get_users();
     this.form = this.formBuilder.group({
       nombre: ['',[Validators.required]],
       apellido: ['',Validators.required],
@@ -93,6 +93,20 @@ export class GestionClientesComponent implements OnInit {
   backClicked() {
     this._location.back();
   }
+
+  // peticion get de servicios
+
+    get_users(){
+      this.userService.get_usersAll().subscribe(data => {
+       this.listOfData = data;
+       console.log(data);
+      //  this.i = data.pop().id + 1;
+      });
+    }
+
+
+
+
 
 
 }

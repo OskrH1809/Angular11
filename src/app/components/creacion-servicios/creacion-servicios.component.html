@@ -15,84 +15,7 @@
           <input  class="form-control"  type="text" id="precio" formControlName="precio">
         </div>
 
-
-
-
-        <div>
-          <label  class="pt-4" for="estado">Estado</label>
-          <input  class="form-control mb-4"  type="text" id="estado" formControlName="estado">
-        </div>
-
-        <div class="mb-3">
-          <label for="clienteNombre">Seleccionar Cliente</label>
-          <div class="row">
-            <div class="col-md-10">
-                <select class="custom-select" (change)="changeCity($event)" formControlName="clienteNombre" >
-                <option value="">Seleccionar</option>
-                <option *ngFor="let clientes of clientes" [ngValue]="clientes">{{clientes}}</option>
-                </select>
-                <!-- error block -->
-                <div class="invalid-feedback" *ngIf="isSubmitted && clienteNombre.errors?.required">
-                <sup>*</sup>Seleccione el cliente
-              </div>
-
-            </div>
-            <div class="col-md-2">
-              <button  type="button" nzTooltipTitle="Agregar Cliente" nz-tooltip (click)="triggerModal(modalData)" class="btn mb-2 btn-success">+</button>
-              <!-- modal -->
-              <ng-template #modalData let-modal>
-                <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title"><strong>Nuevo cliente</strong></h4>
-                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12 " align="center">
-                      <form nz-form-control [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
-                        <nz-form-item>
-                          <nz-form-label [nzSpan]="7" nzRequired>Cliente</nz-form-label>
-                          <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-                            <input nz-input  formControlName="userName" placeholder="" />
-                            <ng-template #userErrorTpl let-control>
-                              <ng-container *ngIf="control.hasError('required')">
-                                Please input your username!
-                              </ng-container>
-                              <ng-container *ngIf="control.hasError('duplicated')">
-                                The username is redundant!
-                              </ng-container>
-                            </ng-template>
-                          </nz-form-control>
-                            <br>
-                          <nz-form-control [nzOffset]="7" [nzSpan]="12">
-                            <div class="row">
-                              <div class="col-md-6">
-                                <button nz-button nzType="primary"  [disabled]="!validateForm.valid" >Enviar</button>
-
-                              </div>
-                              <div class="col-md-6">
-                                <button nz-button (click)="resetForm($event)">Limpiar</button>
-                              </div>
-                            </div>
-                          </nz-form-control>
-                        </nz-form-item>
-                      </form>
-                    </div>
-                  </div>
-
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')" (click)="resetForm($event)">Cerrar</button>
-                </div>
-              </ng-template>
-
-              <!-- modal ^ -->
-            </div>
-
-          </div>
-       </div>
+        <br>
 
         <div>
           <button  class=" btn btn-success" [disabled]="form.invalid"  (click)="addRow()">Enviar</button>
@@ -116,10 +39,8 @@
           <tr>
             <th>Id</th>
             <th nzWidth="30%">Nombre</th>
-            <th>Edad</th>
-            <th>dirección</th>
-            <th>Cliente</th>
-            <th>Accion</th>
+            <th>Precio</th>
+            <th nzWidth="3%">Accion</th>
           </tr>
         </thead>
         <tbody>
@@ -131,73 +52,22 @@
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.nombre }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit(data.id,data.nombre,data.precio)" />
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.precio }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.precio" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.precio" (blur)="stopEdit(data.id,data.nombre,data.precio)"   />
 
             </td>
-            <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.estado }}
-              </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.estado" (blur)="stopEdit()" />
-            </td>
-            <!-- CLIENTE -->
-            <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.clienteNombre }}
-              </div>
-              <!-- <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.clienteNombre" (blur)="stopEdit()" /> -->
-            </td>
-            <!-- CLIENTE ^ -->
-            <td>
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
+            <td class="text-center">
+
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"   (nzOnConfirm)="deleteRow(data.id) "><span ><i nz-icon nzType="delete" nzTheme="twotone"></i></span></a>
             </td>
           </tr>
         </tbody>
-        <ng-template #modalData let-modal>
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title"><strong>Nueva solicitud</strong></h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
 
-            <div class="row">
-              <div class="col-md-8 col-sm-12">
-                <form  [formGroup]="form" (submit)="send()">
-                  <div >
-                  <label class="pt-4" for="name">nombre</label>
-                  <input class="form-control" mb-5 type="text" id="name" formControlName="name">
-                  </div>
-                  <div>
-                    <label class="pt-4"  for="age">edad</label>
-                    <input  class="form-control"  type="text" id="age" formControlName="age">
-                  </div>
-
-                  <div>
-                    <label  class="pt-4" for="address">direccion</label>
-                    <input  class="form-control mb-4"  type="text" id="address" formControlName="address">
-                  </div>
-
-                  <div>
-                    <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" (click)="modal.close('Save click')" (click)="clearModal()">Enviar</button>
-                  </div>
-
-                </form>
-              </div>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
-          </div>
-        </ng-template>
       </nz-table>
 
 

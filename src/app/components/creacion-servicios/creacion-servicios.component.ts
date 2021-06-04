@@ -8,12 +8,12 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServiciosService } from 'src/app/Services/servicios.service';
 import { InfoCardsService } from 'src/app/Services/info-cards.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';import { CreacionServiciosService } from 'src/app/Services/creacion-servicios.service';
 interface ItemData {
   id: string;
   nombre: string;
   precio: string;
-  estado: string;
-  clienteNombre:string;
+
 }
 @Component({
   selector: 'app-creacion-servicios',
@@ -23,7 +23,7 @@ interface ItemData {
 export class CreacionServiciosComponent implements OnInit {
 
   // tabla
-  i = 1;
+  i ;
   editId: string | null = null;
   listOfData: ItemData[] = [];
   nuevoClienteSelect: { userName: string; };
@@ -32,8 +32,10 @@ export class CreacionServiciosComponent implements OnInit {
     this.editId = id;
   }
 
-  stopEdit(): void {
+  stopEdit(id,nombre,precio): void {
     this.editId = null;
+    this.actualizacionServicio(id,nombre,precio);
+
 
   }
 
@@ -43,22 +45,21 @@ export class CreacionServiciosComponent implements OnInit {
       {
         id: `${this.i}`,
         nombre: `${this.form.value.nombre}`,
-        precio: `${this.form.value.precio}`,
-        estado: `${this.form.value.estado}`,
-        clienteNombre: `${this.form.value.clienteNombre}`,
+        precio: `${this.form.value.precio}`
 
       }
 
 
     ];
     this.CrearServicio();
-    console.log(this.form.value.nombre);
+
     this.i++;
 
 
   }
 
   deleteRow(id: string): void {
+    this.EliminacionServicio(id)
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
 
@@ -150,18 +151,27 @@ clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
 
 // select ^
 public form: FormGroup;
-  constructor(private notification: NzNotificationService,private ServiciosService: ServiciosService,private fb: FormBuilder,private modalService: NgbModal,private http: HttpClient,private _location: Location, private formBuilder:FormBuilder) {
+  constructor(
+    private notification: NzNotificationService,
+    private ServiciosService: ServiciosService,
+    private fb: FormBuilder,
+    private modalService: NgbModal,
+    private http: HttpClient,
+    private _location: Location,
+    private formBuilder:FormBuilder,
+    private servicio :CreacionServiciosService
+
+  ){
 
 
 
 
 
 
+    // this.validateForm = this.fb.group({
+    //   userName: ['', [Validators.required], [this.userNameAsyncValidator]],
 
-    this.validateForm = this.fb.group({
-      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-
-    });
+    // });
 
 
 
@@ -169,33 +179,92 @@ public form: FormGroup;
 
    }
 
-        // peticion post
-        servicios: any;
-          // peticion post ^
+  // peticion post servicios
+  servicios: any;
+  // peticion post ^
 
   CrearServicio(){
-     // peticion post
-     const nuevoServicio ={ nombre: `${this.form.value.nombre}`, precio: `${this.form.value.precio}`, }
-    //  this.ServiciosService.createServicio({nuevoServicio});
-
-  // peticion post ^
-  this.ServiciosService.sendPos(nuevoServicio).subscribe(
-    res => {
+    // peticion post
+    const nuevoServicio ={ nombre: `${this.form.value.nombre}`, precio: `${this.form.value.precio}`, }
+    // peticion post ^
+    this.servicio.sendPos(nuevoServicio).subscribe(
+      res => {
       console.log(res);
     });
     this.createServicioNotification();
   }
+// peticcion delete servicios
+  EliminacionServicio(id){
+    this.servicio.deleteServicio(id).subscribe(
+      res=>{
+        console.log(res);
+    });
+  }
+  // peticcion delete servicios ^
 
+  // peticcion put servicios
+
+  actualizacionServicio(id,nombre,precio){
+    const data = {nombre:nombre, precio: precio }
+    this.servicio.updateServicio(id,data).subscribe(
+      resp=>{
+        console.log(resp);
+      })
+
+  }
+
+    // peticcion put servicios ^
+
+
+
+
+
+
+
+  // multiselect
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+  //
   ngOnInit(): void {
+    this.get_serviciosall();
 
+    // multiselect
+    this.dropdownList = [
+      { item_id: 1, item_text: 'Mumbai' },
+      { item_id: 2, item_text: 'Bangaluru' },
+      { item_id: 3, item_text: 'Pune' },
+      { item_id: 4, item_text: 'Navsari' },
+      { item_id: 5, item_text: 'New Delhi' }
+    ];
+    this.selectedItems = [
+      { item_id: 3, item_text: 'Pune' },
+      { item_id: 4, item_text: 'Navsari' }
+    ];
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true,
+      itemsShowLimit: 3
 
+    };
+    //
 
 
     this.form = this.formBuilder.group({
       nombre: ['',[Validators.required]],
       precio: ['',Validators.required],
-      estado: ['',Validators.required],
-      clienteNombre: ['',Validators.required]
+
 
     });
     // select
@@ -263,9 +332,21 @@ public form: FormGroup;
 
 
 
+// peticion get de servicios
+  data_serviciosall:any;
+    get_serviciosall(){
+      this.servicio.get_servicios().subscribe(data => {
+       this.listOfData = data;
+       console.log(data);
+      //  this.i = data.pop().id + 1;
+      });
+    }
+
+
+  }
 
 
 
 
 
-}
+

@@ -46,6 +46,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './componentIndex/header/header.component';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 registerLocaleData(es);
 
 
@@ -94,7 +95,8 @@ registerLocaleData(es);
     NzImageModule,
     CKEditorModule,
     NzButtonModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NgMultiSelectDropDownModule.forRoot()
 
 
 
