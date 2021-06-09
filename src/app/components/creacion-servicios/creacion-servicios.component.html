@@ -18,7 +18,7 @@
         <br>
 
         <div>
-          <button  class=" btn btn-success" [disabled]="form.invalid"  (click)="addRow()">Enviar</button>
+          <button  class=" btn btn-success" [disabled]="form.invalid"  (click)="addRow()" >Enviar</button>
         </div>
 
 
@@ -63,7 +63,7 @@
             </td>
             <td class="text-center">
 
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"   (nzOnConfirm)="deleteRow(data.id) "><span ><i nz-icon nzType="delete" nzTheme="twotone"></i></span></a>
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"   (nzOnConfirm)="deleteRow(data.id,data.nombre) "><span  nz-tooltip nzTooltipTitle="Eliminar {{data.nombre}}" ><i nz-icon nzType="delete"   style="font-size: 25px; color: #08c;" nzTheme="twotone"></i></span></a>
             </td>
           </tr>
         </tbody>

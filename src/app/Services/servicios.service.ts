@@ -18,6 +18,13 @@ export class ServiciosService {
     return this.http.post('http://127.0.0.1:8000/servicio', user);
   }
 
+  get_servicios(): Observable<any>{
+    return this.http.get(`${baseUrl}/serviciosall`);
+  }
+
+  get_serviciosxUsuario(id): Observable<any>{
+    return this.http.get(`${baseUrl}/servicios_contratados_user/${id}`);
+  }
 
 
 }

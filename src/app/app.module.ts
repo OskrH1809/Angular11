@@ -31,12 +31,10 @@ import { CreacionServiciosComponent } from './components/creacion-servicios/crea
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { LoginComponent } from './components/login/login.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
-import { RegistroComponent } from './components/registro/registro.component';
 import { RecuperarContraComponent } from './components/recuperar-contra/recuperar-contra.component';
 import { ContratarServiciosComponent } from './components/contratar-servicios/contratar-servicios.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
@@ -47,28 +45,38 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './componentIndex/header/header.component';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ModuloUsuariosModule } from './modulo_usuarios/modulo-usuarios.module';
+import { ModuloServiciosModule } from './modulo_servicios/modulo-servicios.module';
+import { ModuloServicioContratadoModule } from './modulo_servicio_contratado/modulo-servicio-contratado.module';
+import { FooterComponent } from './componentIndex/footer/footer.component';
+import { AsideComponent } from './componentIndex/aside/aside.component';
 registerLocaleData(es);
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CardsComponent,
-    ListadosSeComponent,
-    ServicioComponent,
-    GestionServiciosComponent,
-    GestionClientesComponent,
-    CreacionServiciosComponent,
-    LoginComponent,
-    RegistroComponent,
-    RecuperarContraComponent,
-    ContratarServiciosComponent,
+
+
+
+
+
+
+
+
+
+
     TextoEditorComponent,
     DashboardComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent,
+    AsideComponent
   ],
   imports: [
     BrowserModule,
+    ModuloUsuariosModule,
+    ModuloServiciosModule,
+    ModuloServicioContratadoModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
@@ -96,7 +104,10 @@ registerLocaleData(es);
     CKEditorModule,
     NzButtonModule,
     NzNotificationModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+
+
+
 
 
 

@@ -109,3 +109,13 @@ transition: 0.2s;
 
   padding-bottom:200px;
 }
+
+
+.img{
+  width: 50%;
+
+  border: 3px solid #ddd;
+  border-radius: 4px;
+
+
+}

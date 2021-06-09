@@ -25,4 +25,15 @@ export class AdministrarUserService {
    }
   }
 
+
+
+  getNombreUsuario(){
+   return this.localstorage['nombre']
+  }
+
+  getImagenUsuario(){
+    return this.localstorage['imagenes']
+  }
+
+
 }

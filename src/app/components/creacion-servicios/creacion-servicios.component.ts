@@ -23,9 +23,12 @@ interface ItemData {
 export class CreacionServiciosComponent implements OnInit {
 
   // tabla
-  i ;
+
+  indice:any;
+
   editId: string | null = null;
   listOfData: ItemData[] = [];
+  i ;
   nuevoClienteSelect: { userName: string; };
 
   startEdit(id: string): void {
@@ -35,6 +38,8 @@ export class CreacionServiciosComponent implements OnInit {
   stopEdit(id,nombre,precio): void {
     this.editId = null;
     this.actualizacionServicio(id,nombre,precio);
+    this.createNotification('info','Servicio: '+`${nombre}`,'Actualizado con éxito');
+
 
 
   }
@@ -58,9 +63,11 @@ export class CreacionServiciosComponent implements OnInit {
 
   }
 
-  deleteRow(id: string): void {
+  deleteRow(id: string,nombre:string): void {
     this.EliminacionServicio(id)
     this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.createNotification('warning','Servicio: '+`${nombre}`,'Eliminado con éxito');
+
   }
 
   // tabla ^
@@ -78,18 +85,7 @@ export class CreacionServiciosComponent implements OnInit {
   }
 
 
-  // notificacion
-  createServicioNotification(): void {
-    this.notification
-      .blank(
-        'Creacion de servicio',
-        'El servicio se ha creado correctamente'
-      )
-      .onClick.subscribe(() => {
-        console.log('notification clicked!');
-      });
-  }
-  // notificacion
+
 
   //  formulario modal
 validateForm: FormGroup;
@@ -191,7 +187,9 @@ public form: FormGroup;
       res => {
       console.log(res);
     });
-    this.createServicioNotification();
+
+    this.createNotification('success','Servicio: '+`${this.form.value.nombre}`,'Agregado con éxito');
+
   }
 // peticcion delete servicios
   EliminacionServicio(id){
@@ -199,6 +197,7 @@ public form: FormGroup;
       res=>{
         console.log(res);
     });
+
   }
   // peticcion delete servicios ^
 
@@ -234,6 +233,7 @@ public form: FormGroup;
   }
   //
   ngOnInit(): void {
+    this.getIndice();
     this.get_serviciosall();
 
     // multiselect
@@ -336,14 +336,37 @@ public form: FormGroup;
   data_serviciosall:any;
     get_serviciosall(){
       this.servicio.get_servicios().subscribe(data => {
-       this.listOfData = data;
-       console.log(data);
+        // this.indice = data.pop()['id'] +1;
+        this.listOfData = data;
+        // console.log(parseInt(data.pop().id))
+      //  this.indice= data.pop().id + 1;
+      //  console.log((data.pop()['id']) );
       //  this.i = data.pop().id + 1;
+      //
+      });
+    }
+
+    getIndice(){
+      this.servicio.get_servicios().subscribe(data => {
+
+       this.i = data.pop().id + 1;
+      //
       });
     }
 
 
+          // notificaciones
+  createNotification(type1: string,type2:string,type3:string,): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3,
+      { nzDuration:12000 }
+    );
+
   }
+
+}
 
 
 

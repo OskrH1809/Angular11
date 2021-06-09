@@ -8,14 +8,11 @@
         <input class="form-control" mb-5 type="text" id="nombre" formControlName="nombre">
         </div>
         <div>
-          <label class="pt-4"  for="apellido">Apellido</label>
-          <input  class="form-control"  type="text" id="apellido" formControlName="apellido">
+          <label class="pt-4"  for="correo">Correo</label>
+          <input  class="form-control"  type="text" id="correo" formControlName="correo">
         </div>
 
-        <div>
-          <label  class="pt-4" for="direccion">Direccion</label>
-          <input  class="form-control mb-4"  type="text" id="direccion" formControlName="direccion">
-        </div>
+        <br>
 
         <div>
           <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" >Registrar</button>
@@ -35,8 +32,8 @@
             <th >Nombre</th>
             <th nzWidth="30%">Correo</th>
             <th>Perfil</th>
-            <th nzWidth="5%">Mostrar Servicios</th>
-            <th nzWidth="5%">Eliminar</th>
+            <th class="text-center" nzWidth="20%">Acciones</th>
+
           </tr>
         </thead>
         <tbody>
@@ -46,27 +43,26 @@
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.nombre }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit(data.nombre)" />
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.correo }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.apellido" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.correo" (blur)="stopEdit(data.nombre)" />
 
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.perfil }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.direccion" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.perfil" (blur)="stopEdit(data.nombre)" />
             </td>
-            <td class="text-center">
-              <a routerLink="" routerLinkActive="true" ><i nz-icon nzType="eye" nzTheme="outline"></i></a>
 
-            </td>
             <td class="text-center">
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id) "><span ><i nz-icon nzType="delete" nzTheme="twotone" [nzTwotoneColor]="red"></i></span></a>
+              <a routerLink="/listado/{{data.correo}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver servicios de {{data.nombre}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
+              &nbsp;
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id,data.nombre) "><span nz-tooltip nzTooltipTitle="Eliminar {{data.nombre}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
             </td>
           </tr>
         </tbody>

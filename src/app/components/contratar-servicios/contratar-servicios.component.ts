@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
 export interface Data {
   id: number;
-  nombre: string;
+  servicio: string;
+  precio: string;
   disabled: boolean;
 }
 @Component({
@@ -10,12 +13,20 @@ export interface Data {
   styleUrls: ['./contratar-servicios.component.css']
 })
 export class ContratarServiciosComponent implements OnInit {
+
+  @Output() contratar = new EventEmitter();
+
   checked = false;
   loading = false;
   indeterminate = false;
   listOfData: ReadonlyArray<Data> = [];
   listOfCurrentPageData: ReadonlyArray<Data> = [];
   setOfCheckedId = new Set<number>();
+
+
+  constructor(private notification: NzNotificationService){
+
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -49,7 +60,10 @@ export class ContratarServiciosComponent implements OnInit {
   sendRequest(): void {
     this.loading = true;
     const requestData = this.listOfData.filter(data => this.setOfCheckedId.has(data.id));
-    console.log(requestData);
+
+    this.contratar.emit(requestData);
+    this.createNotification('success','Servicios','Agregados con éxito');
+
     setTimeout(() => {
       this.setOfCheckedId.clear();
       this.refreshCheckedStatus();
@@ -61,10 +75,23 @@ export class ContratarServiciosComponent implements OnInit {
     this.listOfData = new Array(20).fill(0).map((_, index) => {
       return {
         id: (index+1),
-        nombre: `Servicio ${(index+1)}`,
+        servicio: `Servicio ${(index+1)}`,
+        precio: '2000',
         disabled: index== -1
 
       };
     });
   }
+
+
+        // notificaciones
+        createNotification(type1: string,type2:string,type3:string,): void {
+          this.notification.create(
+            type1,
+            type2,
+            type3,
+            { nzDuration:12000 }
+          );
+
+        }
 }

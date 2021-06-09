@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="text-center pt-5 mb-5"><strong>Solicitar Servicios</strong></h1>
+  <h1 class="text-center "><strong>Solicitar Servicios</strong></h1>
   <div class="row">
 
     <div class="col-md-2 col-sm-12"></div>
@@ -21,6 +21,7 @@
           <tr>
             <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
             <th>Nombre Servicio</th>
+            <th>precio</th>
 
           </tr>
         </thead>
@@ -31,7 +32,8 @@
               [nzDisabled]="data.disabled"
               (nzCheckedChange)="onItemChecked(data.id, $event)"
             ></td>
-            <td>{{ data.nombre }}</td>
+            <td>{{ data.servicio }}</td>
+            <td>{{ data.precio }}</td>
 
           </tr>
         </tbody>

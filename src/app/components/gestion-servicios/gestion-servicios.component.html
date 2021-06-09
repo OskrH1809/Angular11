@@ -11,10 +11,10 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th nzWidth="30%">Titulo</th>
-            <th>Descripción</th>
-            <th>Documento</th>
-            <th>Acción</th>
+            <th nzWidth="20%" >Titulo</th>
+            <th nzWidth="40%">Descripción</th>
+            <th nzWidth="10%">Documento</th>
+            <th class="text-center">Acción</th>
 
           </tr>
         </thead>
@@ -28,19 +28,22 @@
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 {{ data.titulo }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.titulo" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.titulo" (blur)="stopEdit(data.titulo)" />
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.descripcion }}
+
+                <div [innerHTML]="data.descripcion"></div>
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.descripcion" (blur)="stopEdit()" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.descripcion" (blur)="stopEdit(data.titulo)" />
 
             </td>
-            <td>
-              <button nz-button routerLinkActive="router-link-active"  nzType="primary" [nzSize]="size" nzShape="round"><i nz-icon nzType="download"></i>Descargar </button>
-            <td>
-              <a  nz-popconfirm *ngIf="role=='ADMIN'" nzPopconfirmTitle="seguro que desea eliminar a {{data.name}}?"  (nzOnConfirm)="deleteRow(data.id) "><span >Eliminar</span></a>
+            <td class="text-center">
+              <a href="assets/Documents/pagado.pdf"><span nz-tooltip nzTooltipTitle="Documento de {{data.titulo}}" ><i nz-icon nzType="file-pdf"  style="font-size: 25px; color: #08c;" nzTheme="outline"></i></span>
+              </a>
+            </td>
+              <td class="text-center">
+              <a  nz-popconfirm *ngIf="role=='ADMIN'" nzPopconfirmTitle="seguro que desea eliminar a {{data.titulo}}?"  (nzOnConfirm)="deleteRow(data.id,data.titulo) "><span nz-tooltip nzTooltipTitle="Eliminar {{data.titulo}}" ><i nz-icon nzType="delete" nzTheme="outline" style="font-size: 25px; color: rgb(255, 8, 0);" [nzTwotoneColor]="red"></i></span></a>
               <span *ngIf="role=='USER'" >Eliminar</span>
             </td>
 
@@ -121,11 +124,7 @@
 
                             (change)="onFileChange($event)">
 
-                        <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
 
-                            <div *ngIf="f.file.errors.required">File is required.</div>
-
-                        </div>
 
                     </div>
                       <!-- end File -->
@@ -136,7 +135,7 @@
                       <div class="col-md-6 col-sm-12">
                         <div class="row">
                           <div class="col-md-2 pr-5 col-sm-12">
-                            <p><button class="btn btn-primary" type="submit" [disabled]="!demoReactiveForm.valid" (click)="addRow()">Enviar</button> </p>
+                            <p><button class="btn btn-primary" type="submit"  (click)="addRow() " (click)="reset()">Enviar</button> </p>
 
                           </div>
                           <div class="col-md-10 pl-5 col-sm-12">

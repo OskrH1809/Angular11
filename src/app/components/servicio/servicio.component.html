@@ -42,19 +42,26 @@
             <!-- .. -->
           <div *ngIf="isClicked1 == false && pago==false">
 
-            <div *ngIf="previsualizacion">
-              <img [src]="previsualizacion" width="100px" alt="">
+            <div  *ngIf="previsualizacion">
+              <img class="img"   [src]="previsualizacion" alt="imagen">
             </div>
+            <br>
             <div >
 
-              <!-- PRUEBA -->
-
-              <!-- PRUEBA ^ -->
               <input class="mb-3 form-control" (change)="capturarFile($event)" width="100px" type="file" >
             </div>
             <div>
-              <button (click)="pago=!pago" (click)="subirArchivo()" [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary" type="button" (click)="clearImage()">Subir Archivo</button>
+
+              <!-- <button  (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary" type="button" (click)="clearImage()">Subir Archivo</button> -->
+              <button (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false"  mat-button class="mat-buttonn"  (click)="clearImage()">Subir Imagen</button>
+
             </div>
+            <!-- <div>
+              <label for="file">Seleccione la imagen
+                <img src="" alt="imagen">
+              </label>
+              <input type="file" id="file" accept="image/*" (change)="onSelectNewFile($event.target?.files)">
+            </div> -->
 
           <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
             <button mat-button [disabled]="pago==false" *ngIf="role=='ADMIN'"  class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
@@ -91,7 +98,8 @@
 
 
               <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
-              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
+              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn" (click)="desbloquear1()" (click)=" this.createNotification('success','Desbloqueo','Servicio habilito con éxito ');
+              " >Desbloquear Servicios</button>
             </div>
 
             <!-- ..... -->
@@ -102,7 +110,7 @@
 
           <hr>
 
-         <div >
+         <!-- <div >
           <mat-accordion  >
             <mat-expansion-panel >
               <mat-expansion-panel-header>
@@ -140,7 +148,7 @@
             </mat-expansion-panel>
 
           </mat-accordion>
-         </div>
+         </div> -->
 
         </mat-card-actions>
 
@@ -200,177 +208,6 @@
 
 
 
-    <!-- Servicio 2 -->
-    <div class="col-md-4 mb-5 col-sm-6 col-12 pt-4 sombreado">
-      <mat-card class="example-card">
-        <mat-card-header class="mat-card-header2" *ngIf="isClicked2==false && pago2 == false ">
-
-          <mat-card-title class="titulo1">{{Lista[1].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{Lista[1].servicio}}</mat-card-title>
-        </mat-card-header>
-
-
-        <mat-card-header class="mat-card-header3" *ngIf="isClicked2==false && pago2 == true ">
-
-            <mat-card-title class="titulo1">{{Lista[1].id}}</mat-card-title>
-            <mat-card-title class="titulo2">{{Lista[1].servicio}}</mat-card-title>
-        </mat-card-header>
-
-        <mat-card-header class="mat-card-header1" *ngIf="isClicked2==true && pago2 == true ">
-
-          <mat-card-title class="titulo1">{{Lista[1].id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{Lista[1].servicio}}</mat-card-title>
-      </mat-card-header>
-
-
-
-        <img mat-card-image src="" alt="">
-        <mat-card-content>
-          <p>
-
-          </p>
-        </mat-card-content>
-        <mat-card-actions >
-
-            <!-- .. -->
-          <div *ngIf="isClicked2 == false && pago2==false">
-
-            <div *ngIf="previsualizacion2">
-              <img [src]="previsualizacion2" width="100px" alt="">
-            </div>
-
-
-            <div >
-              <input class="mb-3 form-control" (change)="capturarFile2($event)" width="100px" type="file" >
-            </div>
-            <div>
-              <button (click)="pago2=!pago2" (click)="subirArchivo2()"  (click)="clearImage()"  class="mat-buttonn mb-3 btn btn-primary" type="button">Subir Archivo</button>
-            </div>
-
-          <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Gestion tickets</button>
-          <button mat-button [disabled]="!isClicked2" class="mat-buttonn" (click)="desbloquear2()">Desbloquear Servicios</button>
-          </div>
-          <!-- ............. -->
-          <div *ngIf="isClicked2 == false && pago2==true">
-
-            <div>
-              <a  class=" pl-5 text-center" (click)="triggerModal3(modalData3)" >
-                <fa-icon [icon]="faeye"></fa-icon>
-                <br>
-                <p class=" pl-3 pull-left">
-                  <Strong>Ver Imagen</Strong>
-                </p>
-              </a>
-            </div>
-
-            <br>
-
-              <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Gestion tickets</button>
-              <button mat-button class="mat-buttonn" (click)="desbloquear2()">Desbloquear Servicios</button>
-            </div>
-
-            <!-- ..... -->
-          <div *ngIf="isClicked2 == true && pago2==true">
-          <button [disabled]="!isClicked2" class="mat-buttonn"  routerLink="/listadosse" routerLinkActive="active" mat-button>Gestion tickets</button>
-          <!-- <button mat-button class="mat-buttonn" (click)="bloquear1()">Bloquear Servicios</button> -->
-          </div>
-
-          <hr>
-
-         <div >
-          <mat-accordion  >
-            <mat-expansion-panel >
-              <mat-expansion-panel-header>
-                <mat-panel-title >
-                   Lista de ticket
-                </mat-panel-title>
-                <mat-panel-description >
-                  Click para mostrar
-                </mat-panel-description>
-              </mat-expansion-panel-header >
-
-              <div >
-                <table class="table"  >
-                  <thead class=" table-color" >
-                    <tr>
-                      <th scope="col">N°</th>
-                      <th scope="col">Asunto</th>
-                      <th scope="col">Ver</th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="icons">
-                      <th scope="row">1</th>
-                      <td >Servicio de lavado</td>
-                      <td ><a (click)="triggerModal(modalData)" ><fa-icon [icon]="faeye"></fa-icon></a></td>
-
-                    </tr>
-
-                  </tbody>
-                </table>
-
-              </div>
-
-            </mat-expansion-panel>
-
-          </mat-accordion>
-         </div>
-
-        </mat-card-actions>
-
-
-
-
-      </mat-card>
-        <!-- modal informacion previa -->
-  <ng-template #modalData let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title"><strong>Vista previa del servicio solicitado</strong></h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p>
-        <strong>Cliente: NombreCliente</strong>
-      </p>
-      <br>
-      <p>
-        <strong>Asunto:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, vero iure facere optio non ut minus eius ex deleniti maxime cum quod praesentium recusandae officia earum itaque sequi? Reiciendis, ad.
-      </p>
-
-      <p><strong>
-        Precio: $120,000.01
-      </strong></p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
-    </div>
-  </ng-template>
-
-  <!-- modal imagen -->
-  <ng-template #modalData3 let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title"><strong>Vista previa del Comprobante de pago</strong></h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div >
-
-        <img class="image" src="{{Lista[1].imagen}}" alt="">
-      </div>
-
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
-    </div>
-  </ng-template>
-
-
-    </div>
 
 
 

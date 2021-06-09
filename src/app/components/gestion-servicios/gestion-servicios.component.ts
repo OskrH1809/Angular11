@@ -10,6 +10,7 @@ import { AdministrarUserService } from 'src/app/Services/administrar-user.servic
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 interface ItemData {
   id: string;
@@ -52,7 +53,7 @@ export class GestionServiciosComponent implements OnInit {
   role: any;
 
 
-  constructor(private sanitizer: DomSanitizer,private administrar:AdministrarUserService, private route: ActivatedRoute,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) {
+  constructor(private notification: NzNotificationService,private sanitizer: DomSanitizer,private administrar:AdministrarUserService, private route: ActivatedRoute,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
    }
@@ -65,8 +66,10 @@ export class GestionServiciosComponent implements OnInit {
     this.editId = id;
   }
 
-  stopEdit(): void {
+  stopEdit(nombre): void {
     this.editId = null;
+    this.createNotification('info','Servicio: '+`${nombre}`,'Actualizado con éxito');
+
 
   }
 
@@ -83,14 +86,19 @@ export class GestionServiciosComponent implements OnInit {
 
       }
 
+
     ];
+
+    this.createNotification('success','Nueva Tarea:'+` ${this.demoReactiveForm.value.titulo}`,'Agregada con éxito');
+
     this.i++;
     console.log(this.descripcion);
     console.log(this.ArchivoCap);
   }
 
-  deleteRow(id: string): void {
+  deleteRow(id: string,nombre: string ): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.createNotification('warning','Tarea:'+` ${nombre}`,'Eliminada con éxito');
   }
 
   ngOnInit(): void {
@@ -210,6 +218,18 @@ export class GestionServiciosComponent implements OnInit {
       //   })
 
     }
+
+
+      // notificaciones
+  createNotification(type1: string,type2:string,type3:string,): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3,
+      { nzDuration:12000 }
+    );
+
+  }
 
 
 }

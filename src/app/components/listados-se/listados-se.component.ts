@@ -3,11 +3,18 @@ import { ControlContainer, FormBuilder, FormGroup, Validators } from '@angular/f
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import {Location} from '@angular/common';
+import { ServiciosService } from 'src/app/Services/servicios.service';
+import { ActivatedRoute } from '@angular/router';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
 interface ItemData {
   id: string;
-  name: string;
-  age: string;
-  address: string;
+  servicio: string;
+  precio: string;
+  disabled: boolean
+
+
 }
 @Component({
   selector: 'app-listados-se',
@@ -21,54 +28,87 @@ export class ListadosSeComponent implements OnInit {
   i = 0;
   editId: string | null = null;
   listOfData: ItemData[] = [];
+  Nombre;
+  id: any;
 
-  startEdit(id: string): void {
-    this.editId = id;
-  }
 
-  stopEdit(): void {
-    this.editId = null;
-  }
 
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
-  }
-
-  deleteRow(id: string): void {
+  deleteRow(id: string,nombre:string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.createNotification('warning','Cliente: '+`${nombre}`,'Eliminado con éxito');
+
   }
   //
 
 
   fatrash = faTrash;
   faedit=faEdit;
-  constructor(private _location: Location, private formBuilder:FormBuilder) { }
+  constructor(private notification: NzNotificationService,private modalService: NgbModal,private _location: Location, private formBuilder:FormBuilder,private service: ServiciosService,private route: ActivatedRoute ) { }
   public form: FormGroup;
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      nombre: ['',[Validators.required]],
-      precio: ['',Validators.required],
-      estado: ['',Validators.required]
-
-    });
+    this.id = this.route.snapshot.paramMap.get("id");
+    this.getServicios();
+    console.log(this.id);
   }
 
-  send():any{
-    console.log(this.form.value);
+  getServicios(){
+   this.service.get_serviciosxUsuario(this.id)
+   .subscribe( values => {
+     this.listOfData= values;
+     this.Nombre = values[0].Nombre;
+    console.log(values);
+  } );
   }
+
   backClicked() {
     this._location.back();
   }
 
+  // modal
+    // Modal
+    closeModal: string;
+    triggerModal(content) {
+      this.modalService.open(content,
+
+       {size:'xl',ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
+        this.closeModal = `Closed with: ${res}`;
+      }, (res) => {
+        this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+      });
+    }
 
 
+    private getDismissReason(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
+
+
+//
+agregarServicio(array){
+console.log(this.listOfData)
+console.log(array)
+this.listOfData= this.listOfData.concat(array);
+
+
+
+}
+
+
+
+         // notificaciones
+         createNotification(type1: string,type2:string,type3:string,): void {
+          this.notification.create(
+            type1,
+            type2,
+            type3,
+            { nzDuration:12000 }
+          );
+
+        }
 }

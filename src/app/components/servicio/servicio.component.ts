@@ -8,6 +8,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 import { InfoCardsService } from 'src/app/Services/info-cards.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 // upload
 
@@ -18,13 +19,14 @@ import { InfoCardsService } from 'src/app/Services/info-cards.service';
 })
 export class ServicioComponent implements OnInit {
   id: string;
-
+  imagen;
   panelOpenState = false;
   administrarService: any;
   role:string;
   closeModal: string;
   fileExist= false; //declara si la imagen existe
-  constructor(private infocardsService:InfoCardsService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
+
+  constructor(private notification: NzNotificationService,private infocardsService:InfoCardsService,private Usuario:AdministrarUserService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
   }
@@ -38,7 +40,9 @@ export class ServicioComponent implements OnInit {
 
     console.log(this.mesActual);
 
+
   }
+
 
     // CAPTURAR MES ACTUAL
 
@@ -46,9 +50,10 @@ export class ServicioComponent implements OnInit {
     // CAPTURAR MES ACTUAL ^
 
   user =  {
-    "nombre": 'Oscar',
-    "role": ['USER'],
-    "correo":'hoscar161@gmail.com'
+    "nombre": 'Oscar Canales',
+    "role": ['ADMIN'],
+    "correo":'hoscar161@gmail.com',
+    "imagenes" :'oscar_canales.jpg'
      }
 
 
@@ -118,12 +123,6 @@ export class ServicioComponent implements OnInit {
   public isClicked1: boolean = false;
   public isClicked2: boolean = false;
   public isClicked3: boolean = false;
-  public isClicked4: boolean = false;
-  public isClicked5: boolean = false;
-  public isClicked6: boolean = false;
-
-
-
 
   public desbloquear1(): void {
     this.isClicked1 = true;
@@ -139,19 +138,6 @@ public bloquear2(): void {
 this.isClicked2 = false;
 }
 
-public desbloquear3(): void {
-  this.isClicked3 = true;
-}
-public bloquear3(): void {
-this.isClicked3 = false;
-}
-
-public desbloquear4(): void {
-  this.isClicked4 = true;
-}
-public bloquear4(): void {
-this.isClicked4 = false;
-}
 
 triggerModal(content) {
   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
@@ -201,6 +187,7 @@ capturarFile(event): any {
   this.extraerBase64(archivoCapturado).then((imagen:any)=>{
     this.previsualizacion = imagen.base;
     console.log(imagen);
+    this.imagen=imagen;
   })
   this.archivos.push(archivoCapturado)
   // //
@@ -211,19 +198,7 @@ capturarFile(event): any {
 
 }
 
-// ////////
-capturarFile2(event): any {
-  const archivoCapturado = event.target.files[0]
-  this.extraerBase64(archivoCapturado).then((imagen:any)=>{
-    this.previsualizacion2 = imagen.base;
-    console.log(imagen);
-  })
-  this.archivos.push(archivoCapturado)
-  // //
-  // console.log(event.target.files);
 
-
-}
 
 // ///////////
   extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
@@ -255,8 +230,12 @@ capturarFile2(event): any {
       const formularioDeDatos = new FormData();
       this.archivos.forEach(archivo => {
         formularioDeDatos.append('files', archivo)
-        console.log(archivo);
+        console.log('hola');
+        console.log(this.imagen);
+
+
       })
+      this.createNotification('success','Imagen','Imagen agregada exitosamente');
       // formularioDeDatos.append('_id', 'MY_ID_123')
       // this.rest.post(`http://localhost:3001/upload`, formularioDeDatos)
       //   .subscribe(res => {
@@ -271,40 +250,11 @@ capturarFile2(event): any {
     } catch (e) {
 
       console.log('ERROR', e);
+      this.createNotification('danger','Imagen','Fallo al agregar imagen');
 
     }
   }
 
-  subirArchivo2(): any {
-    try {
-
-      const formularioDeDatos = new FormData();
-      this.archivos.forEach(archivo => {
-        formularioDeDatos.append('files', archivo)
-        console.log(archivo);
-      })
-      // formularioDeDatos.append('_id', 'MY_ID_123')
-      // this.rest.post(`http://localhost:3001/upload`, formularioDeDatos)
-      //   .subscribe(res => {
-      //     this.loading = false;
-      //     console.log('Respuesta del servidor', res);
-
-        // }
-        //  () => {
-        //   this.loading = false;
-        //   alert('Error');
-        // })
-    } catch (e) {
-
-      console.log('ERROR', e);
-
-    }
-  }
-
-  clearImage(): any {
-    this.previsualizacion = '';
-    this.archivos = [];
-  }
 
   ///localstorege agregar
 
@@ -316,5 +266,14 @@ capturarFile2(event): any {
   }
 
 
+  // notificaciones
+  createNotification(type1: string,type2:string,type3:string): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3
+    );
+
+  }
 
 }
