@@ -50,12 +50,13 @@
 
               <input class="mb-3 form-control" (change)="capturarFile($event)" width="100px" type="file" >
             </div>
-            <div>
+            <div class="pl-2">
 
-              <!-- <button  (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary" type="button" (click)="clearImage()">Subir Archivo</button> -->
-              <button (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false"  mat-button class="mat-buttonn"  (click)="clearImage()">Subir Imagen</button>
-
+              <button  (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" (click)="clearImage()" >Subir Archivo</button>
+                 <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button>-->
+              <br>
             </div>
+            <br>
             <!-- <div>
               <label for="file">Seleccione la imagen
                 <img src="" alt="imagen">

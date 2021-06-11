@@ -3,9 +3,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Location} from '@angular/common';
 import * as moment from 'moment';
+import {NgForm} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
-
 //  editor
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
@@ -48,7 +48,7 @@ export class GestionServiciosComponent implements OnInit {
   //  editor
   mesActual= moment().format('M').toString();
   id:string;
-  form: any;
+
   administrarService: boolean;
   role: any;
 
@@ -59,6 +59,7 @@ export class GestionServiciosComponent implements OnInit {
    }
 
   i = 1;
+
   editId: string | null = null;
   listOfData: ItemData[] = [];
 
@@ -71,6 +72,25 @@ export class GestionServiciosComponent implements OnInit {
     this.createNotification('info','Servicio: '+`${nombre}`,'Actualizado con éxito');
 
 
+  }
+
+  idEdit='';
+  tituloEdit='';
+  descripcionEdit='';
+  fileEdit='';
+  arrayEdit;
+  llenarDatos(id,titulo,descripcion){
+    this.arrayEdit= {
+    descripcion2: descripcion,
+    file: "",
+    fileSource: "",​​
+    id: id,
+    titulo: titulo
+    }
+    this.demoReactiveForm2.setValue(this.arrayEdit);
+
+
+    console.log(this.demoReactiveForm2)
   }
 
   addRow(): void {
@@ -92,7 +112,8 @@ export class GestionServiciosComponent implements OnInit {
     this.createNotification('success','Nueva Tarea:'+` ${this.demoReactiveForm.value.titulo}`,'Agregada con éxito');
 
     this.i++;
-    console.log(this.descripcion);
+
+    console.log(this.demoReactiveForm.value.titulo);
     console.log(this.ArchivoCap);
   }
 
@@ -142,10 +163,10 @@ export class GestionServiciosComponent implements OnInit {
 
     // form modal 2
     public demoReactiveForm = new FormGroup( {
-      titulo: new FormControl( ),
+      id: new FormControl(),
+      titulo: new FormControl(),
       descripcion: new FormControl( ),
       file: new FormControl('', [Validators.required]),
-
       fileSource: new FormControl('', [Validators.required])
     } );
 
@@ -156,10 +177,18 @@ export class GestionServiciosComponent implements OnInit {
         .subscribe( values => {
           this.formDataPreview = JSON.stringify( values );
         } );
+
+        // modal 3
+        this.demoReactiveForm2!.valueChanges
+        .subscribe( values => {
+          this.formDataPreview2 = JSON.stringify( values );
+
+        } );
     }
 
     public onSubmit(): void {
-      console.log( 'Form submit, model', this.demoReactiveForm.value );
+      console.log(this.demoReactiveForm.value);
+      this.reset();
     }
 
     public reset(): void {
@@ -170,14 +199,11 @@ export class GestionServiciosComponent implements OnInit {
       return this.demoReactiveForm!.controls.descripcion;
     }
 
-
     get f(){
 
       return this.demoReactiveForm.controls;
 
     }
-
-
 
     onFileChange(event) {
 
@@ -196,8 +222,6 @@ export class GestionServiciosComponent implements OnInit {
       }
 
     }
-
-
 
     submit(){
 
@@ -218,6 +242,85 @@ export class GestionServiciosComponent implements OnInit {
       //   })
 
     }
+
+
+
+    // modal3
+
+
+
+    public demoReactiveForm2 = new FormGroup( {
+
+      id: new FormControl(),
+      titulo: new FormControl(),
+      descripcion2: new FormControl(),
+      file: new FormControl('', [Validators.required]),
+      fileSource: new FormControl('', [Validators.required])
+    } );
+
+    public formDataPreview2?: string;
+
+
+
+    public onSubmit2(): void {
+      console.log(this.demoReactiveForm2.value);
+      this.reset2();
+    }
+
+    public reset2(): void {
+      this.demoReactiveForm2!.reset();
+    }
+
+    public get descripcion2(): AbstractControl {
+      return this.demoReactiveForm2!.controls.descripcion2;
+    }
+
+    get f2(){
+
+      return this.demoReactiveForm2.controls;
+
+    }
+
+    onFileChange2(event) {
+
+
+
+      if (event.target.files.length > 0) {
+
+        const file = event.target.files[0];
+
+        this.demoReactiveForm2.patchValue({
+
+          fileSource: file
+
+        });
+
+      }
+
+    }
+
+    submit2(){
+
+      const formData = new FormData();
+
+      formData.append('file', this.demoReactiveForm2.get('fileSource').value);
+
+      console.log(formData);
+
+
+      // this.http.post('http://localhost:8001/upload.php', formData)
+
+      //   .subscribe(res => {
+
+      //     console.log(res);
+
+      //     alert('Uploaded Successfully.');
+
+      //   })
+
+    }
+
+
 
 
       // notificaciones

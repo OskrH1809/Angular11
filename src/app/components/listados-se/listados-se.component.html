@@ -22,6 +22,7 @@
             <th nzWidth="5%">Id</th>
             <th nzWidth="50%">Servicios</th>
             <th nzWidth="50%">precio</th>
+            <th nzWidth="50%">estado</th>
             <th>Acción</th>
           </tr>
         </thead>
@@ -34,9 +35,13 @@
                 {{ data.servicio }}
             </td>
             <td>{{ data.precio }}</td>
+            <td class="text-center"> estado
+              <br>
+              <a  ><span (click)="showModal()" nz-tooltip nzTooltipTitle="Editar estado servicio {{data.servicio}}" ><i nz-icon nzType="edit" style="font-size: 25px; color: #2986f1;" nzTheme="outline"></i></span> </a>
+              <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
 
+            </td>
             <td class="text-center">
-
               <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.servicio}}?"  (nzOnConfirm)="deleteRow(data.id,data.servicio) "><span nz-tooltip nzTooltipTitle="Eliminar servicio {{data.servicio}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
             </td>
 
@@ -63,6 +68,20 @@
             <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
           </div>
         </ng-template>
+        <!-- modal de select -->
+        <nz-modal [(nzVisible)]="isVisible" nzTitle="Seleccione el nuevo estado del servicio" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+          <ng-container *nzModalContent>
+            <!-- select  -->
+            <!-- <p>The selected option's age is {{ selectedValue?.age }}</p> -->
+            <br />
+            <nz-select [(ngModel)]="selectedValue" [compareWith]="compareFn" (ngModelChange)="log($event)" nzAllowClear nzPlaceHolder="Choose">
+              <nz-option *ngFor="let option of optionList" [nzValue]="option"  [nzSize]="small"  [nzLabel]="option.label"></nz-option>
+            </nz-select>
+            <!-- select end -->
+          </ng-container>
+        </nz-modal>
+        <!-- modal de select end -->
+
       </nz-table>
       <br>
       <button class="btn btn-primary"  pull-right pt-5 (click)="backClicked()">Regresar</button>

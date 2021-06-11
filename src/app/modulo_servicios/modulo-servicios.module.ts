@@ -15,6 +15,11 @@ import { GestionServiciosComponent } from '../components/gestion-servicios/gesti
 import { ContratarServiciosComponent } from '../components/contratar-servicios/contratar-servicios.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tareas.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
 @NgModule({
@@ -23,10 +28,11 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     CreacionServiciosComponent,
     GestionServiciosComponent,
     ContratarServiciosComponent,
-
+    EdicionTareasComponent
 
   ],
   imports: [
+    BrowserModule,
     CommonModule,
     ReactiveFormsModule,
     NzTableModule,
@@ -37,12 +43,16 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     NzInputModule,
     NzIconModule,
     CKEditorModule,
+    NzNotificationModule,
     FormsModule,
-    NzNotificationModule
+    NzModalModule,
+    HttpClientModule,
+    NzSelectModule
+
 
   ],
   exports:[
-
+    EdicionTareasComponent
   ]
 })
 export class ModuloServiciosModule { }

@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
+
 interface ItemData {
   id: string;
   servicio: string;
@@ -111,4 +112,37 @@ this.listOfData= this.listOfData.concat(array);
           );
 
         }
+// modal ng zorro
+isVisible = false;
+
+
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+
+  // select estado
+  optionList = [
+    { label: 'Lucy', value: 'lucy', age: 20 },
+    { label: 'Jack', value: 'jack', age: 22 }
+  ];
+  // selectedValue = { label: 'Jack', value: 'jack', age: 22 };
+  // tslint:disable-next-line:no-any
+  compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
+
+  log(value: { label: string; value: string; age: number }): void {
+    console.log(value);
+  }
+
 }

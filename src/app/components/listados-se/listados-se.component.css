@@ -26,3 +26,7 @@
 .espacio{
 padding-bottom: 250px;
 }
+
+nz-select {
+  width: 100%
+}
