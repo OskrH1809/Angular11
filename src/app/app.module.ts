@@ -21,6 +21,8 @@ import { ModuloServicioContratadoModule } from './modulo_servicio_contratado/mod
 import { FooterComponent } from './componentIndex/footer/footer.component';
 import { AsideComponent } from './componentIndex/aside/aside.component';
 import { EdicionTareasComponent } from './components/edicion-tareas/edicion-tareas.component';
+import { GestionUsuariosService } from './Services/usuarios/gestion-usuarios.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 registerLocaleData(es);
 
 
@@ -49,7 +51,9 @@ registerLocaleData(es);
   providers: [
     InfoCardsService,
     AdministrarUserService,
-    { provide: NZ_I18N, useValue: es_ES },
+    
+    { provide: NZ_I18N , useValue: es_ES,
+    },
   ],
   bootstrap: [AppComponent]
 })

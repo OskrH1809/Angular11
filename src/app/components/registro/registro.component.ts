@@ -28,7 +28,7 @@ export class RegistroComponent implements OnInit {
     
     console.log(value);
     const datos = {username:value.username, email:value.email, password:value.password} 
-    this.servicelogin.sendPost(datos).subscribe(
+    this.servicelogin.sendPostRegistro(datos).subscribe(
     res => {
       console.log(res);
       

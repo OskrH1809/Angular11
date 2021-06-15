@@ -15,6 +15,9 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { RegistroComponent } from '../components/registro/registro.component';
 import { RecuperarContraComponent } from '../components/recuperar-contra/recuperar-contra.component';
 import { GestionClientesComponent } from '../components/gestion-clientes/gestion-clientes.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GestionUsuariosService } from '../Services/usuarios/gestion-usuarios.service';
+import { AutentificacionService } from '../Services/usuarios/autentificacion.service';
 
 
 @NgModule({
@@ -43,6 +46,12 @@ import { GestionClientesComponent } from '../components/gestion-clientes/gestion
 
 
 
+  ],
+  providers:[
+    { provide: HTTP_INTERCEPTORS, 
+      useClass: AutentificacionService,
+      multi: true
+    },
   ]
 })
 export class ModuloUsuariosModule { }

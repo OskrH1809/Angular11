@@ -10,8 +10,17 @@ const baseUrl = environment.baseURLF;
 export class GestionUsuariosService {
 
   constructor(private http: HttpClient) { }
-
-  sendPost(data: any): Observable<any> {
+  // registro de usuarios
+  sendPostRegistro(data: any): Observable<any> {
     return this.http.post<any>(`${baseUrl}/api/register`, data);
   }
+
+
+
+ 
+  // Login
+  login_check(data: any): Observable<any> {
+    return this.http.post<any>(`${baseUrl}/api/login_check`, data);
+  }
+
 }
