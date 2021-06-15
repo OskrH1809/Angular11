@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContratarServiciosComponent } from '../components/contratar-servicios/contratar-servicios.component';
 import { CreacionServiciosComponent } from '../components/creacion-servicios/creacion-servicios.component';
 import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tareas.component';
-import { GestionServiciosComponent } from '../components/gestion-servicios/gestion-servicios.component';
+import { GestionTareasComponent } from '../components/gestion-tareas/gestion-tareas.component';
 import { ListadosSeComponent } from '../components/listados-se/listados-se.component';
 import { ServicioComponent } from '../components/servicio/servicio.component';
 
 const routes: Routes = [
   {path:'listado/:id', component:ListadosSeComponent},
   {path:'gestionservicios', component:CreacionServiciosComponent},
-  {path:'gestiontareas/:id', component:GestionServiciosComponent},
+  {path:'gestiontareas/:id', component:GestionTareasComponent},
   {path:'contratar', component:ContratarServiciosComponent},
   {path:'edit', component:EdicionTareasComponent},
 

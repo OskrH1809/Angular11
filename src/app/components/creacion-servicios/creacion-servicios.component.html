@@ -50,20 +50,20 @@
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.nombre }}
+                {{ data.name }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit(data.id,data.nombre,data.precio)" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit(data.id,data.name,data.price)" />
             </td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.precio }}
+                {{ data.price }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.precio" (blur)="stopEdit(data.id,data.nombre,data.precio)"   />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.price" (blur)="stopEdit(data.id,data.name,data.price)"   />
 
             </td>
             <td class="text-center">
 
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"   (nzOnConfirm)="deleteRow(data.id,data.nombre) "><span  nz-tooltip nzTooltipTitle="Eliminar {{data.nombre}}" ><i nz-icon nzType="delete"   style="font-size: 25px; color: #08c;" nzTheme="twotone"></i></span></a>
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.name}}?"   (nzOnConfirm)="deleteRow(data.id,data.name) "><span  nz-tooltip nzTooltipTitle="Eliminar {{data.name}}" ><i nz-icon nzType="delete"   style="font-size: 25px; color: #08c;" nzTheme="twotone"></i></span></a>
             </td>
           </tr>
         </tbody>

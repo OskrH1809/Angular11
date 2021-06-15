@@ -5,14 +5,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Observer } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ServiciosService } from 'src/app/Services/servicios.service';
 import { InfoCardsService } from 'src/app/Services/info-cards.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';import { CreacionServiciosService } from 'src/app/Services/creacion-servicios.service';
+import { GestionServiciosService } from 'src/app/Services/servicios/gestion-servicios.service';
+import { ServiciosService } from 'src/app/Services/servicios.service';
 interface ItemData {
+  date: string
   id: string;
-  nombre: string;
-  precio: string;
+  name: string;
+  price: string;
+
 
 }
 @Component({
@@ -49,8 +52,9 @@ export class CreacionServiciosComponent implements OnInit {
       ...this.listOfData,
       {
         id: `${this.i}`,
-        nombre: `${this.form.value.nombre}`,
-        precio: `${this.form.value.precio}`
+        name: `${this.form.value.nombre}`,
+        price: `${this.form.value.precio}`,
+        date: ''
 
       }
 
@@ -155,7 +159,7 @@ public form: FormGroup;
     private http: HttpClient,
     private _location: Location,
     private formBuilder:FormBuilder,
-    private servicio :CreacionServiciosService
+    private servicio : GestionServiciosService
 
   ){
 
@@ -181,9 +185,10 @@ public form: FormGroup;
 
   CrearServicio(){
     // peticion post
-    const nuevoServicio ={ nombre: `${this.form.value.nombre}`, precio: `${this.form.value.precio}`, }
+    const nuevoServicio ={ name: `${this.form.value.nombre}`, price: `${this.form.value.precio}`, }
     // peticion post ^
-    this.servicio.sendPos(nuevoServicio).subscribe(
+
+    this.servicio.sendPost(nuevoServicio).subscribe(
       res => {
       console.log(res);
     });
@@ -204,7 +209,8 @@ public form: FormGroup;
   // peticcion put servicios
 
   actualizacionServicio(id,nombre,precio){
-    const data = {nombre:nombre, precio: precio }
+    const data = {name:nombre, price: precio }
+    console.log(data);
     this.servicio.updateServicio(id,data).subscribe(
       resp=>{
         console.log(resp);
@@ -338,6 +344,7 @@ public form: FormGroup;
       this.servicio.get_servicios().subscribe(data => {
         // this.indice = data.pop()['id'] +1;
         this.listOfData = data;
+          console.log(data);
         // console.log(parseInt(data.pop().id))
       //  this.indice= data.pop().id + 1;
       //  console.log((data.pop()['id']) );

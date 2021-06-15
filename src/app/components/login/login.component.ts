@@ -16,16 +16,15 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    console.log(this.validateForm.value.userName);
-    console.log(this.validateForm.value.password);
-    console.log(this.validateForm.value.remember);
+    console.log(this.validateForm.value);
+;
   }
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      userName: [null, [Validators.required]],
+      email: [null, [Validators.required]],
       password: [null, [Validators.required]],
       remember: [true]
     });

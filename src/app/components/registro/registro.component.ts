@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, Observer } from 'rxjs';
+import { GestionUsuariosService } from 'src/app/Services/usuarios/gestion-usuarios.service';
 
 @Component({
   selector: 'app-registro',
@@ -10,33 +12,45 @@ import { Observable, Observer } from 'rxjs';
 })
 export class RegistroComponent implements OnInit {
 
-
+ 
 
   ngOnInit(): void {
   }
 
+
   validateForm: FormGroup;
 
-  // current locale is key of the nzAutoTips
-  // if it is not found, it will be searched again with `default`
-  autoTips: Record<string, Record<string, string>> = {
-    'zh-cn': {
-      required: '必填项'
-    },
-    en: {
-      required: 'Input is required'
-    },
-    default: {
-      email: '邮箱格式不正确/The input is not valid email'
-    }
-  };
-
-  submitForm(value: { userName: string; email: string; password: string; confirm: string; comment: string }): void {
+  submitForm(value: { username: string; email: string; password: string; confirm:string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
+    
     console.log(value);
+    const datos = {username:value.username, email:value.email, password:value.password} 
+    this.servicelogin.sendPost(datos).subscribe(
+    res => {
+      console.log(res);
+      
+      if (res=="User created success.") {
+        this.createNotification('success','Usuario: '+`${value.username}`,'Registrado con éxito');
+        
+      }
+      if (res=="A user with this email already exists.") {
+        this.createNotification('error','Ya existe un usuario con este correo','Registro sin éxito');
+      }
+
+    });
+
+  }
+
+  resetForm(e: MouseEvent): void {
+    e.preventDefault();
+    this.validateForm.reset();
+    for (const key in this.validateForm.controls) {
+      this.validateForm.controls[key].markAsPristine();
+      this.validateForm.controls[key].updateValueAndValidity();
+    }
   }
 
   validateConfirmPassword(): void {
@@ -44,12 +58,11 @@ export class RegistroComponent implements OnInit {
   }
 
   userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<MyValidationErrors | null>) => {
+    new Observable((observer: Observer<ValidationErrors | null>) => {
       setTimeout(() => {
         if (control.value === 'JasonWood') {
-          observer.next({
-            duplicated: { 'zh-cn': `用户名已存在`, en: `The username is redundant!` }
-          });
+          // you have to return `{error: true}` to mark it as an error event
+          observer.next({ error: true, duplicated: true });
         } else {
           observer.next(null);
         }
@@ -66,41 +79,26 @@ export class RegistroComponent implements OnInit {
     return {};
   };
 
-  constructor(private fb: FormBuilder) {
-    // use `MyValidators`
-    const { required, maxLength, minLength, email } = MyValidators;
+  constructor( private notification: NzNotificationService,private servicelogin:GestionUsuariosService ,private fb: FormBuilder) {
     this.validateForm = this.fb.group({
-      userName: ['', [required, maxLength(20), minLength(5)], [this.userNameAsyncValidator]],
-      email: ['', [required, email]],
-      password: ['', [required]],
+      username: ['', [Validators.required]],
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.required]],
       confirm: ['', [this.confirmValidator]],
-      tipoUsuario: ['', [required]],
     });
   }
-}
 
-// current locale is key of the MyErrorsOptions
-export type MyErrorsOptions = { 'zh-cn': string; en: string } & Record<string, NzSafeAny>;
-export type MyValidationErrors = Record<string, MyErrorsOptions>;
 
-export class MyValidators extends Validators {
-  static minLength(minLength: number): ValidatorFn {
-    return (control: AbstractControl): MyValidationErrors | null => {
-      if (Validators.minLength(minLength)(control) === null) {
-        return null;
-      }
-      return { minlength: { 'zh-cn': `最小长度为 ${minLength}`, en: `MinLength is ${minLength}` } };
-    };
-  }
-
-  static maxLength(maxLength: number): ValidatorFn {
-    return (control: AbstractControl): MyValidationErrors | null => {
-      if (Validators.maxLength(maxLength)(control) === null) {
-        return null;
-      }
-      return { maxlength: { 'zh-cn': `最大长度为 ${maxLength}`, en: `MaxLength is ${maxLength}` } };
-    };
-  }
+      // notificaciones
+      createNotification(type1: string,type2:string,type3:string,): void {
+      this.notification.create(
+        type1,
+        type2,
+        type3,
+        { nzDuration:12000 }
+      );
+  
+    }
 
 
 }

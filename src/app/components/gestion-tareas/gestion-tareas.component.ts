@@ -20,12 +20,12 @@ interface ItemData {
 }
 
 @Component({
-  selector: 'app-gestion-servicios',
-  templateUrl: './gestion-servicios.component.html',
-  styleUrls: ['./gestion-servicios.component.css']
+  selector: 'app-gestion-tareas',
+  templateUrl: './gestion-tareas.component.html',
+  styleUrls: ['./gestion-tareas.component.css']
 })
 
-export class GestionServiciosComponent implements OnInit {
+export class GestionTareasComponent implements OnInit {
 
   ArchivoCap:any;
 
