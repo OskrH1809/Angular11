@@ -28,10 +28,9 @@
       <nz-table #editRowTable class="mb-3" nzBordered [nzData]="listOfData">
         <thead>
           <tr>
-            <th>Id</th>
-            <th >Nombre</th>
+            <th nzWidth="5%">Id</th>
             <th nzWidth="30%">Correo</th>
-            <th>Perfil</th>
+
             <th class="text-center" nzWidth="20%">Acciones</th>
 
           </tr>
@@ -41,28 +40,14 @@
             <td>{{data.id}}</td>
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.nombre }}
+                {{ data.email }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.nombre" (blur)="stopEdit(data.nombre)" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.email" (blur)="stopEdit(data.email)" />
             </td>
-            <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.correo }}
-              </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.correo" (blur)="stopEdit(data.nombre)" />
-
-            </td>
-            <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.perfil }}
-              </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.perfil" (blur)="stopEdit(data.nombre)" />
-            </td>
-
             <td class="text-center">
-              <a routerLink="/listado/{{data.correo}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver servicios de {{data.nombre}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
+              <a routerLink="/listado/{{data.email}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver servicios de {{data.email}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
               &nbsp;
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.nombre}}?"  (nzOnConfirm)="deleteRow(data.id,data.nombre) "><span nz-tooltip nzTooltipTitle="Eliminar {{data.nombre}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.email}}?"  (nzOnConfirm)="deleteRow(data.id,data.email) "><span nz-tooltip nzTooltipTitle="Eliminar {{data.email}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
             </td>
           </tr>
         </tbody>
