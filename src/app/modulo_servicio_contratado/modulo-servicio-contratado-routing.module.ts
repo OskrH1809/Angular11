@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CardsComponent } from '../components/cards/cards.component';
-import { ServicioComponent } from '../components/servicio/servicio.component';
+import { CardsComponent } from '../shared/components/cards/cards.component';
+import { ServicioComponent } from '../shared/components/servicio/servicio.component';
 
 const routes: Routes = [
   {path:'servicio/:id', component:ServicioComponent},

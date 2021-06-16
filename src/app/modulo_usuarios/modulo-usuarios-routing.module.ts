@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GestionClientesComponent } from '../components/gestion-clientes/gestion-clientes.component';
-import { LoginComponent } from '../components/login/login.component';
-import { RecuperarContraComponent } from '../components/recuperar-contra/recuperar-contra.component';
-import { RegistroComponent } from '../components/registro/registro.component';
+import { GestionClientesComponent } from '../shared/components/gestion-clientes/gestion-clientes.component';
+import { LoginComponent } from '../auth/components/login/login.component';
+import { RegistroComponent } from '../auth/components/registro/registro.component';
+import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
 
 const routes: Routes = [
   {path:'login', component:LoginComponent},

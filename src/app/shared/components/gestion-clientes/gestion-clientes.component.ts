@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Location} from '@angular/common';
-import { GestionClientesService } from 'src/app/Services/gestion-clientes.service';
+import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 interface ItemData {

@@ -7,7 +7,6 @@ import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
-import { InfoCardsService } from 'src/app/Services/info-cards.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 // upload
@@ -26,7 +25,7 @@ export class ServicioComponent implements OnInit {
   closeModal: string;
   fileExist= false; //declara si la imagen existe
 
-  constructor(private notification: NzNotificationService,private infocardsService:InfoCardsService,private Usuario:AdministrarUserService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
+  constructor(private notification: NzNotificationService,private Usuario:AdministrarUserService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
   }

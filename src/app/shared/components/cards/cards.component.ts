@@ -1,4 +1,3 @@
-import { InfoCardsService } from './../../Services/info-cards.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

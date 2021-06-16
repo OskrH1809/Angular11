@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuloUsuariosRoutingModule } from './modulo-usuarios-routing.module';
-import { LoginComponent } from '../components/login/login.component';
+import { LoginComponent } from '../auth/components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -12,12 +12,13 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { RegistroComponent } from '../components/registro/registro.component';
-import { RecuperarContraComponent } from '../components/recuperar-contra/recuperar-contra.component';
-import { GestionClientesComponent } from '../components/gestion-clientes/gestion-clientes.component';
+import { RegistroComponent } from '../auth/components/registro/registro.component';
+
+import { GestionClientesComponent } from '../shared/components/gestion-clientes/gestion-clientes.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { GestionUsuariosService } from '../Services/usuarios/gestion-usuarios.service';
-import { AutentificacionService } from '../Services/usuarios/autentificacion.service';
+import { GestionUsuariosService } from '../auth/services/gestion-usuarios.service';
+import { Autentificacion} from '../core/interceptors/autentificacion.service';
+import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
 
 
 @NgModule({
@@ -49,7 +50,7 @@ import { AutentificacionService } from '../Services/usuarios/autentificacion.ser
   ],
   providers:[
     { provide: HTTP_INTERCEPTORS, 
-      useClass: AutentificacionService,
+      useClass: Autentificacion,
       multi: true
     },
   ]

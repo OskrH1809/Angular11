@@ -7,7 +7,7 @@ const baseUrl = environment.baseURLF;
 @Injectable({
   providedIn: 'root'
 })
-export class AutentificacionService implements HttpInterceptor  {
+export class Autentificacion implements HttpInterceptor  {
  
   constructor() { }
  

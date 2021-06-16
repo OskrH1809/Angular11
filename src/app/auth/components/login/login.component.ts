@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GestionUsuariosService } from 'src/app/Services/usuarios/gestion-usuarios.service';
+import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +17,11 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    // console.log(this.validateForm.value);
+   
     this.aut.login_check(this.validateForm.value).subscribe(data => {
       // console.log(data);
       localStorage.setItem('token', data.token);
+  
 
      });
 

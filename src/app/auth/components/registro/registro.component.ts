@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, Observer } from 'rxjs';
-import { GestionUsuariosService } from 'src/app/Services/usuarios/gestion-usuarios.service';
+import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 
 @Component({
   selector: 'app-registro',
@@ -20,20 +20,20 @@ export class RegistroComponent implements OnInit {
 
   validateForm: FormGroup;
 
-  submitForm(value: { username: string; email: string; password: string; confirm:string }): void {
+  submitForm(value: { email: string; password: string; confirm:string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
     
     console.log(value);
-    const datos = {username:value.username, email:value.email, password:value.password} 
+    const datos = { email:value.email, password:value.password} 
     this.servicelogin.sendPostRegistro(datos).subscribe(
     res => {
       console.log(res);
       
-      if (res=="User created success.") {
-        this.createNotification('success','Usuario: '+`${value.username}`,'Registrado con éxito');
+      if (res.email== value.email) {
+        this.createNotification('success','Usuario: '+`${value.email}`,'Registrado con éxito');
         
       }
       if (res=="A user with this email already exists.") {
@@ -81,7 +81,6 @@ export class RegistroComponent implements OnInit {
 
   constructor( private notification: NzNotificationService,private servicelogin:GestionUsuariosService ,private fb: FormBuilder) {
     this.validateForm = this.fb.group({
-      username: ['', [Validators.required]],
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
       confirm: ['', [this.confirmValidator]],

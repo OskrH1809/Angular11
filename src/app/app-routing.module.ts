@@ -1,8 +1,8 @@
-import { CardsComponent } from './components/cards/cards.component';
+import { CardsComponent } from './shared/components/cards/cards.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './views/components/dashboard/dashboard.component';
 
 const routes: Routes = [
 

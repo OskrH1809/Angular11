@@ -3,7 +3,6 @@ import { ControlContainer, FormBuilder, FormGroup, Validators } from '@angular/f
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import {Location} from '@angular/common';
-import { ServiciosService } from 'src/app/Services/servicios.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -44,22 +43,22 @@ export class ListadosSeComponent implements OnInit {
 
   fatrash = faTrash;
   faedit=faEdit;
-  constructor(private notification: NzNotificationService,private modalService: NgbModal,private _location: Location, private formBuilder:FormBuilder,private service: ServiciosService,private route: ActivatedRoute ) { }
+  constructor(private notification: NzNotificationService,private modalService: NgbModal,private _location: Location, private formBuilder:FormBuilder,private route: ActivatedRoute ) { }
   public form: FormGroup;
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get("id");
-    this.getServicios();
+    // this.getServicios();
     console.log(this.id);
   }
 
-  getServicios(){
-   this.service.get_serviciosxUsuario(this.id)
-   .subscribe( values => {
-     this.listOfData= values;
-     this.Nombre = values[0].Nombre;
-    console.log(values);
-  } );
-  }
+  // getServicios(){
+  //  this.service.get_serviciosxUsuario(this.id)
+  //  .subscribe( values => {
+  //    this.listOfData= values;
+  //    this.Nombre = values[0].Nombre;
+  //   console.log(values);
+  // } );
+  // }
 
   backClicked() {
     this._location.back();
