@@ -7,10 +7,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 interface ItemData {
   id: string;
-  nombre: string;
-  correo: string;
-  perfil:string
-
+  email: string;
 }
 @Component({
   selector: 'app-gestion-clientes',
@@ -43,9 +40,8 @@ export class GestionClientesComponent implements OnInit {
       ...this.listOfData,
       {
         id: `${this.i}`,
-        nombre: `${this.form.value.nombre}`,
-        correo: `${this.form.value.correo}`,
-        perfil: 'cliente'
+        email: `${this.form.value.email}`,
+        
       }
     ];
     this.createNotification('success','Cliente: '+`${this.form.value.nombre}`,'Agregado con éxito');
@@ -62,8 +58,8 @@ export class GestionClientesComponent implements OnInit {
   ngOnInit(): void {
     this.get_users();
     this.form = this.formBuilder.group({
-      nombre: ['',[Validators.required]],
-      correo: ['',Validators.required],
+      email: ['',[Validators.required]],
+     
 
 
     });
