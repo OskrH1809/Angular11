@@ -8,7 +8,7 @@ const routes: Routes = [
 
   {path:'editor', component:TextoEditorComponent},
   {path:'dashboard', component:DashboardComponent},
-  {path:'**',pathMatch:'full',redirectTo:'login'}
+  {path:'**',pathMatch:'full',redirectTo:''}
 
 ];
 

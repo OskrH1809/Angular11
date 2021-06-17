@@ -4,10 +4,13 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 const baseUrl = environment.baseURLF;
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class GestionUsuariosService {
+
+ 
 
   constructor(private http: HttpClient) { }
   // registro de usuarios
@@ -22,5 +25,6 @@ export class GestionUsuariosService {
   login_check(data: any): Observable<any> {
     return this.http.post<any>(`${baseUrl}/api/login_check`, data);
   }
+
 
 }

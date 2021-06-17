@@ -3,7 +3,7 @@
   <div class="scroll-sidebar">
       <!-- Sidebar navigation-->
       <nav class="sidebar-nav">
-        <p class="pl-3"><strong>Cliente</strong></p>
+        
         <ul id="sidebarnav" >
           <!-- User Profile-->
           <!-- User Profile-->
@@ -18,8 +18,8 @@
         </ul>
 
         <!-- Administrador -->
-          <p class="pl-3"><strong>Administrador</strong></p>
-          <ul id="sidebarnav" class="">
+          <p *ngIf="role=='ADMIN'" class="pl-3"><strong>Administrador</strong></p>
+          <ul *ngIf="role=='ADMIN'" id="sidebarnav" class="">
           <li class="sidebar-item">
             <a class="sidebar-link waves-effect waves-dark sidebar-link"
                href="/gestionservicios" aria-expanded="false"><i class="mdi me-2 mdi-content-paste"></i><span

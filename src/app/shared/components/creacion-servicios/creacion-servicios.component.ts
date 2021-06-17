@@ -121,28 +121,28 @@ new Observable((observer: Observer<ValidationErrors | null>) => {
 
 
   // select
-  randomUserUrl = 'https://api.randomuser.me/?results=10';
+  // randomUserUrl = 'https://api.randomuser.me/?results=10';
   optionList: string[] = [];
   selectedUser = null;
   isLoading = false;
 
 
-  getRandomNameList: Observable<string[]> = this.http
-  .get(`${this.randomUserUrl}`)
-  .pipe(map((res: any) => res.results))
-  .pipe(
-    map((list: any) => {
-      return list.map((item: any) => `${item.name.first}`);
-    })
-  );
+  // getRandomNameList: Observable<string[]> = this.http
+  // .get(`${this.randomUserUrl}`)
+  // .pipe(map((res: any) => res.results))
+  // .pipe(
+  //   map((list: any) => {
+  //     return list.map((item: any) => `${item.name.first}`);
+  //   })
+  // );
 
-loadMore(): void {
-  this.isLoading = true;
-  this.getRandomNameList.subscribe(data => {
-    this.isLoading = false;
-    this.optionList = [...this.optionList, ...data];
-  });
-}
+// loadMore(): void {
+//   this.isLoading = true;
+//   this.getRandomNameList.subscribe(data => {
+//     this.isLoading = false;
+//     this.optionList = [...this.optionList, ...data];
+//   });
+// }
 // clientes
 isSubmitted = false;
 clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
@@ -273,7 +273,7 @@ public form: FormGroup;
 
     });
     // select
-    this.loadMore();
+    // this.loadMore();
     // select ^
   }
   changeCity(e) {

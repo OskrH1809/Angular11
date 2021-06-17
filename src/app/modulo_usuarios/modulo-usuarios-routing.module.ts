@@ -4,12 +4,13 @@ import { GestionClientesComponent } from '../shared/components/gestion-clientes/
 import { LoginComponent } from '../auth/components/login/login.component';
 import { RegistroComponent } from '../auth/components/registro/registro.component';
 import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
+import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 
 const routes: Routes = [
-  {path:'login', component:LoginComponent},
+  {path:'', component:LoginComponent, },
   {path:'registro', component:RegistroComponent},
   {path:'recuperar', component:RecuperarContraComponent},
-  {path:'gestionclientes', component:GestionClientesComponent},
+  {path:'gestionclientes', component:GestionClientesComponent, canActivate: [AuthGuardGuard],canLoad: [AuthGuardGuard]},
 
 
 ];

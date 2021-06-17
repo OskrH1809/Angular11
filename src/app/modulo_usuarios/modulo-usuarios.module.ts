@@ -16,7 +16,6 @@ import { RegistroComponent } from '../auth/components/registro/registro.componen
 
 import { GestionClientesComponent } from '../shared/components/gestion-clientes/gestion-clientes.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { GestionUsuariosService } from '../auth/services/gestion-usuarios.service';
 import { Autentificacion} from '../core/interceptors/autentificacion.service';
 import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
 
@@ -49,10 +48,7 @@ import { RecuperarContraComponent } from '../auth/components/recuperar-contra/re
 
   ],
   providers:[
-    { provide: HTTP_INTERCEPTORS, 
-      useClass: Autentificacion,
-      multi: true
-    },
+    
   ]
 })
 export class ModuloUsuariosModule { }

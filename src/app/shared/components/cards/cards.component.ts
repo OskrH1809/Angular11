@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 
 @Component({
   selector: 'app-cards',
@@ -13,7 +14,7 @@ export class CardsComponent implements OnInit {
 
 
 
-  constructor() {
+  constructor(private ges:GestionUsuariosService) {
 
    }
 
@@ -21,7 +22,7 @@ export class CardsComponent implements OnInit {
   //
 
   ngOnInit(): void {
-
+   
   }
 
 

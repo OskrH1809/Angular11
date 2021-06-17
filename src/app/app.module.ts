@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {  BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,9 +18,8 @@ import { ModuloServiciosModule } from './modulo_servicios/modulo-servicios.modul
 import { ModuloServicioContratadoModule } from './modulo_servicio_contratado/modulo-servicio-contratado.module';
 import { FooterComponent } from './views/components/footer/footer.component';
 import { AsideComponent } from './views/components/aside/aside.component';
-import { EdicionTareasComponent } from './components/edicion-tareas/edicion-tareas.component';
-import { GestionUsuariosService } from './auth/services/gestion-usuarios.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Autentificacion } from './core/interceptors/autentificacion.service';
 registerLocaleData(es);
 
 
@@ -52,6 +50,11 @@ registerLocaleData(es);
     
     { provide: NZ_I18N , useValue: es_ES,
     },
+    { provide: HTTP_INTERCEPTORS, 
+      useClass: Autentificacion,
+      multi: true
+    },
+    
   ],
   bootstrap: [AppComponent]
 })

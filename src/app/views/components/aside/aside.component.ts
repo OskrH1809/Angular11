@@ -8,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class AsideComponent implements OnInit {
 
   constructor() { }
-
+   user = JSON.parse(localStorage.getItem('usuario'));
+   role = this.user['role']
   ngOnInit(): void {
+    
   }
 
 }

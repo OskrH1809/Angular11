@@ -3,13 +3,10 @@
   <div class="row">
     <div class="col-md-3 col-sm-12 pt-5">
       <form  [formGroup]="form" (submit)="send()">
-        <div >
-        <label class="pt-4" for="nombre">Nombre</label>
-        <input class="form-control" mb-5 type="text" id="nombre" formControlName="nombre">
-        </div>
+    
         <div>
-          <label class="pt-4"  for="correo">Correo</label>
-          <input  class="form-control"  type="text" id="correo" formControlName="correo">
+          <label class="pt-4"  for="email">Email</label>
+          <input  class="form-control"  type="text" id="email" formControlName="email">
         </div>
 
         <br>
