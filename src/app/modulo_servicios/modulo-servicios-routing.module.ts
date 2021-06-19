@@ -9,11 +9,11 @@ import { ServicioComponent } from '../shared/components/servicio/servicio.compon
 import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 
 const routes: Routes = [
-  {path:'listado/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard],canLoad: [AuthGuardGuard]},
-  {path:'gestionservicios', component:CreacionServiciosComponent, canActivate: [AuthGuardGuard],canLoad: [AuthGuardGuard]},
-  {path:'gestiontareas/:id', component:GestionTareasComponent, canActivate: [AuthGuardGuard],canLoad: [AuthGuardGuard]},
-  {path:'contratar', component:ContratarServiciosComponent, canActivate: [AuthGuardGuard],canLoad: [AuthGuardGuard]},
-  {path:'edit', component:EdicionTareasComponent, canActivate: [AuthGuardGuard],canLoad: [AuthGuardGuard]},
+  {path:'listado/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard],},
+  {path:'gestionservicios', component:CreacionServiciosComponent, canActivate: [AuthGuardGuard],},
+  {path:'gestiontareas/:id', component:GestionTareasComponent, canActivate: [AuthGuardGuard],},
+  {path:'contratar', component:ContratarServiciosComponent, canActivate: [AuthGuardGuard],},
+  {path:'edit', component:EdicionTareasComponent, canActivate: [AuthGuardGuard],},
 
 
 ];

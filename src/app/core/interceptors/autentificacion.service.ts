@@ -22,36 +22,57 @@ export class Autentificacion implements HttpInterceptor  {
       headers: req.headers.set('Authorization', `Bearer ${token}`)
     
     });return next.handle(headers).pipe(
-      catchError(this.manejarError)
-    )
-    
+
+      catchError((error: HttpErrorResponse) => {
+        // process the obtained error 
+        // for logging or monitoring
+
+
+        // -----------------------------------
+            // validaciones 
+            if (error.error.message=='JWT Token not found' )  
+            {
+              localStorage.removeItem('token')
+              localStorage.removeItem('user')
+              localStorage.removeItem('usuario')
+              alert('No registrado')
+              this.router.navigate(['login']);
+             
+              
+            }
+
+            if (error.error.message=='Expired JWT Token') {
+              localStorage.removeItem('token')
+              localStorage.removeItem('user')
+              localStorage.removeItem('usuario')
+              alert('Sesion expirada')
+              this.router.navigate(['login']);
+              
+            }
+
+            if (error.error.message=='Invalid credentials.')  
+            {
+              
+              alert('credenciales invalidas')
+            
+            }
+
+        // -------------------------------------
+        
+        // create new Observable stream 
+        // which the clients
+        // can subscribe and 
+        // catch the Erroneous response
+        
+        return throwError(error.error.message);
+    }));
   }
   
-
+ 
 
 
   manejarError(error:HttpErrorResponse){
-    if (error.error.message=='JWT Token not found' )  
-    {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      alert('No registrado')
-      
-    }
-    console.log(error.error.message)
-
-    if (error.error.message=='Expired JWT Token') {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      alert('registro expirado')
-    }
-
-    if (error.error.message=='Invalid credentials.')  
-    {
-      
-      alert('credenciales invalidas')
-     
-    }
+    
 
     console.log(error.error.message)
 

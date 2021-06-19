@@ -1,5 +1,4 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +6,6 @@ import { AdministrarUserService } from 'src/app/Services/administrar-user.servic
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit  {
-  @Input() nombre_usuario;
-  @Input() Imagen;
 
 constructor(){}
 

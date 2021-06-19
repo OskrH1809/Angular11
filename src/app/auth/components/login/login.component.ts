@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { pipe, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 import { Autentificacion } from 'src/app/core/interceptors/autentificacion.service';
 
@@ -21,17 +24,26 @@ export class LoginComponent implements OnInit {
 
    
     this.aut.login_check(this.validateForm.value).subscribe(data => {
-      // console.log(data);
-      if (data) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user',this.validateForm.value.username)
+      console.log(data);
+      const  user =  {
+        "nombre": this.validateForm.value.username,
+        "role": ['ADMIN'],
+        "imagenes" :'oscar_canales.jpg'
       }
-      this.router.navigateByUrl('/cards');
-     });
+    
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user',this.validateForm.value.username)
+      localStorage.setItem('usuario', JSON.stringify(user))
+     
+    
+      this.router.navigate([''])
+      this.router.navigate(['cards']);
+
+     })
 
     // 
 
-   
+    
   }
 
   constructor(private router:Router,private aut:GestionUsuariosService,private fb: FormBuilder) {}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, Observer } from 'rxjs';
@@ -34,7 +35,7 @@ export class RegistroComponent implements OnInit {
       
       if (res.email== value.email) {
         this.createNotification('success','Usuario: '+`${value.email}`,'Registrado con éxito');
-        
+        this.router.navigate([''])
       }
       if (res=="A user with this email already exists.") {
         this.createNotification('error','Ya existe un usuario con este correo','Registro sin éxito');
@@ -79,7 +80,7 @@ export class RegistroComponent implements OnInit {
     return {};
   };
 
-  constructor( private notification: NzNotificationService,private servicelogin:GestionUsuariosService ,private fb: FormBuilder) {
+  constructor( private router:Router,private notification: NzNotificationService,private servicelogin:GestionUsuariosService ,private fb: FormBuilder) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],

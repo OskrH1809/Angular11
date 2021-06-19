@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 
 @Component({
   selector: 'app-aside',
@@ -7,11 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AsideComponent implements OnInit {
 
-  constructor() { }
-   user = JSON.parse(localStorage.getItem('usuario'));
-   role = this.user['role']
+  constructor(private router:Router,private rol:AdministrarUserService) { }
+   user = this.rol.retornarRol()
+
+
+   role = 'ADMIN'
   ngOnInit(): void {
-    
+
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('user');
+    this.router.navigate(['login']);
+
   }
 
 }
