@@ -5,8 +5,8 @@ import { CardsComponent } from '../shared/components/cards/cards.component';
 import { ServicioComponent } from '../shared/components/servicio/servicio.component';
 
 const routes: Routes = [
-  {path:'servicio/:id', component:ServicioComponent, canActivate: [AuthGuardGuard],},
-  {path:'cards', component:CardsComponent,canActivate: [AuthGuardGuard],},
+  {path:'servicio/:id', component:ServicioComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
+  {path:'cards', component:CardsComponent, canActivate: [AuthGuardGuard] },
 ];
 
 @NgModule({

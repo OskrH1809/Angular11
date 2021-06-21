@@ -67,6 +67,7 @@ padding-top: 5px;
 
 .mat-card{
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .titulo1{
@@ -116,6 +117,8 @@ transition: 0.2s;
 
   border: 3px solid #ddd;
   border-radius: 4px;
+}
 
-
+.input-file{
+  width: 100% !important;
 }

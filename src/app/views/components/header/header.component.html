@@ -1,34 +1,51 @@
 <header>
-  <!-- start top -->
-  <div id="topnav" class="navbar navbar-fixed-top default">
-    <div class="navbar-inner">
-      <div class="container-fluid">
-        <div class="logo pr-5">
-          <a href="index.html"><img src="assets/vesper/assets/img/logo.png" alt="" /></a>
-        </div>
-        <div class="navigation pull-right">
-          <nav >
-            <ul class=" nav ">
+  <!-- header inner -->
+  <div class="header">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                  <div class="full">
+                      <div class="center-desk">
+                          <div class="logo"> <a href="index.html"><img src="assets/health/images/services.png" alt="#"></a> </div>
+                      </div>
+                  </div>
+              </div>
+              <div *ngIf="verificarAcceso==true" class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                  <div class="menu-area">
+                      <div class="limit-box">
+                          <nav class="main-menu">
+                              <ul class="menu-area-main">
 
-              <li><a routerLink="cards" routerLinkActive="true">servicios</a></li>
-              <li><a routerLink="gestionservicios" routerLinkActive="true">Gestion Servicios</a></li>
-              <li><a routerLink="gestionclientes" routerLinkActive="true">Gestion Servicios</a></li>
+                                  <li> <a href="/cards">Servicios</a> </li>
+                                  <li><a href="/gestionservicios"> Gestión Servicios</a></li>
+                                  <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
+                                  <li> <a href="#" (click)="logout()">Logout </a> </li>
+                                 <!-- <li class="mean-last"> <a href="#"><img src="assets/health/images/search_icon.png" alt="#" /></a> </li>-->
+                                  <li class="mean-last"> <a href="#"><img src="assets/health/images/top-icon.png" alt="#" /></a> </li>
+                              </ul>
+                          </nav>
+                      </div>
+                  </div>
+              </div>
+              <div *ngIf="verificarAcceso==false" class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                <div class="menu-area">
+                    <div class="limit-box">
+                        <nav class="main-menu">
+                            <ul class="menu-area-main">
 
-
-              <li class="dropdown">
-                <a href="#">Features <i class="icon-angle-down"></i></a>
-                <ul class="dropdown-menu">
-                  <li><a href="components.html" class="external">Components</a></li>
-                  <li><a href="icons.html" class="external">Icons</a></li>
-                  <li><a href="animations.html" class="external">56 Animations</a></li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <!--/.nav-collapse -->
+                                <li> <a href="/cards">Servicios</a> </li>
+                                <li><a href="/gestionservicios"> Gestión Servicios</a></li>
+                                <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
+                                <li> <a href="">Login </a> </li>
+                               <!-- <li class="mean-last"> <a href="#"><img src="assets/health/images/search_icon.png" alt="#" /></a> </li>-->
+                                <li class="mean-last"> <a href="#"><img src="assets/health/images/top-icon.png" alt="#" /></a> </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+          </div>
       </div>
-    </div>
   </div>
-  <!-- end top -->
+  <!-- end header inner -->
 </header>

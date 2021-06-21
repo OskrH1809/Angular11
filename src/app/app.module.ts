@@ -20,6 +20,7 @@ import { FooterComponent } from './views/components/footer/footer.component';
 import { AsideComponent } from './views/components/aside/aside.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Autentificacion } from './core/interceptors/autentificacion.service';
+import { GestionUsuariosService } from './auth/services/gestion-usuarios.service';
 registerLocaleData(es);
 
 
@@ -47,14 +48,15 @@ registerLocaleData(es);
   ],
   providers: [
     AdministrarUserService,
-    
+    GestionUsuariosService,
+
     { provide: NZ_I18N , useValue: es_ES,
     },
-    { provide: HTTP_INTERCEPTORS, 
+    { provide: HTTP_INTERCEPTORS,
       useClass: Autentificacion,
       multi: true
     },
-    
+
   ],
   bootstrap: [AppComponent]
 })

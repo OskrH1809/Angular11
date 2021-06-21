@@ -238,6 +238,7 @@ public form: FormGroup;
   }
   //
   ngOnInit(): void {
+
     this.getIndice();
     this.get_serviciosall();
 
@@ -355,7 +356,9 @@ public form: FormGroup;
     getIndice(){
       this.servicio.get_servicios().subscribe(data => {
 
-       this.i = data.pop().id + 1;
+        if(data){
+          this.i = data.pop().id + 1;
+        }
       //
       });
     }

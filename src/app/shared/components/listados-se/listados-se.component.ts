@@ -90,29 +90,26 @@ export class ListadosSeComponent implements OnInit {
 
 
 //
-agregarServicio(array){
-console.log(this.listOfData)
-console.log(array)
-this.listOfData= this.listOfData.concat(array);
+    agregarServicio(array){
+    console.log(this.listOfData)
+    console.log(array)
+    this.listOfData= this.listOfData.concat(array);
+    }
 
 
 
-}
+    // notificaciones
+    createNotification(type1: string,type2:string,type3:string,): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3,
+      { nzDuration:12000 }
+    );
 
-
-
-         // notificaciones
-         createNotification(type1: string,type2:string,type3:string,): void {
-          this.notification.create(
-            type1,
-            type2,
-            type3,
-            { nzDuration:12000 }
-          );
-
-        }
-// modal ng zorro
-isVisible = false;
+  }
+  // modal ng zorro
+  isVisible = false;
 
 
 
@@ -143,5 +140,25 @@ isVisible = false;
   log(value: { label: string; value: string; age: number }): void {
     console.log(value);
   }
+
+  // modal formulario
+  isVisibleFormulario = false;
+
+
+
+  showModalFormulario(): void {
+    this.isVisibleFormulario = true;
+  }
+
+  handleOkFormulario(): void {
+
+    this.isVisibleFormulario = false;
+  }
+
+  handleCancelFormulario(): void {
+
+    this.isVisibleFormulario = false;
+  }
+
 
 }

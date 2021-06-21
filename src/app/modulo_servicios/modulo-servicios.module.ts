@@ -21,6 +21,7 @@ import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tar
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
+
 @NgModule({
   declarations: [
     ListadosSeComponent,

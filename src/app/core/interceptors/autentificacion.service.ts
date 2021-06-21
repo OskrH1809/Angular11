@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 import { environment } from 'src/environments/environment';
 const baseUrl = environment.baseURLF;
 
@@ -10,69 +11,66 @@ const baseUrl = environment.baseURLF;
   providedIn: 'root'
 })
 export class Autentificacion implements HttpInterceptor  {
- 
-  constructor(private router:Router) { }
- 
-  
+
+  constructor(private router:Router, private gestion:GestionUsuariosService) { }
+
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
+
     const token = localStorage.getItem('token');if (!token) {
-      return next.handle(req);  
+      return next.handle(req);
     }const headers = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
-    
+
     });return next.handle(headers).pipe(
 
       catchError((error: HttpErrorResponse) => {
-        // process the obtained error 
+        // process the obtained error
         // for logging or monitoring
 
 
         // -----------------------------------
-            // validaciones 
-            if (error.error.message=='JWT Token not found' )  
+            // validaciones
+            if (error.error.message=='JWT Token not found' )
             {
-              localStorage.removeItem('token')
-              localStorage.removeItem('user')
-              localStorage.removeItem('usuario')
+
               alert('No registrado')
-              this.router.navigate(['login']);
-             
-              
+              this.gestion.logout();
+
+
+
             }
 
             if (error.error.message=='Expired JWT Token') {
-              localStorage.removeItem('token')
-              localStorage.removeItem('user')
-              localStorage.removeItem('usuario')
+
               alert('Sesion expirada')
-              this.router.navigate(['login']);
-              
+              this.gestion.logout();
+
             }
 
-            if (error.error.message=='Invalid credentials.')  
+            if (error.error.message=='Invalid credentials.')
             {
-              
+
               alert('credenciales invalidas')
-            
+
             }
 
         // -------------------------------------
-        
-        // create new Observable stream 
+
+        // create new Observable stream
         // which the clients
-        // can subscribe and 
+        // can subscribe and
         // catch the Erroneous response
-        
+
         return throwError(error.error.message);
     }));
   }
-  
- 
+
+
 
 
   manejarError(error:HttpErrorResponse){
-    
+
 
     console.log(error.error.message)
 
@@ -82,11 +80,11 @@ export class Autentificacion implements HttpInterceptor  {
   }
 
 
-  
+
 
 
 }
 
 
- 
+
 

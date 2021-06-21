@@ -14,7 +14,7 @@
 
       <br />
       <br />
-      <button nz-button  nzType="primary" (click)="triggerModal(modalData)">Agregar nuevo servicio</button>
+      <button nz-button  nzType="primary" (click)="showModalFormulario()">Agregar nuevo servicio</button>
       <br>
       <nz-table #editRowTable nzBordered [nzData]="listOfData">
         <thead>
@@ -58,7 +58,6 @@
             <div class="container">
               <div class="row ">
                 <div class="col-md-12 col-sm-12 ">
-                  <app-contratar-servicios (contratar)="agregarServicio($event)"></app-contratar-servicios>
                 </div>
               </div>
             </div>
@@ -81,6 +80,16 @@
           </ng-container>
         </nz-modal>
         <!-- modal de select end -->
+
+
+        <!-- modal formulario -->
+        <nz-modal [(nzVisible)]="isVisibleFormulario" nzTitle="" (nzOnCancel)="handleCancelFormulario()" (nzOnOk)="handleOkFormulario()">
+          <ng-container *nzModalContent>
+            <app-contratar-servicios (contratar)="agregarServicio($event)"></app-contratar-servicios>
+
+          </ng-container>
+        </nz-modal>
+        <!-- modal formulario end -->
 
       </nz-table>
       <br>

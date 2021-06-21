@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-   
+
     this.aut.login_check(this.validateForm.value).subscribe(data => {
       console.log(data);
       const  user =  {
@@ -30,20 +30,26 @@ export class LoginComponent implements OnInit {
         "role": ['ADMIN'],
         "imagenes" :'oscar_canales.jpg'
       }
-    
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user',this.validateForm.value.username)
       localStorage.setItem('usuario', JSON.stringify(user))
-     
-    
-      this.router.navigate([''])
-      this.router.navigate(['cards']);
+
+
+          this.router.navigate([''])
+        .then(() => {
+        window.location.reload();
+        });
+
+
+      // this.router.navigateByUrl('/cards', { skipLocationChange: true });
+
 
      })
 
-    // 
+    //
 
-    
+
   }
 
   constructor(private router:Router,private aut:GestionUsuariosService,private fb: FormBuilder) {}
@@ -57,5 +63,5 @@ export class LoginComponent implements OnInit {
   }
 
 
- 
+
 }

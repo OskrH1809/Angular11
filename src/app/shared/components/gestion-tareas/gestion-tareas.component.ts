@@ -334,5 +334,24 @@ export class GestionTareasComponent implements OnInit {
 
   }
 
+  // modal formulario
+  isVisibleFormulario = false;
+
+
+
+  showModalFormulario(): void {
+    this.isVisibleFormulario = true;
+  }
+
+  handleOkFormulario(): void {
+
+    this.isVisibleFormulario = false;
+  }
+
+  handleCancelFormulario(): void {
+
+    this.isVisibleFormulario = false;
+  }
+
 
 }

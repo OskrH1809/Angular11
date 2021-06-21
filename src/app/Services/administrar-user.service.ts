@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministrarUserService {
 
-  constructor() { }
+  constructor(private router:Router) { }
   localstorage = JSON.parse(localStorage.getItem('usuario'))
   token = localStorage.getItem('token');
   validarUser(): boolean{
@@ -48,4 +49,8 @@ export class AdministrarUserService {
 
   ImagenXYZ= 'prueba.jpg'
   usuarioXYZ = 'Prueba'
+
+
+
+
 }

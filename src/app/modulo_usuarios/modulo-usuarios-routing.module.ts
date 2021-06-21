@@ -8,10 +8,10 @@ import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 import { LogueadoGuard } from '../auth/services/logueado.guard';
 
 const routes: Routes = [
-  {path:'', component:LoginComponent,canActivate:[LogueadoGuard],},
+  {path:'', component:LoginComponent,canActivate:[LogueadoGuard]},
   {path:'registro', component:RegistroComponent,canActivate:[LogueadoGuard],},
-  {path:'recuperar', component:RecuperarContraComponent,},
-  {path:'gestionclientes', component:GestionClientesComponent, canActivate: [AuthGuardGuard],},
+  {path:'recuperar', component:RecuperarContraComponent,canActivate:[LogueadoGuard]},
+  {path:'gestionclientes', component:GestionClientesComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
 
 
 ];

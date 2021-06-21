@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-2   col-sm-12 pt-5"></div>
     <div class="col-md-8 col-sm-12 pt-5">
-      <button nz-button [disabled]="id!=mesActual" (click)="triggerModal(modalData)" nzType="primary">Ingresar Nueva Solicitud</button>
+      <button nz-button [disabled]="id!=mesActual" (click)="showModalFormulario()" nzType="primary">Ingresar Nueva Solicitud</button>
       <!--{# (click)="addRow()" #}-->
       <br />
       <br />
@@ -198,67 +198,7 @@
                   <div class="col-md-12 col-sm-12 ">
                     <!--  -->
 
-                    <form (ngSubmit)="onSubmit2()" [formGroup]="demoReactiveForm2">
-                      <!-- <h3>User profile form</h3> -->
 
-                      <div>
-                        <label for="titulo">Titulo</label>
-                        <input class="form-control" formControlName="titulo" type="text" name="titulo" id="titulo">
-                      </div>
-
-                      <label class="pt-2" for="descripcion2">Descripción</label>
-                      <ckeditor
-
-                        formControlName="descripcion2"
-                        [editor]="Editor"
-                        id="descripcion2"
-                        class="ck-editor__editable_inline"
-                        name="descripcion2">
-
-                      </ckeditor>
-                        <!-- file -->
-                        <div class="form-group">
-
-                          <label class="pt-4" for="file">Documento</label>
-
-                          <input
-
-                              formControlName="file"
-
-                              id="file"
-
-                              type="file"
-
-                              class="form-control"
-
-                              (change)="onFileChange2($event)">
-
-
-
-                      </div>
-                        <!-- end File -->
-                      <!-- <p *ngIf="description && description.dirty" class="alert">Description is "dirty".</p>
-                      <p *ngIf="description && description.touched" class="alert">Description has been "touched".</p> -->
-
-                      <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                          <div class="row">
-                            <div class="col-md-2 pr-5 col-sm-12">
-                              <p><button class="btn btn-primary" type="submit"  >Enviar</button> </p>
-
-                            </div>
-                            <div class="col-md-10 pl-5 col-sm-12">
-                              <p><button class="btn btn-primary" type="reset" (click)="reset2()">Limpiar</button></p>
-
-                            </div>
-                          </div>
-
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-
-                        </div>
-                      </div>
-                    </form>
 
 
                     <!--  -->
@@ -272,6 +212,73 @@
             </div>
           </ng-template>
           <!-- edit end -->
+            <!-- modal formulario -->
+        <nz-modal nzWidth="80%" nzheight="20%"  [(nzVisible)]="isVisibleFormulario" nzTitle="" (nzOnCancel)="handleCancelFormulario()" (nzOnOk)="handleOkFormulario()">
+          <ng-container *nzModalContent>
+            <form (ngSubmit)="onSubmit2()" [formGroup]="demoReactiveForm2">
+              <!-- <h3>User profile form</h3> -->
+
+              <div>
+                <label for="titulo">Titulo</label>
+                <input class="form-control" formControlName="titulo" type="text" name="titulo" id="titulo">
+              </div>
+
+              <label class="pt-2" for="descripcion2">Descripción</label>
+              <ckeditor
+
+                formControlName="descripcion2"
+                [editor]="Editor"
+                id="descripcion2"
+                class="ck-editor__editable_inline"
+                name="descripcion2">
+
+              </ckeditor>
+                <!-- file -->
+                <div class="form-group">
+
+                  <label class="pt-4" for="file">Documento</label>
+
+                  <input
+
+                      formControlName="file"
+
+                      id="file"
+
+                      type="file"
+
+                      class="form-control pb-3"
+
+                      (change)="onFileChange2($event)">
+
+
+
+              </div>
+                <!-- end File -->
+              <!-- <p *ngIf="description && description.dirty" class="alert">Description is "dirty".</p>
+              <p *ngIf="description && description.touched" class="alert">Description has been "touched".</p> -->
+
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-md-2 pr-5 col-sm-12">
+                      <p><button class="btn btn-primary" type="submit"  >Enviar</button> </p>
+
+                    </div>
+                    <div class="col-md-10 pl-5 col-sm-12">
+                      <p><button class="btn btn-primary" type="reset" (click)="reset2()">Limpiar</button></p>
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-md-6 col-sm-12">
+
+                </div>
+              </div>
+            </form>
+          </ng-container>
+        </nz-modal>
+        <!-- modal formulario end -->
         </nz-table>
        </div>
        <div class="col-md-1 col-sm-12"></div>
