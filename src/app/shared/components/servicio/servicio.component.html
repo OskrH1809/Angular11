@@ -1,74 +1,59 @@
 <div class="container espacio">
   <h1 class=" text-center"><strong>Servicios del mes de {{Mes[id]}}</strong></h1>
-    <button (click)="agregarUsuario()">Agregar </button>
-    <button (click)="removerUsuario()">Remover </button>
+<!-- aqui -->
   <div class="row">
 
     <!-- servicio 1 -->
-    <div class="col-md-4 mb-5 col-sm-6 col-12 pt-4 sombreado">
+    <div *ngFor="let servicio of ListaserviciosContratados" class="col-md-4 mb-5 col-sm-6 col-12 pt-4 sombreado">
       <mat-card class="example-card">
-        <mat-card-header class="mat-card-header2" *ngIf="isClicked1==false && pago == false ">
+        <mat-card-header class="mat-card-header2" *ngIf="servicio.Estado=='Sin Aprobar'">
 
-          <mat-card-title class="titulo1">{{Lista[0].id}}</mat-card-title>
-          <p><strong class=" ">$ 300.00</strong></p>
-          <mat-card-title class="titulo2">{{Lista[0].servicio}}</mat-card-title>
+          <mat-card-title class="titulo1">{{servicio.Id}}</mat-card-title>
+          <p  class="pull-right pl-3"><strong>Precio: ${{servicio.Precio}} - estado:{{servicio.Estado}}</strong></p>
+          <mat-card-title class="titulo2">{{servicio.Nombre}}</mat-card-title>
         </mat-card-header>
 
 
-        <mat-card-header class="mat-card-header3" *ngIf="isClicked1==false && pago == true ">
+        <mat-card-header class="mat-card-header3" *ngIf="servicio.Estado=='Pendiente de aprobación'">
 
-            <mat-card-title class="titulo1">{{Lista[0].id}}</mat-card-title>
-            <p><strong class="pull-right pl-3">$ 300.00</strong></p>
-            <mat-card-title class="titulo2">{{Lista[0].servicio}}</mat-card-title>
+            <mat-card-title class="titulo1">{{servicio.Id}}</mat-card-title>
+            <p class="pull-left pl-3"><strong >Precio: ${{servicio.Precio}} - estado:{{servicio.Estado}}</strong></p>
+            <mat-card-title class="titulo2">{{servicio.Nombre}}</mat-card-title>
         </mat-card-header>
 
-        <mat-card-header class="mat-card-header1" *ngIf="isClicked1==true && pago == true ">
+        <mat-card-header class="mat-card-header1" *ngIf="servicio.Estado=='Aprobado'">
 
-          <mat-card-title class="titulo1">{{Lista[0].id}}</mat-card-title>
-          <s class="pull-right pl-3"><strong >$ 300.00</strong></s>
-          <mat-card-title class="titulo2">{{Lista[0].servicio}}</mat-card-title>
+          <mat-card-title class="titulo1">{{servicio.Id}}</mat-card-title>
+          <s class="pull-right pl-3"><strong >Precio: ${{servicio.Precio}} - estado:{{servicio.Estado}}</strong></s>
+          <mat-card-title class="titulo2">{{servicio.Nombre}}</mat-card-title>
       </mat-card-header>
-
-
-
         <img mat-card-image src="" alt="">
         <mat-card-content>
-          <p>
-
-          </p>
         </mat-card-content>
         <mat-card-actions >
 
             <!-- .. -->
-          <div *ngIf="isClicked1 == false && pago==false">
+           <div *ngIf="servicio.Estado=='Sin Aprobar'">
 
-            <div  *ngIf="previsualizacion">
-              <img class="img"   [src]="previsualizacion" alt="imagen">
-            </div>
-            <br>
-            <div >
-
-            </div>
-            <div class="pl-2">
-              <input class="mb-3 form-control input-file"  (change)="capturarFile($event)"  type="file" >
-              <button  (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" (click)="clearImage()" >Subir Archivo</button>
-                 <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button>-->
+              <div  *ngIf="previsualizacion">
+                <img class="img"   [src]="previsualizacion" alt="imagen">
+              </div>
               <br>
-            </div>
-            <br>
-            <!-- <div>
-              <label for="file">Seleccione la imagen
-                <img src="" alt="imagen">
-              </label>
-              <input type="file" id="file" accept="image/*" (change)="onSelectNewFile($event.target?.files)">
-            </div> -->
+              <div class="pl-2">
+                <input class="mb-3 form-control input-file"  (change)="capturarFile($event)"  type="file" >
+                <button  (click)="subirArchivo()" (click)="nuevoEstado(servicio.Id,2)"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" >Subir Archivo</button>
+                  <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button>-->
+                <br>
+              </div>
+              <br>
 
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
-            <button mat-button [disabled]="pago==false" *ngIf="role=='ADMIN'"  class="mat-buttonn" (click)="desbloquear1()">Desbloquear Servicios</button>
+
+               <button [disabled]="servicio.Estado=='Sin Aprobar'" class="mat-buttonn"  routerLink="/gestiontareas/servicio.IdServicio" routerLinkActive="active" mat-button>Gestion tickets</button>
+              <button mat-button  [disabled]="servicio.Estado=='Sin Aprobar'" *ngIf="role=='ADMIN'"  class="mat-buttonn" >Desbloquear Servicios</button>
 
           </div>
           <!-- ............. -->
-          <div *ngIf="isClicked1 == false && pago==true">
+          <div *ngIf="servicio.Estado=='Pendiente de aprobación'">
 
 
 
@@ -78,149 +63,33 @@
                 nz-image
                 width="100px"
                 height="100px"
-                nzSrc="{{Lista[0].imagen}}"
+                nzSrc="assets/img/{{servicio.Imagen}}"
                 alt="Comprobante"
                 />
-              <br>
+                 <br>
                   <p class=" pl-3 pull-left">
                     <Strong>Ver Imagen</Strong>
                   </p>
                   <br>
-
-
-
-
-
-
               </div>
 
               <br>
 
 
-              <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
-              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn" (click)="desbloquear1()" (click)=" this.createNotification('success','Desbloqueo','Servicio habilito con éxito ');
+              <button [disabled]="servicio.Estado=='Pendiente de aprobación'" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
+              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn"  (click)="nuevoEstado(servicio.Id,3)" (click)=" this.createNotification('success','Desbloqueo','Servicio habilito con éxito ');
               " >Desbloquear Servicios</button>
             </div>
 
-            <!-- ..... -->
-          <div *ngIf="isClicked1 == true && pago==true">
-          <button [disabled]="!isClicked1" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
-          <!-- <button mat-button class="mat-buttonn" (click)="bloquear1()">Bloquear Servicios</button> -->
+
+          <div *ngIf="servicio.Estado=='Aprobado'">
+          <button  class="mat-buttonn"  routerLink="/gestiontareas/{{servicio.IdServicio}}" routerLinkActive="active" mat-button>Gestion tickets</button>
           </div>
 
           <hr>
 
-         <!-- <div >
-          <mat-accordion  >
-            <mat-expansion-panel >
-              <mat-expansion-panel-header>
-                <mat-panel-title >
-                   Lista de ticket
-                </mat-panel-title>
-                <mat-panel-description >
-                  Click para mostrar
-                </mat-panel-description>
-              </mat-expansion-panel-header >
-
-              <div >
-                <table class="table"  >
-                  <thead class=" table-color" >
-                    <tr>
-                      <th scope="col">N°</th>
-                      <th scope="col">Asunto</th>
-                      <th scope="col">Ver</th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="icons">
-                      <th scope="row">1</th>
-                      <td >Servicio de lavado</td>
-                      <td ><a (click)="triggerModal(modalData)" ><fa-icon [icon]="faeye"></fa-icon></a></td>
-
-                    </tr>
-
-                  </tbody>
-                </table>
-
-              </div>
-
-            </mat-expansion-panel>
-
-          </mat-accordion>
-         </div> -->
-
         </mat-card-actions>
-
-
-
-
       </mat-card>
-        <!-- modal informacion previa -->
-  <ng-template #modalData let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title"><strong>Vista previa del servicio solicitado</strong></h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">×</span>
-      </button>
     </div>
-    <div class="modal-body">
-      <p>
-        <strong>Cliente: NombreCliente</strong>
-      </p>
-      <br>
-      <p>
-        <strong>Asunto:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, vero iure facere optio non ut minus eius ex deleniti maxime cum quod praesentium recusandae officia earum itaque sequi? Reiciendis, ad.
-      </p>
-
-      <p><strong>
-        Precio: $120,000.01
-      </strong></p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
-    </div>
-  </ng-template>
-
-  <!-- modal imagen -->
-  <ng-template #modalData2 let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title"><strong>Vista previa del Comprobante de pago</strong></h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div >
-        <img class="image" src="{{Lista[0].imagen}}" alt="">
-
-      </div>
-
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
-    </div>
-  </ng-template>
-
-
-
-    </div>
-
-
-
-
-
-
   </div>
-
-
-
-
-
-
-
-
-
-
-
 </div>

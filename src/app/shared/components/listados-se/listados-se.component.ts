@@ -6,6 +6,7 @@ import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 
 
 interface ItemData {
@@ -43,9 +44,10 @@ export class ListadosSeComponent implements OnInit {
 
   fatrash = faTrash;
   faedit=faEdit;
-  constructor(private notification: NzNotificationService,private modalService: NgbModal,private _location: Location, private formBuilder:FormBuilder,private route: ActivatedRoute ) { }
+  constructor(private serviciosContratados:GestionServiciosContratadosService,private notification: NzNotificationService,private modalService: NgbModal,private _location: Location,private route: ActivatedRoute ) { }
   public form: FormGroup;
   ngOnInit(): void {
+    this.getServiciosXUser();
     this.id = this.route.snapshot.paramMap.get("id");
     // this.getServicios();
     console.log(this.id);
@@ -159,6 +161,20 @@ export class ListadosSeComponent implements OnInit {
 
     this.isVisibleFormulario = false;
   }
+
+
+
+  // ================================================
+  ListaserviciosContratados = [];
+
+  getServiciosXUser(){
+    this.serviciosContratados.getServiciosContratados(this.route.snapshot.paramMap.get("id")).subscribe(
+      resp =>{
+        this.ListaserviciosContratados=resp;
+        console.log(this.ListaserviciosContratados);
+      })
+  }
+
 
 
 }

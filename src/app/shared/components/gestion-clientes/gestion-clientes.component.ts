@@ -4,6 +4,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Location} from '@angular/common';
 import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Router } from '@angular/router';
 
 interface ItemData {
   id: string;
@@ -16,9 +17,15 @@ interface ItemData {
 })
 export class GestionClientesComponent implements OnInit {
   form: any;
+  urlTree: any;
+  username: any;
 
-  constructor(private notification: NzNotificationService,
-    private userService:GestionClientesService,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) { }
+  constructor(private router:Router,private notification: NzNotificationService,
+    private userService:GestionClientesService,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) {
+
+
+
+     }
 
   i = 1;
   editId: string | null = null;
@@ -41,7 +48,7 @@ export class GestionClientesComponent implements OnInit {
       {
         id: `${this.i}`,
         email: `${this.form.value.email}`,
-        
+
       }
     ];
     this.createNotification('success','Cliente: '+`${this.form.value.nombre}`,'Agregado con éxito');
@@ -59,7 +66,7 @@ export class GestionClientesComponent implements OnInit {
     this.get_users();
     this.form = this.formBuilder.group({
       email: ['',[Validators.required]],
-     
+
 
 
     });

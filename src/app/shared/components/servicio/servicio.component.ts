@@ -1,13 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 
 // upload
 
@@ -25,19 +26,20 @@ export class ServicioComponent implements OnInit {
   closeModal: string;
   fileExist= false; //declara si la imagen existe
 
-  constructor(private notification: NzNotificationService,private Usuario:AdministrarUserService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer,private http: HttpClient) {
+  constructor(private router:Router,private serviciosContratados:GestionServiciosContratadosService,private notification: NzNotificationService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
   }
 
   ngOnInit(): void {
+    this.getServiciosXUser();
     this.retornar();
     this.id = this.route.snapshot.paramMap.get("id");
     console.log(this.administrarService );
     console.log(this.role );
 
 
-    console.log(this.mesActual);
+
 
 
   }
@@ -274,5 +276,37 @@ capturarFile(event): any {
     );
 
   }
+
+
+
+
+  // conectado  ----------------------------------------------------------------------------------------------
+  ListaserviciosContratados = [];
+  usuarioX = JSON.parse(localStorage.getItem('usuario'))['nombre']
+  getServiciosXUser(){
+    this.serviciosContratados.getServiciosContratados(this.usuarioX).subscribe(
+      resp =>{
+        this.ListaserviciosContratados=resp;
+        console.log(this.ListaserviciosContratados);
+      })
+  }
+
+
+
+  nuevoEstado(servicio,nuevoEstado){
+    const data={estado:nuevoEstado}
+    this.serviciosContratados.updateEstadoServicioContratado(servicio,data).subscribe(
+      respuesta=>{
+
+        console.log(respuesta);
+        this.getServiciosXUser();
+      })
+
+
+
+  }
+
+
+
 
 }
