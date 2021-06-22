@@ -10,9 +10,10 @@ import { GestionServiciosContratadosService } from '../../services/gestion-servi
 
 
 interface ItemData {
-  id: string;
-  servicio: string;
-  precio: string;
+  Id: string;
+  Nombre: string;
+  Precio: string;
+  Estado: string
   disabled: boolean
 
 
@@ -35,7 +36,7 @@ export class ListadosSeComponent implements OnInit {
 
 
   deleteRow(id: string,nombre:string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.listOfData = this.listOfData.filter(d => d.Id !== id);
     this.createNotification('warning','Cliente: '+`${nombre}`,'Eliminado con éxito');
 
   }
@@ -111,55 +112,60 @@ export class ListadosSeComponent implements OnInit {
 
   }
   // modal ng zorro
-  isVisible = false;
+  isVisibled = false;
+  servicioContratadoId
 
 
-
-  showModal(): void {
-    this.isVisible = true;
+  showModald(serviceContractId): void {
+    this.isVisibled = true;
+    this.servicioContratadoId= serviceContractId;
   }
 
-  handleOk(): void {
+  handleOkd(): void {
     console.log('Button ok clicked!');
-    this.isVisible = false;
+    this.isVisibled = false;
   }
 
-  handleCancel(): void {
+  handleCanceld(): void {
     console.log('Button cancel clicked!');
-    this.isVisible = false;
+    this.isVisibled = false;
   }
 
 
   // select estado
   optionList = [
-    { label: 'Lucy', value: 'lucy', age: 20 },
-    { label: 'Jack', value: 'jack', age: 22 }
+    { label: 'Sin Aprobar', value: '1'},
+    { label: 'Pendiente de aprobación', value: '2' },
+    { label: 'Aprobado', value: '3'}
   ];
   // selectedValue = { label: 'Jack', value: 'jack', age: 22 };
   // tslint:disable-next-line:no-any
   compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
 
-  log(value: { label: string; value: string; age: number }): void {
-    console.log(value);
+  log(value: {  value: string; }): void {
+    console.log(value.value);
+    const data ={ 'estado': value.value}
+    this.cambiarEstado(this.servicioContratadoId,data);
+    this.getServiciosXUser();
   }
 
   // modal formulario
-  isVisibleFormulario = false;
+  isVisibleFormulariof = false;
 
 
 
-  showModalFormulario(): void {
-    this.isVisibleFormulario = true;
+  showModalFormulariof(): void {
+    this.isVisibleFormulariof = true;
   }
 
-  handleOkFormulario(): void {
+  handleOkFormulariof(): void {
 
-    this.isVisibleFormulario = false;
+    this.isVisibleFormulariof = false;
   }
 
-  handleCancelFormulario(): void {
+  handleCancelFormulariof(): void {
 
-    this.isVisibleFormulario = false;
+    this.isVisibleFormulariof = false;
   }
 
 
@@ -172,8 +178,19 @@ export class ListadosSeComponent implements OnInit {
       resp =>{
         this.ListaserviciosContratados=resp;
         console.log(this.ListaserviciosContratados);
+        this.listOfData = this.ListaserviciosContratados;
       })
   }
+
+  cambiarEstado(id,data){
+    this.serviciosContratados.updateEstadoServicioContratado(id,data).subscribe(respuesta=>{
+      console.log();
+    });
+  }
+
+
+
+  // dialogo
 
 
 
