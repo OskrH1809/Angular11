@@ -33,7 +33,7 @@ export class ServicioComponent implements OnInit {
 
   ngOnInit(): void {
     this.getServiciosXUser();
-    this.retornar();
+
     this.id = this.route.snapshot.paramMap.get("id");
     console.log(this.administrarService );
     console.log(this.role );
@@ -103,11 +103,11 @@ export class ServicioComponent implements OnInit {
 ]
 
 
-  retornar(){
-    console.log(this.Lista[1].imagen);
-    console.log(this.id);
-    console.log(this.Mes['1']);
-  }
+  // retornar(){
+  //   console.log(this.Lista[1].imagen);
+  //   console.log(this.id);
+  //   console.log(this.Mes['1']);
+  // }
 
 
 
@@ -180,10 +180,12 @@ private getDismissReason(reason: any): string {
 // upload file
 public previsualizacion: string;
 public previsualizacion2: string;
-public archivos: any = []
-public loading: boolean
+public archivos: any = [];
+public loading: boolean;
+idImagen;
 
-capturarFile(event): any {
+capturarFile(event,idImage): any {
+  this.idImagen = idImage;
   const archivoCapturado = event.target.files[0]
   this.extraerBase64(archivoCapturado).then((imagen:any)=>{
     this.previsualizacion = imagen.base;

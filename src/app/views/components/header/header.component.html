@@ -1,51 +1,31 @@
-<header>
-  <!-- header inner -->
-  <div class="header">
-      <div class="container">
-          <div class="row">
-              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                  <div class="full">
-                      <div class="center-desk">
-                          <div class="logo"> <a href="index.html"><img src="assets/health/images/services.png" alt="#"></a> </div>
-                      </div>
-                  </div>
-              </div>
-              <div *ngIf="verificarAcceso==true" class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                  <div class="menu-area">
-                      <div class="limit-box">
-                          <nav class="main-menu">
-                              <ul class="menu-area-main">
+<header id="header" class="header header-hide">
+  <div class="container">
 
-                                  <li> <a href="/cards">Servicios</a> </li>
-                                  <li><a href="/gestionservicios"> Gestión Servicios</a></li>
-                                  <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
-                                  <li> <a href="#" (click)="logout()">Logout </a> </li>
-                                 <!-- <li class="mean-last"> <a href="#"><img src="assets/health/images/search_icon.png" alt="#" /></a> </li>-->
-                                  <li class="mean-last"> <a href="#"><img src="assets/health/images/top-icon.png" alt="#" /></a> </li>
-                              </ul>
-                          </nav>
-                      </div>
-                  </div>
-              </div>
-              <div *ngIf="verificarAcceso==false" class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                <div class="menu-area">
-                    <div class="limit-box">
-                        <nav class="main-menu">
-                            <ul class="menu-area-main">
+    <div id="logo" class="pull-left">
+      <h1><a href="#body" class="scrollto"><span></span>Servicios</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="#body"><img src="assets/img/logo.png" alt="" title="" /></a> -->
+    </div>
 
-                                <li> <a href="/cards">Servicios</a> </li>
-                                <li><a href="/gestionservicios"> Gestión Servicios</a></li>
-                                <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
-                                <li> <a href="">Login </a> </li>
-                               <!-- <li class="mean-last"> <a href="#"><img src="assets/health/images/search_icon.png" alt="#" /></a> </li>-->
-                                <li class="mean-last"> <a href="#"><img src="assets/health/images/top-icon.png" alt="#" /></a> </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-          </div>
-      </div>
+    <nav *ngIf="verificarAcceso!=true" id="nav-menu-container">
+      <ul class="nav-menu">
+        <li><a href="/cards">Servicios</a></li>
+        <li><a href="/gestionservicios"> Gestión Servicios</a></li>
+        <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
+        <li class="menu-active"><a href="">Login</a></li>
+        <li class=""><a href="/registro">Registrarse</a></li>
+        <!-- <li> <a href="#" (click)="logout()">Logout </a> </li> -->
+      </ul>
+    </nav><!-- #nav-menu-container -->
+
+    <nav *ngIf="verificarAcceso==true" id="nav-menu-container">
+      <ul class="nav-menu">
+        <li><a href="/cards">Servicios</a></li>
+        <li><a href="/gestionservicios"> Gestión Servicios</a></li>
+        <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
+        <!-- <li class="menu-active"><a href="">Login</a></li> -->
+        <li> <a href="#" (click)="logout()">Logout </a> </li>
+      </ul>
+    </nav><!-- #nav-menu-container -->
   </div>
-  <!-- end header inner -->
-</header>
+</header><!-- #header -->

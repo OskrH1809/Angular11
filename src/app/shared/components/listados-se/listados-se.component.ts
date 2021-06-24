@@ -140,12 +140,13 @@ export class ListadosSeComponent implements OnInit {
   ];
   // selectedValue = { label: 'Jack', value: 'jack', age: 22 };
   // tslint:disable-next-line:no-any
-  compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
 
   log(value: {  value: string; }): void {
     console.log(value.value);
     const data ={ 'estado': value.value}
     this.cambiarEstado(this.servicioContratadoId,data);
+    console.log(data)
+    console.log(this.servicioContratadoId)
     this.getServiciosXUser();
   }
 
