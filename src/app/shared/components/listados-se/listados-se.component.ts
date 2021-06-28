@@ -10,10 +10,10 @@ import { GestionServiciosContratadosService } from '../../services/gestion-servi
 
 
 interface ItemData {
-  Id: string;
-  Nombre: string;
-  Precio: string;
-  Estado: string
+  id: string;
+  servicio: string;
+  price: string;
+  estado: string
   disabled: boolean
 
 
@@ -36,7 +36,7 @@ export class ListadosSeComponent implements OnInit {
 
 
   deleteRow(id: string,nombre:string): void {
-    this.listOfData = this.listOfData.filter(d => d.Id !== id);
+    this.listOfData = this.listOfData.filter(d => d.id !== id);
     this.createNotification('warning','Cliente: '+`${nombre}`,'Eliminado con éxito');
 
   }
@@ -48,7 +48,7 @@ export class ListadosSeComponent implements OnInit {
   constructor(private serviciosContratados:GestionServiciosContratadosService,private notification: NzNotificationService,private modalService: NgbModal,private _location: Location,private route: ActivatedRoute ) { }
   public form: FormGroup;
   ngOnInit(): void {
-    this.getServiciosXUser();
+    this.getServiciosUsuarioEspecifico();
     this.id = this.route.snapshot.paramMap.get("id");
     // this.getServicios();
     console.log(this.id);
@@ -124,6 +124,9 @@ export class ListadosSeComponent implements OnInit {
   handleOkd(): void {
     console.log('Button ok clicked!');
     this.isVisibled = false;
+
+
+
   }
 
   handleCanceld(): void {
@@ -138,7 +141,7 @@ export class ListadosSeComponent implements OnInit {
     { label: 'Pendiente de aprobación', value: '2' },
     { label: 'Aprobado', value: '3'}
   ];
-  // selectedValue = { label: 'Jack', value: 'jack', age: 22 };
+  selectedValue  = 'Seleccionar estado'
   // tslint:disable-next-line:no-any
 
   log(value: {  value: string; }): void {
@@ -147,7 +150,10 @@ export class ListadosSeComponent implements OnInit {
     this.cambiarEstado(this.servicioContratadoId,data);
     console.log(data)
     console.log(this.servicioContratadoId)
-    this.getServiciosXUser();
+    this.getServiciosUsuarioEspecifico();
+
+
+    this.selectedValue= undefined;
   }
 
   // modal formulario
@@ -157,11 +163,17 @@ export class ListadosSeComponent implements OnInit {
 
   showModalFormulariof(): void {
     this.isVisibleFormulariof = true;
+    this.optionList = [
+      { label: 'Sin Aprobar', value: '1'},
+      { label: 'Pendiente de aprobación', value: '2' },
+      { label: 'Aprobado', value: '3'}
+    ];
   }
 
   handleOkFormulariof(): void {
 
     this.isVisibleFormulariof = false;
+
   }
 
   handleCancelFormulariof(): void {
@@ -174,14 +186,16 @@ export class ListadosSeComponent implements OnInit {
   // ================================================
   ListaserviciosContratados = [];
 
-  getServiciosXUser(){
-    this.serviciosContratados.getServiciosContratados(this.route.snapshot.paramMap.get("id")).subscribe(
-      resp =>{
-        this.ListaserviciosContratados=resp;
+  getServiciosUsuarioEspecifico(){
+    const usuario = this.route.snapshot.paramMap.get("id");
+
+    this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta=>
+      {
+        this.ListaserviciosContratados=respuesta;
         console.log(this.ListaserviciosContratados);
         this.listOfData = this.ListaserviciosContratados;
       })
-  }
+    }
 
   cambiarEstado(id,data){
     this.serviciosContratados.updateEstadoServicioContratado(id,data).subscribe(respuesta=>{

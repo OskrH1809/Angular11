@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-3 col-sm-12 pt-5">
       <form  [formGroup]="form" (submit)="send()">
-    
+
         <div>
           <label class="pt-4"  for="email">Email</label>
           <input  class="form-control"  type="text" id="email" formControlName="email">
@@ -42,7 +42,7 @@
               <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.email" (blur)="stopEdit(data.email)" />
             </td>
             <td class="text-center">
-              <a routerLink="/listado/{{data.email}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver servicios de {{data.email}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
+              <a routerLink="/listado/{{data.id}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver servicios de {{data.email}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
               &nbsp;
               <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.email}}?"  (nzOnConfirm)="deleteRow(data.id,data.email) "><span nz-tooltip nzTooltipTitle="Eliminar {{data.email}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
             </td>

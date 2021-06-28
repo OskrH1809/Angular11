@@ -11,6 +11,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 
 interface ItemData {
   id: string;
@@ -26,7 +27,7 @@ interface ItemData {
 })
 
 export class GestionTareasComponent implements OnInit {
-
+  ServicioId =  this.route.snapshot.paramMap.get("id");
   ArchivoCap:any;
 
   // editor
@@ -53,7 +54,7 @@ export class GestionTareasComponent implements OnInit {
   role: any;
 
 
-  constructor(private notification: NzNotificationService,private sanitizer: DomSanitizer,private administrar:AdministrarUserService, private route: ActivatedRoute,private _location: Location,private modalService: NgbModal, private formBuilder:FormBuilder) {
+  constructor(private notification: NzNotificationService,private sanitizer: DomSanitizer,private administrar:AdministrarUserService, private route: ActivatedRoute,private _location: Location,private modalService: NgbModal, private gestionServicios:GestionServiciosContratadosService) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
    }
@@ -123,6 +124,7 @@ export class GestionTareasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
 
     this.id = this.route.snapshot.paramMap.get("id");
 
@@ -261,10 +263,21 @@ export class GestionTareasComponent implements OnInit {
     public formDataPreview2?: string;
 
 
-
+    usuarioX = JSON.parse(localStorage.getItem('usuario'))['nombre']
     public onSubmit2(): void {
       console.log(this.demoReactiveForm2.value);
+
+        const dataTareas  = { titulo:this.demoReactiveForm2.value.titulo, descripcion:this.demoReactiveForm2.value.descripcion2, servicio:this.ServicioId, user:this.usuarioX  }
+      this.postTareas(dataTareas);
       this.reset2();
+    }
+
+    postTareas(data){
+      this.gestionServicios.newTareas(data).subscribe(
+        respuesta => {
+          console.log(respuesta);
+        }
+      )
     }
 
     public reset2(): void {

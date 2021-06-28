@@ -6,26 +6,28 @@
     <!-- servicio 1 -->
     <div *ngFor="let servicio of ListaserviciosContratados" class="col-md-4 mb-5 col-sm-6 col-12 pt-4 sombreado">
       <mat-card class="example-card">
-        <mat-card-header class="mat-card-header2" *ngIf="servicio.Estado=='Sin Aprobar'">
+        <mat-card-header class="mat-card-header2" *ngIf="servicio.estado=='Sin Aprobar'">
 
-          <mat-card-title class="titulo1">{{servicio.Id}}</mat-card-title>
-          <p  class="pull-right pl-3"><strong>Precio: ${{servicio.Precio}} - estado:{{servicio.Estado}}</strong></p>
-          <mat-card-title class="titulo2">{{servicio.Nombre}}</mat-card-title>
+          <mat-card-title class="titulo1">{{servicio.idServicio}}</mat-card-title>
+          <mat-card-title class="titulo2">{{servicio.servicio}}</mat-card-title>
+          <mat-card-title class="fuente">Precio: ${{servicio.precio}} <br> Estado: {{servicio.estado}}</mat-card-title>
+
         </mat-card-header>
 
 
-        <mat-card-header class="mat-card-header3" *ngIf="servicio.Estado=='Pendiente de aprobación'">
+        <mat-card-header class="mat-card-header3" *ngIf="servicio.estado=='Pendiente de aprobación'">
 
-            <mat-card-title class="titulo1">{{servicio.Id}}</mat-card-title>
-            <p class="pull-left pl-3"><strong >Precio: ${{servicio.Precio}} - estado:{{servicio.Estado}}</strong></p>
-            <mat-card-title class="titulo2">{{servicio.Nombre}}</mat-card-title>
-        </mat-card-header>
+            <mat-card-title class="titulo1 ">{{servicio.idServicio}}</mat-card-title>
+            <mat-card-title class="titulo2">{{servicio.servicio}}</mat-card-title>
+            <mat-card-title class="fuente">Precio: ${{servicio.precio}} <br> Estado:{{servicio.estado}}</mat-card-title>
 
-        <mat-card-header class="mat-card-header1" *ngIf="servicio.Estado=='Aprobado'">
+          </mat-card-header>
 
-          <mat-card-title class="titulo1">{{servicio.Id}}</mat-card-title>
-          <s class="pull-right pl-3"><strong >Precio: ${{servicio.Precio}} - estado:{{servicio.Estado}}</strong></s>
-          <mat-card-title class="titulo2">{{servicio.Nombre}}</mat-card-title>
+        <mat-card-header class="mat-card-header1" *ngIf="servicio.estado=='Aprobado'">
+          <mat-card-title class="titulo1">{{servicio.idServicio}}</mat-card-title>
+          <mat-card-title class="titulo2">{{servicio.servicio}}</mat-card-title>
+          <mat-card-title class="fuente">Precio: <s>${{servicio.precio}}</s> <br> Estado: {{servicio.estado}}</mat-card-title>
+
       </mat-card-header>
         <img mat-card-image src="" alt="">
         <mat-card-content>
@@ -33,7 +35,7 @@
         <mat-card-actions >
 
             <!-- .. -->
-           <div *ngIf="servicio.Estado=='Sin Aprobar'">
+           <div *ngIf="servicio.estado=='Sin Aprobar'">
 
               <div  *ngIf="previsualizacion && idImagen==servicio.Id">
                 <img class="img"   [src]="previsualizacion" alt="imagen">
@@ -41,19 +43,19 @@
               <br>
               <div class="pl-2">
                 <input class="mb-3 form-control input-file"  (change)="capturarFile($event,servicio.Id)"  type="file" >
-                <button  (click)="subirArchivo()" (click)="nuevoEstado(servicio.Id,2)"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" >Subir Archivo</button>
+                <button (click)="subirArchivo()" (click)="nuevoEstado(servicio.id,2)"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" >Subir Archivo</button>
                   <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button>-->
                 <br>
               </div>
               <br>
 
 
-               <button [disabled]="servicio.Estado=='Sin Aprobar'" class="mat-buttonn"  routerLink="/gestiontareas/servicio.IdServicio" routerLinkActive="active" mat-button>Gestion tickets</button>
-              <button mat-button  [disabled]="servicio.Estado=='Sin Aprobar'" *ngIf="role=='ADMIN'"  class="mat-buttonn" >Desbloquear Servicios</button>
+               <button [disabled]="servicio.estado=='Sin Aprobar'" class="mat-buttonn"  routerLink="/gestiontareas/servicio.idServicio" routerLinkActive="active" mat-button>Gestion tickets</button>
+              <button mat-button  [disabled]="servicio.estado=='Sin Aprobar'" *ngIf="role=='ADMIN'"  class="mat-buttonn" >Desbloquear Servicios</button>
 
           </div>
           <!-- ............. -->
-          <div *ngIf="servicio.Estado=='Pendiente de aprobación'">
+          <div *ngIf="servicio.estado=='Pendiente de aprobación'">
 
 
 
@@ -63,7 +65,7 @@
                 nz-image
                 width="100px"
                 height="100px"
-                nzSrc="assets/img/{{servicio.Imagen}}"
+                nzSrc="assets/img/1.jpg"
                 alt="Comprobante"
                 />
                  <br>
@@ -76,14 +78,14 @@
               <br>
 
 
-              <button [disabled]="servicio.Estado=='Pendiente de aprobación'" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
-              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn"  (click)="nuevoEstado(servicio.Id,3)" (click)=" this.createNotification('success','Desbloqueo','Servicio habilito con éxito ');
+              <button [disabled]="servicio.estado=='Pendiente de aprobación'" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
+              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn"  (click)="nuevoEstado(servicio.id,3)" (click)=" this.createNotification('success','Desbloqueo','Servicio habilito con éxito ');
               " >Desbloquear Servicios</button>
             </div>
 
 
-          <div *ngIf="servicio.Estado=='Aprobado'">
-          <button  class="mat-buttonn"  routerLink="/gestiontareas/{{servicio.IdServicio}}" routerLinkActive="active" mat-button>Gestion tickets</button>
+          <div *ngIf="servicio.estado=='Aprobado'">
+          <button  class="mat-buttonn"  routerLink="/gestiontareas/{{servicio.idServicio}}" routerLinkActive="active" mat-button>Gestion tickets</button>
           </div>
 
           <hr>

@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
+import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 
 // upload
 
@@ -25,8 +26,16 @@ export class ServicioComponent implements OnInit {
   role:string;
   closeModal: string;
   fileExist= false; //declara si la imagen existe
+  verificarAcceso = this.gestionUsuario.verificarAcceso();
 
-  constructor(private router:Router,private serviciosContratados:GestionServiciosContratadosService,private notification: NzNotificationService ,administrar:AdministrarUserService, private route: ActivatedRoute, private modalService: NgbModal,private sanitizer: DomSanitizer) {
+  constructor(private router:Router,
+              private serviciosContratados:GestionServiciosContratadosService,
+              private notification: NzNotificationService ,
+              private administrar:AdministrarUserService,
+              private route: ActivatedRoute,
+              private modalService: NgbModal,
+              private sanitizer: DomSanitizer,
+              private gestionUsuario:GestionUsuariosService) {
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
   }
@@ -35,14 +44,11 @@ export class ServicioComponent implements OnInit {
     this.getServiciosXUser();
 
     this.id = this.route.snapshot.paramMap.get("id");
-    console.log(this.administrarService );
-    console.log(this.role );
-
-
-
-
+    // console.log(this.administrarService );
+    // console.log(this.role );
 
   }
+
 
 
     // CAPTURAR MES ACTUAL
@@ -82,7 +88,7 @@ export class ServicioComponent implements OnInit {
   }
 
 
-"Lista"=[
+  "Lista"=[
   {
       "id": 1,
       "servicio":"Correccion de frenos",
@@ -100,7 +106,7 @@ export class ServicioComponent implements OnInit {
   }
 
 
-]
+    ]
 
 
   // retornar(){
@@ -228,6 +234,7 @@ capturarFile(event,idImage): any {
 
 
   subirArchivo(): any {
+    this.verficarLoginActivo();
     try {
 
       const formularioDeDatos = new FormData();
@@ -259,14 +266,7 @@ capturarFile(event,idImage): any {
   }
 
 
-  ///localstorege agregar
 
-  agregarUsuario(){
-    localStorage.setItem('usuario', JSON.stringify(this.user));
-  }
-  removerUsuario(){
-    localStorage.clear();
-  }
 
 
   // notificaciones
@@ -284,9 +284,8 @@ capturarFile(event,idImage): any {
 
   // conectado  ----------------------------------------------------------------------------------------------
   ListaserviciosContratados = [];
-  usuarioX = JSON.parse(localStorage.getItem('usuario'))['nombre']
   getServiciosXUser(){
-    this.serviciosContratados.getServiciosContratados(this.usuarioX).subscribe(
+    this.serviciosContratados.getServiciosContratadosByUser().subscribe(
       resp =>{
         this.ListaserviciosContratados=resp;
         console.log(this.ListaserviciosContratados);
@@ -296,18 +295,25 @@ capturarFile(event,idImage): any {
 
 
   nuevoEstado(servicio,nuevoEstado){
+    this.verficarLoginActivo();
     const data={estado:nuevoEstado}
+
     this.serviciosContratados.updateEstadoServicioContratado(servicio,data).subscribe(
       respuesta=>{
 
-        console.log(respuesta);
-        this.getServiciosXUser();
+        this.getServiciosXUser()
       })
 
 
 
   }
 
+  verficarLoginActivo(){
+    if (this.verificarAcceso==false) {
+      alert('Sesión expirada');
+      this.gestionUsuario.logout();
+    }
+  }
 
 
 

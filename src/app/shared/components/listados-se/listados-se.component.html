@@ -9,8 +9,8 @@
     </div>
     <div class=" pl-5 col-md-8 pt-5 col-sm-12">
 
-      <h1 class="text-center" *ngIf="Nombre!=null">Listado de servicios de <strong> {{Nombre}}</strong></h1>
-      <h1 class="text-center" *ngIf="Nombre==null">El usuario aun no ha contratado servicios</h1>
+      <h1 class="text-center" *ngIf="listOfData!=null">Listado de servicios </h1>
+      <h1 class="text-center" *ngIf="listOfData==null">El usuario aun no ha contratado servicios</h1>
 
       <br />
       <br />
@@ -29,20 +29,20 @@
         <tbody>
           <tr *ngFor="let data of editRowTable.data" class="editable-row">
             <td>
-              {{ data.Id }}
+              {{ data.id }}
           </td>
             <td>
-                {{ data.Nombre }}
+                {{ data.servicio }}
             </td>
-            <td>{{ data.Precio }}</td>
-            <td class="text-center"> {{data.Estado}}
+            <td>{{ data.precio }}</td>
+            <td class="text-center"> {{data.estado}}
               <br>
-              <a  ><span (click)="showModald(data.Id)" nz-tooltip nzTooltipTitle="Editar estado servicio {{data.Nombre}}" ><i nz-icon nzType="edit" style="font-size: 25px; color: #2986f1;" nzTheme="outline"></i></span> </a>
+              <a  ><span (click)="showModald(data.id)" nz-tooltip nzTooltipTitle="Editar estado servicio {{data.servicio}}" ><i nz-icon nzType="edit" style="font-size: 25px; color: #2986f1;" nzTheme="outline"></i></span> </a>
               <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
 
             </td>
             <td class="text-center">
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.Nombre}}?"  (nzOnConfirm)="deleteRow(data.Id,data.Nombre) "><span nz-tooltip nzTooltipTitle="Eliminar servicio {{data.Nombre}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
+              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.servicio}}?"  (nzOnConfirm)="deleteRow(data.Id,data.servicio) "><span nz-tooltip nzTooltipTitle="Eliminar servicio {{data.servicio}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
             </td>
 
           </tr>
@@ -73,8 +73,8 @@
             <!-- select  -->
             <!-- <p>The selected option's age is {{ selectedValue?.age }}</p> -->
             <br />
-            <nz-select [(ngModel)]="selectedValue"  (ngModelChange)="log($event)" nzAllowClear nzPlaceHolder="Choose">
-              <nz-option *ngFor="let option of optionList" [nzValue]="option"  [nzSize]="small"  [nzLabel]="option.label"></nz-option>
+            <nz-select [(ngModel)]="selectedValue"  (ngModelChange)="log($event)" nzAllowClear nzPlaceHolder="Seleccionar estado">
+              <nz-option *ngFor="let option of optionList" [nzValue]="option"  [nzSize]="small"    [nzLabel]="option.label"></nz-option>
             </nz-select>
             <!-- select end -->
           </ng-container>

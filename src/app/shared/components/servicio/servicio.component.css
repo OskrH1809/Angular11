@@ -44,12 +44,13 @@
 background-color: #3d9efe;
 padding: 13px;
 border-radius: 6px;
-
 padding-top: 5px;
 }
 .mat-card-header1:hover{
   background-color: #1b5b9b;
-  transition: 0.2s;
+  padding: 13px;
+  border-radius: 6px;
+  padding-top: 5px;
   }
 .mat-card-header2{
   background-color: red;
@@ -65,10 +66,10 @@ padding-top: 5px;
     padding-top: 5px;
   }
 
-.mat-card{
+/* .mat-card{
   margin-bottom: 20px;
   width: 100%;
-}
+} */
 
 .titulo1{
   font-size: 2rem;
@@ -121,4 +122,9 @@ transition: 0.2s;
 
 .input-file{
   width: 100% !important;
+}
+
+
+.fuente{
+  font-size:x-small !important;
 }

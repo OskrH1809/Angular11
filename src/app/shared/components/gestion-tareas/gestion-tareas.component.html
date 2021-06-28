@@ -97,13 +97,15 @@
                     <!-- form -->
                     <!-- <h2>Integration with reactive forms (<code>ngModel</code>)</h2> -->
 
-                    <form (ngSubmit)="onSubmit()" [formGroup]="demoReactiveForm">
+                    <form class="formulario" (ngSubmit)="onSubmit()" [formGroup]="demoReactiveForm">
                       <!-- <h3>User profile form</h3> -->
 
-                      <div>
-                        <label for="titulo">Titulo</label>
-                        <input class="form-control" formControlName="titulo" type="text" name="titulo" id="titulo">
-                      </div>
+
+                        <div class="titulo">
+                          <label for="titulo">Titulo</label>
+                        <input class="form-control " formControlName="titulo" type="text" name="titulo" id="titulo">
+
+                        </div>
 
                       <label class="pt-2" for="descripcion">Descripción</label>
                       <ckeditor
@@ -116,25 +118,27 @@
 
                       </ckeditor>
                         <!-- file -->
-                        <div class="form-group">
+                        <div>
+                          <div class="form-group titulo">
 
-                          <label class="pt-4" for="file">Documento</label>
+                            <label class="pt-4" for="file">Documento</label>
 
-                          <input
+                            <input
 
-                              formControlName="file"
+                                formControlName="file"
 
-                              id="file"
+                                id="file"
 
-                              type="file"
+                                type="file"
 
-                              class="form-control"
+                                class="form-control "
 
-                              (change)="onFileChange($event)">
+                                (change)="onFileChange($event)">
 
 
 
-                      </div>
+                        </div>
+                        </div>
                         <!-- end File -->
                       <!-- <p *ngIf="description && description.dirty" class="alert">Description is "dirty".</p>
                       <p *ngIf="description && description.touched" class="alert">Description has been "touched".</p> -->
@@ -142,13 +146,12 @@
                       <div class="row">
                         <div class="col-md-6 col-sm-12">
                           <div class="row">
-                            <div class="col-md-2 pr-5 col-sm-12">
+                            <div class="col-md-6 pl-5 col-sm-12">
                               <p><button class="btn btn-primary" type="submit"  (click)="addRow() ">Enviar</button> </p>
 
                             </div>
-                            <div class="col-md-10 pl-5 col-sm-12">
+                            <div class="col-md-6 pl-5 col-sm-12">
                               <p><button class="btn btn-primary" type="reset" (click)="reset()">Limpiar</button></p>
-
                             </div>
                           </div>
 
@@ -218,9 +221,9 @@
             <form (ngSubmit)="onSubmit2()" [formGroup]="demoReactiveForm2">
               <!-- <h3>User profile form</h3> -->
 
-              <div>
+              <div >
                 <label for="titulo">Titulo</label>
-                <input class="form-control" formControlName="titulo" type="text" name="titulo" id="titulo">
+                <input class="form-control titulo" formControlName="titulo" type="text" name="titulo" id="titulo">
               </div>
 
               <label class="pt-2" for="descripcion2">Descripción</label>
@@ -246,7 +249,7 @@
 
                       type="file"
 
-                      class="form-control pb-3"
+                      class="form-control titulo"
 
                       (change)="onFileChange2($event)">
 
@@ -260,20 +263,18 @@
               <div class="row">
                 <div class="col-md-6 col-sm-12">
                   <div class="row">
-                    <div class="col-md-2 pr-5 col-sm-12">
+                    <div class="col-md-6 pull-right col-sm-12">
                       <p><button class="btn btn-primary" type="submit"  >Enviar</button> </p>
 
                     </div>
-                    <div class="col-md-10 pl-5 col-sm-12">
+                    <div class="col-md-6 pull-left col-sm-12">
                       <p><button class="btn btn-primary" type="reset" (click)="reset2()">Limpiar</button></p>
 
                     </div>
                   </div>
 
                 </div>
-                <div class="col-md-6 col-sm-12">
 
-                </div>
               </div>
             </form>
           </ng-container>

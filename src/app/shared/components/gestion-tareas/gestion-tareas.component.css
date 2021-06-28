@@ -75,3 +75,9 @@ p.alert::before {
 :host ::ng-deep .ck-editor__editable_inline {
   min-height: 500px;
 }
+
+
+
+.titulo{
+  width: 100% !important;
+}

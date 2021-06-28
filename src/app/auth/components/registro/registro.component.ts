@@ -13,7 +13,7 @@ import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.s
 })
 export class RegistroComponent implements OnInit {
 
- 
+
 
   ngOnInit(): void {
   }
@@ -26,13 +26,13 @@ export class RegistroComponent implements OnInit {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    
+
     console.log(value);
-    const datos = { email:value.email, password:value.password} 
+    const datos = { email:value.email, password:value.password}
     this.servicelogin.sendPostRegistro(datos).subscribe(
     res => {
       console.log(res);
-      
+
       if (res.email== value.email) {
         this.createNotification('success','Usuario: '+`${value.email}`,'Registrado con éxito');
         this.router.navigate([''])
@@ -97,7 +97,7 @@ export class RegistroComponent implements OnInit {
         type3,
         { nzDuration:12000 }
       );
-  
+
     }
 
 
