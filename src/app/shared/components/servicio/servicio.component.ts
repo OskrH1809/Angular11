@@ -41,7 +41,7 @@ export class ServicioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getServiciosXUser();
+    this.getServiciosContratadosByUser();
 
     this.id = this.route.snapshot.paramMap.get("id");
     // console.log(this.administrarService );
@@ -284,7 +284,7 @@ capturarFile(event,idImage): any {
 
   // conectado  ----------------------------------------------------------------------------------------------
   ListaserviciosContratados = [];
-  getServiciosXUser(){
+  getServiciosContratadosByUser(){
     this.serviciosContratados.getServiciosContratadosByUser().subscribe(
       resp =>{
         this.ListaserviciosContratados=resp;
@@ -301,7 +301,7 @@ capturarFile(event,idImage): any {
     this.serviciosContratados.updateEstadoServicioContratado(servicio,data).subscribe(
       respuesta=>{
 
-        this.getServiciosXUser()
+        this.getServiciosContratadosByUser()
       })
 
 

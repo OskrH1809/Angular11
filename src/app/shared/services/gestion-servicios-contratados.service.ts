@@ -33,5 +33,8 @@ export class GestionServiciosContratadosService {
       return this.http.post(`${baseUrlF}/api/tareas`,data);
     }
 
+    postImageServiceContracted(data:any): Observable<any>{
+      return this.http.post(`${baseUrlF}/api/documents`,data);
+    }
 
 }

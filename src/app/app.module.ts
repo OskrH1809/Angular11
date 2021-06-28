@@ -21,6 +21,7 @@ import { AsideComponent } from './views/components/aside/aside.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Autentificacion } from './core/interceptors/autentificacion.service';
 import { GestionUsuariosService } from './auth/services/gestion-usuarios.service';
+import { PerfilComponent } from './auth/components/perfil/perfil.component';
 registerLocaleData(es);
 
 
@@ -32,6 +33,7 @@ registerLocaleData(es);
     HeaderComponent,
     FooterComponent,
     AsideComponent,
+    PerfilComponent,
 
   ],
   imports: [
