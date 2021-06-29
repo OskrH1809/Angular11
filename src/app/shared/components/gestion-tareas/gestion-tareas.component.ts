@@ -54,7 +54,16 @@ export class GestionTareasComponent implements OnInit {
   role: any;
 
 
-  constructor(private notification: NzNotificationService,private sanitizer: DomSanitizer,private administrar:AdministrarUserService, private route: ActivatedRoute,private _location: Location,private modalService: NgbModal, private gestionServicios:GestionServiciosContratadosService) {
+  constructor(
+    private notification: NzNotificationService,
+    private sanitizer: DomSanitizer,
+    private administrar:AdministrarUserService,
+    private route: ActivatedRoute,
+    private _location: Location,
+    private modalService: NgbModal,
+    private gestionServicios:GestionServiciosContratadosService,
+    private ServiciosContratados:GestionServiciosContratadosService) {
+
     this.administrarService = administrar.validarUser();
     this.role= administrar.retornarRol();
    }
@@ -124,7 +133,7 @@ export class GestionTareasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.getTareas();
 
     this.id = this.route.snapshot.paramMap.get("id");
 
@@ -366,5 +375,14 @@ export class GestionTareasComponent implements OnInit {
     this.isVisibleFormulario = false;
   }
 
+
+
+  getTareas(){
+    this.ServiciosContratados.TareasUsuarioEspecifico().subscribe(
+      respuesta=>{
+        console.log(respuesta)
+        this.listOfData= respuesta;
+      })
+  }
 
 }

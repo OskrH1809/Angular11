@@ -8,7 +8,7 @@
       <mat-card class="example-card">
         <mat-card-header class="mat-card-header2" *ngIf="servicio.estado=='Sin Aprobar'">
 
-          <mat-card-title class="titulo1">{{servicio.idServicio}}</mat-card-title>
+          <mat-card-title class="titulo1">{{servicio.idServicio}}-{{servicio.id}}</mat-card-title>
           <mat-card-title class="titulo2">{{servicio.servicio}}</mat-card-title>
           <mat-card-title class="fuente">Precio: ${{servicio.precio}} <br> Estado: {{servicio.estado}}</mat-card-title>
 
@@ -37,13 +37,13 @@
             <!-- .. -->
            <div *ngIf="servicio.estado=='Sin Aprobar'">
 
-              <div  *ngIf="previsualizacion && idImagen==servicio.Id">
+              <div  *ngIf="previsualizacion && idImagen==servicio.id">
                 <img class="img"   [src]="previsualizacion" alt="imagen">
               </div>
               <br>
               <div class="pl-2">
-                <input class="mb-3 form-control input-file"  (change)="capturarFile($event,servicio.Id)"  type="file" >
-                <button (click)="subirArchivo()" (click)="nuevoEstado(servicio.id,2)"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" >Subir Archivo</button>
+                <input class="mb-3 form-control input-file" (change)="getBase64($event)" (change)="capturarFile($event,servicio.id)"  type="file" >
+                <button (click)="subirArchivo(servicio.idUsuario,servicio.id)" (click)="nuevoEstado(servicio.id,2)"  [disabled]="fileExist==false"   class="mat-buttonn mb-3 btn btn-primary "  type="button" >Subir Imagen</button>
                   <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button>-->
                 <br>
               </div>
@@ -55,25 +55,27 @@
 
           </div>
           <!-- ............. -->
-          <div *ngIf="servicio.estado=='Pendiente de aprobación'">
+          <div class="" *ngIf="servicio.estado=='Pendiente de aprobación'">
 
+            <div class="row imagenContenedor ">
 
-
-
-              <div>
-                <img
+              <div class="col-md-12 " *ngFor="let imagen of documentoEspecifico">
+                <img *ngIf="servicio.id==imagen.dependent && servicio.idUsuario==imagen.idUser"
                 nz-image
                 width="100px"
+                class="imagen-pago text-center"
                 height="100px"
-                nzSrc="assets/img/1.jpg"
-                alt="Comprobante"
+                nzSrc="{{imagen.imagen}}"
+
+                alt="Imagen"
                 />
-                 <br>
-                  <p class=" pl-3 pull-left">
-                    <Strong>Ver Imagen</Strong>
-                  </p>
-                  <br>
+
               </div>
+
+            </div>
+
+
+
 
               <br>
 

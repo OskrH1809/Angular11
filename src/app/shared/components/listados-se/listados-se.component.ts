@@ -188,7 +188,7 @@ export class ListadosSeComponent implements OnInit {
 
   getServiciosUsuarioEspecifico(){
     const usuario = this.route.snapshot.paramMap.get("id");
-
+    const data = { user:usuario}
     this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta=>
       {
         this.ListaserviciosContratados=respuesta;

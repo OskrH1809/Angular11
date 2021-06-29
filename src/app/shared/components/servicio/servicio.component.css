@@ -128,3 +128,15 @@ transition: 0.2s;
 .fuente{
   font-size:x-small !important;
 }
+
+.imagen-pago{
+  align-items: center;
+  width: 80% !important;
+  align-content: center !important;
+  float:right;
+  padding-right: 10% ;
+}
+.imagenContenedor{
+  width: 100% !important;
+
+}

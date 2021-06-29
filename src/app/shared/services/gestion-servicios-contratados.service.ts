@@ -20,21 +20,38 @@ export class GestionServiciosContratadosService {
       //
     }
 
+    // getServiciosContratadosUsuarioEspecifico(data:any):Observable<any>{
+
+    //   return this.http.get(`${baseUrlF}/api/servicios_contratados_usuario_especifico`,);
+    // }
+
     getServiciosContratadosUsuarioEspecifico(data:any):Observable<any>{
 
-      return this.http.get(`${baseUrlF}/api/servicios_contratados_usuario_especifico`,);
+      return this.http.get(`${baseUrlF}/api/servicios_contratados_usuario_especifico/${data}`, );
     }
+
 
     updateEstadoServicioContratado(id,data):Observable<any>{
       return this.http.put(`${baseUrlF}/api/editestado/${id}`,data);
     }
 
+    postImageServiceContracted(data:any): Observable<any>{
+      return this.http.post(`${baseUrlF}/api/documents`,data);
+    }
+
+    getImagenServiceContracted():Observable<any>{
+      return this.http.get(`${baseUrlF}/api/documents`, );
+    }
+
+
+    // Tareas
+
     newTareas(data:any): Observable<any>{
       return this.http.post(`${baseUrlF}/api/tareas`,data);
     }
 
-    postImageServiceContracted(data:any): Observable<any>{
-      return this.http.post(`${baseUrlF}/api/documents`,data);
+    TareasUsuarioEspecifico(): Observable<any>{
+      return this.http.get(`${baseUrlF}/api/tareas_especificas_usuario`);
     }
 
 }

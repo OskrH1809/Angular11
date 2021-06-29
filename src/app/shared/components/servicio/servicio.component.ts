@@ -1,15 +1,16 @@
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
+import { SlicePipe } from '@angular/common';
+
 
 // upload
 
@@ -27,6 +28,8 @@ export class ServicioComponent implements OnInit {
   closeModal: string;
   fileExist= false; //declara si la imagen existe
   verificarAcceso = this.gestionUsuario.verificarAcceso();
+  dataDocuments; //variable que se utilizara para enviar la imagen a documentos
+  documentoEspecifico;
 
   constructor(private router:Router,
               private serviciosContratados:GestionServiciosContratadosService,
@@ -37,10 +40,11 @@ export class ServicioComponent implements OnInit {
               private sanitizer: DomSanitizer,
               private gestionUsuario:GestionUsuariosService) {
     this.administrarService = administrar.validarUser();
-    this.role= administrar.retornarRol();
+    this.role = administrar.retornarRol();
   }
 
   ngOnInit(): void {
+    this.getImageDocuments();
     this.getServiciosContratadosByUser();
 
     this.id = this.route.snapshot.paramMap.get("id");
@@ -55,19 +59,6 @@ export class ServicioComponent implements OnInit {
 
     mesActual= moment().format('M');
     // CAPTURAR MES ACTUAL ^
-
-  user =  {
-    "nombre": 'Oscar Canales',
-    "role": ['ADMIN'],
-    "correo":'hoscar161@gmail.com',
-    "imagenes" :'oscar_canales.jpg'
-     }
-
-
-    // perticion get a la api
-
-    // perticion get a la api ^
-
 
 
 
@@ -88,99 +79,6 @@ export class ServicioComponent implements OnInit {
   }
 
 
-  "Lista"=[
-  {
-      "id": 1,
-      "servicio":"Correccion de frenos",
-      "imagen": "assets/img/1.jpg",
-  },
-  {
-      "id": 2,
-      "servicio":"Lavado de auto",
-      "imagen": "assets/img/2.jpg",
-  },
-  {
-      "id": 3,
-      "servicio":"Cambio de llanta",
-      "imagen": "assets/img/muestra-ticket-realista_23-2147938550.jpg",
-  }
-
-
-    ]
-
-
-  // retornar(){
-  //   console.log(this.Lista[1].imagen);
-  //   console.log(this.id);
-  //   console.log(this.Mes['1']);
-  // }
-
-
-
-  faCoffee = faCoffee;
-  fatrash = faTrash;
-
-  faedit=faEdit;
-  faeye= faEye;
-
-
-  pago: boolean = false;
-  pago2: boolean = false;
-
-  public isClicked1: boolean = false;
-  public isClicked2: boolean = false;
-  public isClicked3: boolean = false;
-
-  public desbloquear1(): void {
-    this.isClicked1 = true;
- }
- public bloquear1(): void {
-  this.isClicked1 = false;
-}
-
-public desbloquear2(): void {
-  this.isClicked2 = true;
-}
-public bloquear2(): void {
-this.isClicked2 = false;
-}
-
-
-triggerModal(content) {
-  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-    this.closeModal = `Closed with: ${res}`;
-  }, (res) => {
-    this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-  });
-}
-
-// image
-triggerModal2(content) {
-  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-    this.closeModal = `Closed with: ${res}`;
-  }, (res) => {
-    this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-  });
-}
-triggerModal3(content) {
-  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-    this.closeModal = `Closed with: ${res}`;
-  }, (res) => {
-    this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-  });
-}
-
-
-private getDismissReason(reason: any): string {
-  if (reason === ModalDismissReasons.ESC) {
-    return 'by pressing ESC';
-  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-    return 'by clicking on a backdrop';
-  } else {
-    return  `with: ${reason}`;
-  }
-}
-
 
 
 // upload file
@@ -195,13 +93,13 @@ capturarFile(event,idImage): any {
   const archivoCapturado = event.target.files[0]
   this.extraerBase64(archivoCapturado).then((imagen:any)=>{
     this.previsualizacion = imagen.base;
-    console.log(imagen);
+
     this.imagen=imagen;
   })
   this.archivos.push(archivoCapturado)
   // //
   console.log(event.target.files);
-  console.log(archivoCapturado);
+  console.log(archivoCapturado);//array con informacion de la imagen
   this.fileExist=true;
 
 
@@ -233,16 +131,27 @@ capturarFile(event,idImage): any {
   })
 
 
-  subirArchivo(): any {
+
+  subirArchivo(idUsuario,idServicioContracted,): any {
     this.verficarLoginActivo();
     try {
 
       const formularioDeDatos = new FormData();
       this.archivos.forEach(archivo => {
         formularioDeDatos.append('files', archivo)
-        console.log('hola');
         console.log(this.imagen);
 
+        this.dataDocuments = { tipo:'1', user:String(idUsuario), dependent:String(idServicioContracted),base64Image:this.imagen['base']}
+        console.log(this.dataDocuments);
+
+        this.serviciosContratados.postImageServiceContracted(this.dataDocuments).subscribe(
+          respuesta =>{
+            console.log(respuesta);
+          }
+        )
+
+        this.getServiciosContratadosByUser();
+        this.getImageDocuments();
 
       })
       this.createNotification('success','Imagen','Imagen agregada exitosamente');
@@ -290,6 +199,7 @@ capturarFile(event,idImage): any {
         this.ListaserviciosContratados=resp;
         console.log(this.ListaserviciosContratados);
       })
+
   }
 
 
@@ -314,6 +224,34 @@ capturarFile(event,idImage): any {
       this.gestionUsuario.logout();
     }
   }
+
+
+
+  // prueba
+  getBase64(event) {
+    let me = this;
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      //me.modelvalue = reader.result;
+      console.log('Imagenasdasd: '+ reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+ }
+
+ getImageDocuments(){
+   this.serviciosContratados.getImagenServiceContracted().subscribe(
+     respuesta =>{
+     this.documentoEspecifico= respuesta;
+     console.log(respuesta);
+    }
+   )
+ }
+
+
 
 
 
