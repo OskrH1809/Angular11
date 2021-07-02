@@ -153,7 +153,6 @@ export class ListadosSeComponent implements OnInit {
     this.getServiciosUsuarioEspecifico();
 
 
-    this.selectedValue= undefined;
   }
 
   // modal formulario
@@ -194,12 +193,24 @@ export class ListadosSeComponent implements OnInit {
         this.ListaserviciosContratados=respuesta;
         console.log(this.ListaserviciosContratados);
         this.listOfData = this.ListaserviciosContratados;
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Listado: ','Error al obtener los servicio');
+        this.createNotification('error','error: ',err);
       })
     }
 
   cambiarEstado(id,data){
     this.serviciosContratados.updateEstadoServicioContratado(id,data).subscribe(respuesta=>{
       console.log();
+      if (respuesta) {
+        this.createNotification('info','Estado: ','Estado actualizado con éxito');
+
+      }
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Servicio: ','Error al cambiar el estado');
+      this.createNotification('error','error: ',err);
     });
   }
 

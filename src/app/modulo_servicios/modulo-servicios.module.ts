@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tareas.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { VistaDocumentosComponent } from '../shared/components/vista-documentos/vista-documentos.component';
 
 
 
@@ -28,7 +29,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     CreacionServiciosComponent,
     GestionTareasComponent,
     ContratarServiciosComponent,
-    EdicionTareasComponent
+    EdicionTareasComponent,
+    VistaDocumentosComponent,
 
   ],
   imports: [

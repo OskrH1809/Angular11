@@ -114,6 +114,10 @@ export class GestionClientesComponent implements OnInit {
        this.listOfData = data;
        console.log(data);
       //  this.i = data.pop().id + 1;
+      },err=>{
+        console.log(err);
+        this.createNotification('error','gestion clientes: ','Error al obtener los clientes');
+        this.createNotification('error','error: ',err);
       });
     }
 

@@ -59,13 +59,13 @@
 
             <div class="row imagenContenedor ">
 
-              <div class="col-md-12 " *ngFor="let imagen of documentoEspecifico">
-                <img *ngIf="servicio.id==imagen.dependent && servicio.idUsuario==imagen.idUser"
+              <div class="col-md-12 " *ngFor="let documento of documentoEspecifico">
+                <img *ngIf="servicio.id==documento.dependent && servicio.idUsuario==documento.idUser && documento.tipoDocumento=='Servicios_Contratados'"
                 nz-image
                 width="100px"
                 class="imagen-pago text-center"
                 height="100px"
-                nzSrc="{{imagen.imagen}}"
+                nzSrc="{{documento.archivo}}"
 
                 alt="Imagen"
                 />

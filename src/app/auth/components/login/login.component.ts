@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { pipe, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
@@ -26,9 +27,8 @@ export class LoginComponent implements OnInit {
     this.aut.login_check(this.validateForm.value).subscribe(data => {
       console.log(data);
       const  user =  {
-        "nombre": this.validateForm.value.username,
-        "role": ['ADMIN'],
-        "imagenes" :'oscar_canales.jpg'
+        "nombre": data.data.username,
+        "role": data.data.role,
       }
 
       localStorage.setItem('token', data.token);
@@ -45,14 +45,26 @@ export class LoginComponent implements OnInit {
       // this.router.navigateByUrl('/cards', { skipLocationChange: true });
 
 
-     })
+     },err=>{
+      console.log(err);
+      this.createNotification('error','Iniciar sesión : ','Error al iniciar sesión');
+      this.createNotification('error','error: ',err.error.message);
+    })
 
     //
 
 
   }
 
-  constructor(private router:Router,private aut:GestionUsuariosService,private fb: FormBuilder) {}
+  constructor(
+    private router:Router,
+    private aut:GestionUsuariosService,
+    private fb: FormBuilder,
+    private notification: NzNotificationService,
+    )
+    {
+
+    }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -61,6 +73,15 @@ export class LoginComponent implements OnInit {
       // remember: [true]
     });
   }
+// notificaciones
+createNotification(type1: string,type2:string,type3:string): void {
+  this.notification.create(
+    type1,
+    type2,
+    type3
+  );
+
+}
 
 
 

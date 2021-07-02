@@ -7,6 +7,7 @@ import { GestionTareasComponent } from '../shared/components/gestion-tareas/gest
 import { ListadosSeComponent } from '../shared/components/listados-se/listados-se.component';
 import { ServicioComponent } from '../shared/components/servicio/servicio.component';
 import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
+import { VistaDocumentosComponent } from '../shared/components/vista-documentos/vista-documentos.component';
 
 const routes: Routes = [
   {path:'listado/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'gestiontareas/:id', component:GestionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
   {path:'contratar', component:ContratarServiciosComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
   {path:'edit', component:EdicionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
+  {path:'documentos/:tarea/:usuario', component:VistaDocumentosComponent},
 
 
 ];

@@ -12,12 +12,17 @@ import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
+import { stringify } from '@angular/compiler/src/util';
 
 interface ItemData {
   id: string;
   titulo: string;
   descripcion: string;
   documento: string;
+  idUsuario?: string;
+  idServicio?: string;
+  servicio?: string;
+  usuario?: string;
 }
 
 @Component({
@@ -28,7 +33,10 @@ interface ItemData {
 
 export class GestionTareasComponent implements OnInit {
   ServicioId =  this.route.snapshot.paramMap.get("id");
+  idTarea;
   ArchivoCap:any;
+  documentoBase64;
+  documentos;
 
   // editor
   dataDescripcion:any;
@@ -71,18 +79,8 @@ export class GestionTareasComponent implements OnInit {
   i = 1;
 
   editId: string | null = null;
-  listOfData: ItemData[] = [];
+  listOfData:any = [];
 
-  startEdit(id: string): void {
-    this.editId = id;
-  }
-
-  stopEdit(nombre): void {
-    this.editId = null;
-    this.createNotification('info','Servicio: '+`${nombre}`,'Actualizado con éxito');
-
-
-  }
 
   idEdit='';
   tituloEdit='';
@@ -100,7 +98,7 @@ export class GestionTareasComponent implements OnInit {
     this.demoReactiveForm2.setValue(this.arrayEdit);
 
 
-    console.log(this.demoReactiveForm2)
+
   }
 
   addRow(): void {
@@ -134,6 +132,7 @@ export class GestionTareasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTareas();
+
 
     this.id = this.route.snapshot.paramMap.get("id");
 
@@ -199,6 +198,10 @@ export class GestionTareasComponent implements OnInit {
 
     public onSubmit(): void {
       console.log(this.demoReactiveForm.value);
+      const dataTareas  = { titulo:this.demoReactiveForm.value.titulo, descripcion:this.demoReactiveForm.value.descripcion, servicio:this.ServicioId,}
+      this.postTareas(dataTareas);
+      console.log(this.demoReactiveForm.value.id);
+      console.log(parseInt(this.idTarea));
       this.reset();
     }
 
@@ -272,22 +275,14 @@ export class GestionTareasComponent implements OnInit {
     public formDataPreview2?: string;
 
 
-    usuarioX = JSON.parse(localStorage.getItem('usuario'))['nombre']
     public onSubmit2(): void {
       console.log(this.demoReactiveForm2.value);
+      this.editTarea(this.demoReactiveForm2.value.id,this.demoReactiveForm2.value.titulo,this.demoReactiveForm2.value.descripcion2);
 
-        const dataTareas  = { titulo:this.demoReactiveForm2.value.titulo, descripcion:this.demoReactiveForm2.value.descripcion2, servicio:this.ServicioId, user:this.usuarioX  }
-      this.postTareas(dataTareas);
+
       this.reset2();
     }
 
-    postTareas(data){
-      this.gestionServicios.newTareas(data).subscribe(
-        respuesta => {
-          console.log(respuesta);
-        }
-      )
-    }
 
     public reset2(): void {
       this.demoReactiveForm2!.reset();
@@ -378,11 +373,109 @@ export class GestionTareasComponent implements OnInit {
 
 
   getTareas(){
-    this.ServiciosContratados.TareasUsuarioEspecifico().subscribe(
+    this.ServiciosContratados.getTareasEspeficas(this.ServicioId).subscribe(
       respuesta=>{
-        console.log(respuesta)
-        this.listOfData= respuesta;
+        console.log(respuesta);
+        this.listOfData = respuesta;
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Tareas: ','Error al obtener las tareas');
+        this.createNotification('error','error: ',err);
       })
   }
+
+  postTareas(data){
+    this.gestionServicios.newTareas(data).subscribe(
+      respuesta => {
+        console.log(respuesta);
+       if (this.documentoBase64) {
+        this.posDocument(parseInt(respuesta.id), this.documentoBase64);
+       }
+        this.getTareas();
+        this.createNotification('info','Tarea','Agregada con éxito');
+
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Tareas: ','Error al enviar la nueva tarea');
+        this.createNotification('error','error: ',err);
+      }
+    )
+  }
+
+
+  posDocument(tarea,documento){
+    const data = {tipo:'2', dependent:tarea,base64Image:documento}
+    this.gestionServicios.postDocumentServiceContracted(data).subscribe(
+      respuesta=>{
+        console.log(respuesta);
+        if (respuesta) {
+          this.createNotification('info','Tareas: ','Documento cargado con éxito');
+
+        }
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Tareas: ','Error al enviar el documento de tareas');
+        this.createNotification('error','error: ',err);
+      })
+  }
+
+  // conversor base64
+
+  getBase64(event) {
+    let me = this;
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    let dataDocument;
+
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      // me.modelvalue = reader.result;
+      console.log('Documento base 64: '+ reader.result);
+      me.documentoBase64 = reader.result
+    };
+
+    // console.log(this.documentoBase64)
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+ }
+
+
+ editTarea(id,titulo,descripcion){
+
+  const data = {id:id, titulo:titulo, descripcion:descripcion}
+  this.gestionServicios.editarTarea(data).subscribe(respuesta=>{
+    console.log(respuesta);
+       if (this.documentoBase64) {
+        this.posDocument(parseInt(id), this.documentoBase64);
+       }
+        this.getTareas();
+        this.createNotification('info','Tarea','Actualizada con éxito');
+
+  },err=>{
+    console.log(err);
+    this.createNotification('error','Tareas: ','Error al actualizar tarea');
+    this.createNotification('error','error: ',err);
+  })
+ }
+
+  eliminarTarea(id){
+
+    console.log(id);
+    this.gestionServicios.eliminarTarea(id).subscribe(respuesta=>{
+    console.log(respuesta);
+    if (respuesta) {
+      this.getTareas();
+      this.createNotification('warning','Tarea','Eliminada con éxito');
+    }
+
+  },err=>{
+    console.log(err);
+    this.createNotification('error','tareas: ','Error al eliminar tarea');
+    this.createNotification('error','error: ',err);
+  })
+
+
+ }
 
 }

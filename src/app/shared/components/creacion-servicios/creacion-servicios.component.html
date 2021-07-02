@@ -4,7 +4,7 @@
     <div class="col-md-3 col-sm-12 pr-5">
 
       <div class="pt-5">
-        <h2>Ingrese la información</h2>
+        <h3>Ingrese la información</h3>
         <form  [formGroup]="form" (submit)="send()">
         <div >
         <label class="pt-4" for="nombre">Nombre</label>
@@ -18,7 +18,7 @@
         <br>
 
         <div>
-          <button  class=" btn btn-success" [disabled]="form.invalid"  (click)="addRow()" >Enviar</button>
+          <button  class=" btn btn-primary" [disabled]="form.invalid"  (click)="addRow()" >Enviar</button>
         </div>
 
 
@@ -34,6 +34,19 @@
       <!--{# (click)="addRow()" #}-->
       <br />
       <br />
+      <div class="row pb-5">
+        <div class="col-md-5 col-sm-12 pull-left">
+          <input (keydown)="EnterSubmit($event)" class="float-left" nz-input placeholder="Buscar Servicio" [(ngModel)]="value" />
+        </div>
+        <div class="col-md-5 col-sm-12">
+          <span (click)="cancelarBusqueda()" nz-tooltip nzTooltipTitle="Cancelar Busqueda" class="pull-left"><i nz-icon nzType="close-square" style="font-size: 30px; color: rgb(255, 0, 0);" nzTheme="outline"></i></span>
+
+      </div>
+        <div class="col-md-2">
+
+        </div>
+      </div>
+      <!--<i nz-icon nzType="search" style="font-size: 25px; color: rgb(204, 0, 0);" nzTheme="twotone"></i> -->
       <nz-table #editRowTable class="mb-3" nzBordered [nzData]="listOfData">
         <thead>
           <tr>

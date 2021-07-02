@@ -24,6 +24,10 @@ export class GestionServiciosService {
   }
 
   deleteServicio(id): Observable<any>{
-      return this.http.delete(`${baseUrl}/api/services/${id}`);
+    return this.http.delete(`${baseUrl}/api/services/${id}`);
+  }
+
+  getSearchServices(search){
+    return this.http.get(`${baseUrl}/api/services_search/${search}`);
   }
 }

@@ -37,10 +37,12 @@ export class RegistroComponent implements OnInit {
         this.createNotification('success','Usuario: '+`${value.email}`,'Registrado con éxito');
         this.router.navigate([''])
       }
-      if (res=="A user with this email already exists.") {
-        this.createNotification('error','Ya existe un usuario con este correo','Registro sin éxito');
-      }
 
+
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Registro: ','Error al registrarse');
+      this.createNotification('error','error: ',err.error);
     });
 
   }

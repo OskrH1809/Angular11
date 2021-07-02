@@ -25,11 +25,14 @@ interface ItemData {
 export class CreacionServiciosComponent implements OnInit {
 
   // tabla
-
+  value:string;
   indice:any;
+  buscar;
+
+
 
   editId: string | null = null;
-  listOfData: ItemData[] = [];
+  listOfData:any = [];
   i ;
   nuevoClienteSelect: { userName: string; };
 
@@ -68,8 +71,8 @@ export class CreacionServiciosComponent implements OnInit {
 
   deleteRow(id: string,nombre:string): void {
     this.EliminacionServicio(id)
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
-    this.createNotification('warning','Servicio: '+`${nombre}`,'Eliminado con éxito');
+    this.get_serviciosall(this.buscar);
+
 
   }
 
@@ -190,6 +193,14 @@ public form: FormGroup;
     this.servicio.sendPost(nuevoServicio).subscribe(
       res => {
       console.log(res);
+      if (res) {
+        this.createNotification('success','Servicio: ','servicio creado con éxito');
+
+      }
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Servicio: ','Error al crear servicio');
+      this.createNotification('error','error: ',err);
     });
 
     this.createNotification('success','Servicio: '+`${this.form.value.nombre}`,'Agregado con éxito');
@@ -200,7 +211,17 @@ public form: FormGroup;
     this.servicio.deleteServicio(id).subscribe(
       res=>{
         console.log(res);
-    });
+        if (res) {
+          this.createNotification('warning','Servicio: ','Eliminado con éxito');
+        }
+
+
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Servicio: ','Error al eliminar servicio');
+      this.createNotification('error','error: ',err);
+    }
+    );
 
   }
   // peticcion delete servicios ^
@@ -213,7 +234,16 @@ public form: FormGroup;
     this.servicio.updateServicio(id,data).subscribe(
       resp=>{
         console.log(resp);
-      })
+        if (resp) {
+          this.createNotification('info','Servicio: ','Servicio actualizaddo con éxito');
+
+        }
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Servicio: ','Error al actualizar servicio');
+        this.createNotification('error','error: ',err);
+      }
+      )
 
   }
 
@@ -238,9 +268,9 @@ public form: FormGroup;
   }
   //
   ngOnInit(): void {
-
+    console.log(this.value);
     this.getIndice();
-    this.get_serviciosall();
+    this.get_serviciosall(this.buscar);
 
     // multiselect
     this.dropdownList = [
@@ -340,17 +370,30 @@ public form: FormGroup;
 
 // peticion get de servicios
   data_serviciosall:any;
-    get_serviciosall(){
-      this.servicio.get_servicios().subscribe(data => {
-        // this.indice = data.pop()['id'] +1;
-        this.listOfData = data;
-          console.log(data);
-        // console.log(parseInt(data.pop().id))
-      //  this.indice= data.pop().id + 1;
-      //  console.log((data.pop()['id']) );
-      //  this.i = data.pop().id + 1;
-      //
-      });
+    //getSearchServices
+  get_serviciosall(buscar){
+
+      if (buscar) {
+        this.servicio.getSearchServices(this.value).subscribe(data => {
+          this.listOfData = data;
+            console.log(data);
+        },err=>{
+          console.log(err);
+          this.createNotification('error','Servicio: ','Error al obtener los servicios');
+          this.createNotification('error','error: ',err);
+        });
+      } else {
+        this.servicio.get_servicios().subscribe(data => {
+          // this.indice = data.pop()['id'] +1;
+          this.listOfData = data;
+            console.log(data);
+        },err=>{
+          console.log(err);
+          this.createNotification('error','Servicio: ','Error al obtener los servicios');
+          this.createNotification('error','error: ',err);
+        });
+      }
+
     }
 
     getIndice(){
@@ -373,6 +416,21 @@ public form: FormGroup;
       { nzDuration:12000 }
     );
 
+  }
+
+  EnterSubmit(evento){
+    if(evento.keyCode === 13){
+     this.buscar=this.value
+    this.get_serviciosall(this.buscar);
+  }
+
+
+  }
+
+  cancelarBusqueda(){
+    const buscar=null;
+    this.value=''
+    this.get_serviciosall(buscar);
   }
 
 }

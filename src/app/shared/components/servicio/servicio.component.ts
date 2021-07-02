@@ -141,12 +141,19 @@ capturarFile(event,idImage): any {
         formularioDeDatos.append('files', archivo)
         console.log(this.imagen);
 
-        this.dataDocuments = { tipo:'1', user:String(idUsuario), dependent:String(idServicioContracted),base64Image:this.imagen['base']}
+        this.dataDocuments = { tipo:'1', dependent:String(idServicioContracted),base64Image:this.imagen['base']}
         console.log(this.dataDocuments);
 
-        this.serviciosContratados.postImageServiceContracted(this.dataDocuments).subscribe(
+        this.serviciosContratados.postDocumentServiceContracted(this.dataDocuments).subscribe(
           respuesta =>{
             console.log(respuesta);
+            if (respuesta) {
+              this.createNotification('success','Documento: ','Documento cargado con éxito');
+            }
+          },err=>{
+            console.log(err);
+            this.createNotification('error','Servicio: ','Error al eliminar servicio');
+            this.createNotification('error','error: ',err);
           }
         )
 
@@ -198,6 +205,11 @@ capturarFile(event,idImage): any {
       resp =>{
         this.ListaserviciosContratados=resp;
         console.log(this.ListaserviciosContratados);
+
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Servicios Contratados: ','Error al obtener los servicios contratados');
+        this.createNotification('error','error: ',err);
       })
 
   }
@@ -210,8 +222,13 @@ capturarFile(event,idImage): any {
 
     this.serviciosContratados.updateEstadoServicioContratado(servicio,data).subscribe(
       respuesta=>{
-
+        if (respuesta) {
+        }
         this.getServiciosContratadosByUser()
+      },err=>{
+        console.log(err);
+        this.createNotification('error','Servicios Contratados: ','Error al actualizar estado');
+        this.createNotification('error','error: ',err);
       })
 
 
@@ -243,10 +260,14 @@ capturarFile(event,idImage): any {
  }
 
  getImageDocuments(){
-   this.serviciosContratados.getImagenServiceContracted().subscribe(
+   this.serviciosContratados.getDocumentsServiceContracted().subscribe(
      respuesta =>{
      this.documentoEspecifico= respuesta;
      console.log(respuesta);
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Servicio contratados: ','Error al obtener la imagen');
+      this.createNotification('error','error: ',err);
     }
    )
  }

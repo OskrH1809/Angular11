@@ -20,14 +20,10 @@ export class GestionServiciosContratadosService {
       //
     }
 
-    // getServiciosContratadosUsuarioEspecifico(data:any):Observable<any>{
 
-    //   return this.http.get(`${baseUrlF}/api/servicios_contratados_usuario_especifico`,);
-    // }
+    getServiciosContratadosUsuarioEspecifico(data:string):Observable<any>{
 
-    getServiciosContratadosUsuarioEspecifico(data:any):Observable<any>{
-
-      return this.http.get(`${baseUrlF}/api/servicios_contratados_usuario_especifico/${data}`, );
+      return this.http.get(`${baseUrlF}/api/servicios_contratados_usuario_especifico/${data}`,);
     }
 
 
@@ -35,11 +31,11 @@ export class GestionServiciosContratadosService {
       return this.http.put(`${baseUrlF}/api/editestado/${id}`,data);
     }
 
-    postImageServiceContracted(data:any): Observable<any>{
+    postDocumentServiceContracted(data:any): Observable<any>{
       return this.http.post(`${baseUrlF}/api/documents`,data);
     }
 
-    getImagenServiceContracted():Observable<any>{
+    getDocumentsServiceContracted():Observable<any>{
       return this.http.get(`${baseUrlF}/api/documents`, );
     }
 
@@ -50,8 +46,28 @@ export class GestionServiciosContratadosService {
       return this.http.post(`${baseUrlF}/api/tareas`,data);
     }
 
-    TareasUsuarioEspecifico(): Observable<any>{
+    tareasUsuarioEspecifico(): Observable<any>{
       return this.http.get(`${baseUrlF}/api/tareas_especificas_usuario`);
     }
+
+    editarTarea(data:any){
+      return this.http.put(`${baseUrlF}/api/tareas`,data);
+    }
+
+    eliminarTarea(data){
+
+      return this.http.delete(`${baseUrlF}/api/tareas/${data}`,);
+    }
+
+    getOneDocumentSpecific(usuario,tipo,servicioContratado){
+      return this.http.get(`${baseUrlF}/api/documents/${usuario}/${tipo}/${servicioContratado}`);
+    }
+
+
+    getTareasEspeficas(servicio:string){
+      return this.http.get(`${baseUrlF}/api/tareas_especificas/${servicio}`);
+    }
+
+
 
 }
