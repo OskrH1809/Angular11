@@ -5,14 +5,14 @@
       <form  [formGroup]="form" (submit)="send()">
 
         <div>
-          <label class="pt-4"  for="email">Email</label>
+          <label class="pt-4"  for="email">Correo</label>
           <input  class="form-control"  type="text" id="email" formControlName="email">
         </div>
 
         <br>
 
         <div>
-          <button (click)="addRow()" class=" mb-5  btn btn-success" [disabled]="form.invalid" >Registrar</button>
+          <button (click)="addRow()" class=" mb-5  btn btn-primary" [disabled]="form.invalid" >Registrar</button>
         </div>
 
       </form>

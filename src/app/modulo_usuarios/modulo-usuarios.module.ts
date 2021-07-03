@@ -13,12 +13,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { RegistroComponent } from '../auth/components/registro/registro.component';
-
 import { GestionClientesComponent } from '../shared/components/gestion-clientes/gestion-clientes.component';
+import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
+import { PerfilComponent } from '../auth/components/perfil/perfil.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Autentificacion} from '../core/interceptors/autentificacion.service';
-import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
-
 
 @NgModule({
   declarations: [
@@ -26,6 +25,9 @@ import { RecuperarContraComponent } from '../auth/components/recuperar-contra/re
     RegistroComponent,
     RecuperarContraComponent,
     GestionClientesComponent,
+    PerfilComponent
+
+
 
   ],
   imports: [
@@ -48,7 +50,7 @@ import { RecuperarContraComponent } from '../auth/components/recuperar-contra/re
 
   ],
   providers:[
-    
+
   ]
 })
 export class ModuloUsuariosModule { }

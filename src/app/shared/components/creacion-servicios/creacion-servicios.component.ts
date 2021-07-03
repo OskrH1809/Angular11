@@ -43,22 +43,12 @@ export class CreacionServiciosComponent implements OnInit {
   stopEdit(id,nombre,precio): void {
     this.editId = null;
     this.actualizacionServicio(id,nombre,precio);
-    this.createNotification('info','Servicio: '+`${nombre}`,'Actualizado con éxito');
-
-
 
   }
 
   addRow(): void {
     this.listOfData = [
       ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `${this.form.value.nombre}`,
-        price: `${this.form.value.precio}`,
-        date: ''
-
-      }
 
 
     ];
@@ -194,16 +184,14 @@ public form: FormGroup;
       res => {
       console.log(res);
       if (res) {
-        this.createNotification('success','Servicio: ','servicio creado con éxito');
-
+      this.createNotification('success','Servicio: '+`${this.form.value.nombre}`,'Agregado con éxito');
+      this.get_serviciosall(this.buscar);
       }
     },err=>{
       console.log(err);
-      this.createNotification('error','Servicio: ','Error al crear servicio');
-      this.createNotification('error','error: ',err);
+      this.createNotification('error','Error al crear servicio: ',err);
     });
 
-    this.createNotification('success','Servicio: '+`${this.form.value.nombre}`,'Agregado con éxito');
 
   }
 // peticcion delete servicios
@@ -218,8 +206,7 @@ public form: FormGroup;
 
     },err=>{
       console.log(err);
-      this.createNotification('error','Servicio: ','Error al eliminar servicio');
-      this.createNotification('error','error: ',err);
+      this.createNotification('error','Error al eliminar servicio: ',err);
     }
     );
 
@@ -240,8 +227,7 @@ public form: FormGroup;
         }
       },err=>{
         console.log(err);
-        this.createNotification('error','Servicio: ','Error al actualizar servicio');
-        this.createNotification('error','error: ',err);
+        this.createNotification('error','Error al actualizar servicio: ',err);
       }
       )
 
@@ -379,8 +365,7 @@ public form: FormGroup;
             console.log(data);
         },err=>{
           console.log(err);
-          this.createNotification('error','Servicio: ','Error al obtener los servicios');
-          this.createNotification('error','error: ',err);
+          this.createNotification('error','Error al obtener los servicios: ',err);
         });
       } else {
         this.servicio.get_servicios().subscribe(data => {
@@ -389,8 +374,7 @@ public form: FormGroup;
             console.log(data);
         },err=>{
           console.log(err);
-          this.createNotification('error','Servicio: ','Error al obtener los servicios');
-          this.createNotification('error','error: ',err);
+          this.createNotification('error','Error al obtener los servicios: ',err);
         });
       }
 

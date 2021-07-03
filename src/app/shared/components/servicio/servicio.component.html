@@ -81,8 +81,7 @@
 
 
               <button [disabled]="servicio.estado=='Pendiente de aprobación'" class="mat-buttonn"  routerLink="/gestiontareas/{{id}}" routerLinkActive="active" mat-button>Gestion tickets</button>
-              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn"  (click)="nuevoEstado(servicio.id,3)" (click)=" this.createNotification('success','Desbloqueo','Servicio habilito con éxito ');
-              " >Desbloquear Servicios</button>
+              <button mat-button   *ngIf="role=='ADMIN'" class="mat-buttonn"  (click)="nuevoEstado(servicio.id,3)" >Desbloquear Servicios</button>
             </div>
 
 

@@ -6,12 +6,14 @@ import { RegistroComponent } from '../auth/components/registro/registro.componen
 import { RecuperarContraComponent } from '../auth/components/recuperar-contra/recuperar-contra.component';
 import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 import { LogueadoGuard } from '../auth/services/logueado.guard';
+import { PerfilComponent } from '../auth/components/perfil/perfil.component';
 
 const routes: Routes = [
   {path:'', component:LoginComponent,canActivate:[LogueadoGuard]},
   {path:'registro', component:RegistroComponent,canActivate:[LogueadoGuard],},
   {path:'recuperar', component:RecuperarContraComponent,canActivate:[LogueadoGuard]},
   {path:'gestionclientes', component:GestionClientesComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
+  {path:'perfil', component:PerfilComponent,canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
 
 
 ];

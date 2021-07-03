@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
 import { DashboardComponent } from './views/components/dashboard/dashboard.component';
-import { VistaDocumentosComponent } from './shared/components/vista-documentos/vista-documentos.component';
 
 const routes: Routes = [
 

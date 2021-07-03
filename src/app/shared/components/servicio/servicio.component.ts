@@ -149,19 +149,15 @@ capturarFile(event,idImage): any {
             console.log(respuesta);
             if (respuesta) {
               this.createNotification('success','Documento: ','Documento cargado con éxito');
+              this.getServiciosContratadosByUser();
+              this.getImageDocuments();
             }
           },err=>{
             console.log(err);
-            this.createNotification('error','Servicio: ','Error al eliminar servicio');
-            this.createNotification('error','error: ',err);
+            this.createNotification('error','Error al cargar documento: ',err);
           }
         )
-
-        this.getServiciosContratadosByUser();
-        this.getImageDocuments();
-
       })
-      this.createNotification('success','Imagen','Imagen agregada exitosamente');
       // formularioDeDatos.append('_id', 'MY_ID_123')
       // this.rest.post(`http://localhost:3001/upload`, formularioDeDatos)
       //   .subscribe(res => {
@@ -176,7 +172,6 @@ capturarFile(event,idImage): any {
     } catch (e) {
 
       console.log('ERROR', e);
-      this.createNotification('danger','Imagen','Fallo al agregar imagen');
 
     }
   }
@@ -208,8 +203,7 @@ capturarFile(event,idImage): any {
 
       },err=>{
         console.log(err);
-        this.createNotification('error','Servicios Contratados: ','Error al obtener los servicios contratados');
-        this.createNotification('error','error: ',err);
+        this.createNotification('error','Error al obtener los servicios contratados: ',err);
       })
 
   }
@@ -227,8 +221,7 @@ capturarFile(event,idImage): any {
         this.getServiciosContratadosByUser()
       },err=>{
         console.log(err);
-        this.createNotification('error','Servicios Contratados: ','Error al actualizar estado');
-        this.createNotification('error','error: ',err);
+        this.createNotification('error','Error al actualizar estado: ',err);
       })
 
 
@@ -266,8 +259,7 @@ capturarFile(event,idImage): any {
      console.log(respuesta);
     },err=>{
       console.log(err);
-      this.createNotification('error','Servicio contratados: ','Error al obtener la imagen');
-      this.createNotification('error','error: ',err);
+      this.createNotification('error','Error al obtener la imagen: ',err);
     }
    )
  }

@@ -117,8 +117,6 @@ export class GestionTareasComponent implements OnInit {
 
     ];
 
-    this.createNotification('success','Nueva Tarea:'+` ${this.demoReactiveForm.value.titulo}`,'Agregada con éxito');
-
     this.i++;
 
     console.log(this.demoReactiveForm.value.titulo);
@@ -127,7 +125,6 @@ export class GestionTareasComponent implements OnInit {
 
   deleteRow(id: string,nombre: string ): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
-    this.createNotification('warning','Tarea:'+` ${nombre}`,'Eliminada con éxito');
   }
 
   ngOnInit(): void {
@@ -367,6 +364,8 @@ export class GestionTareasComponent implements OnInit {
 
   handleCancelFormulario(): void {
 
+
+
     this.isVisibleFormulario = false;
   }
 
@@ -379,8 +378,7 @@ export class GestionTareasComponent implements OnInit {
         this.listOfData = respuesta;
       },err=>{
         console.log(err);
-        this.createNotification('error','Tareas: ','Error al obtener las tareas');
-        this.createNotification('error','error: ',err);
+        this.createNotification('error','Error al obtener las tareas: ',err);
       })
   }
 
@@ -396,8 +394,7 @@ export class GestionTareasComponent implements OnInit {
 
       },err=>{
         console.log(err);
-        this.createNotification('error','Tareas: ','Error al enviar la nueva tarea');
-        this.createNotification('error','error: ',err);
+        this.createNotification('error','Error al enviar la nueva tarea: ',err);
       }
     )
   }
@@ -414,8 +411,7 @@ export class GestionTareasComponent implements OnInit {
         }
       },err=>{
         console.log(err);
-        this.createNotification('error','Tareas: ','Error al enviar el documento de tareas');
-        this.createNotification('error','error: ',err);
+        this.createNotification('error','Error al enviar el documento de tareas: ',err);
       })
   }
 
@@ -454,8 +450,7 @@ export class GestionTareasComponent implements OnInit {
 
   },err=>{
     console.log(err);
-    this.createNotification('error','Tareas: ','Error al actualizar tarea');
-    this.createNotification('error','error: ',err);
+    this.createNotification('error','Error al actualizar tarea: ',err);
   })
  }
 
@@ -471,8 +466,7 @@ export class GestionTareasComponent implements OnInit {
 
   },err=>{
     console.log(err);
-    this.createNotification('error','tareas: ','Error al eliminar tarea');
-    this.createNotification('error','error: ',err);
+    this.createNotification('error','Error al eliminar tarea: ',err);
   })
 
 

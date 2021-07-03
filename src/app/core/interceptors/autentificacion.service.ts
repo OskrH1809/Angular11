@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
@@ -12,7 +13,7 @@ const baseUrl = environment.baseURLF;
 })
 export class Autentificacion implements HttpInterceptor  {
 
-  constructor(private router:Router, private gestion:GestionUsuariosService) { }
+  constructor(private notification: NzNotificationService,private router:Router, private gestion:GestionUsuariosService) { }
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -33,27 +34,19 @@ export class Autentificacion implements HttpInterceptor  {
             // validaciones
             if (error.error.message=='JWT Token not found' )
             {
-
-              alert('No registrado')
               this.gestion.logout();
-
-
-
+              this.createNotification('error','No registrado: ','Debe registrarse');
+              this.createNotification('error','error: ',error.error.message);
             }
 
             if (error.error.message=='Expired JWT Token') {
-
-              alert('Sesion expirada')
+              this.createNotification('error','Sesión expirada : ','Debe registrarse');
+              setTimeout(()=>{                           //<<<---using ()=> syntax
               this.gestion.logout();
+               }, 6000);
 
             }
 
-            if (error.error.message=='Invalid credentials.')
-            {
-
-              alert('credenciales invalidas')
-
-            }
 
         // -------------------------------------
 
@@ -79,6 +72,16 @@ export class Autentificacion implements HttpInterceptor  {
 
   }
 
+
+  createNotification(type1: string,type2:string,type3:string,): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3,
+      { nzDuration:12000 }
+    );
+
+  }
 
 
 

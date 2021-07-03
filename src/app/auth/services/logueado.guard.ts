@@ -19,6 +19,7 @@ export class LogueadoGuard implements CanActivate, CanLoad {
 
     if (this.verificarAcceso==false) {
       return true
+
     } else {
       this.router.navigate(['cards']);
       return false
@@ -28,7 +29,7 @@ export class LogueadoGuard implements CanActivate, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-      if (this.token==null && this.usuario==null) {
+      if (this.verificarAcceso==false) {
         return true
       } else {
         this.router.navigate(['cards']);
