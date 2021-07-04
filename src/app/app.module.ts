@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { es_ES } from 'ng-zorro-antd/i18n';
 import es from '@angular/common/locales/es';
-import { AdministrarUserService } from './Services/administrar-user.service';
+import { AdministrarUserService } from './auth/services/administrar-user.service';
 import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DashboardComponent } from './views/components/dashboard/dashboard.component';

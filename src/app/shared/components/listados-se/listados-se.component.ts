@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 
 interface ItemData {
@@ -32,7 +33,8 @@ export class ListadosSeComponent implements OnInit {
   listOfData: ItemData[] = [];
   Nombre;
   id: any;
-
+  idUser =  this.route.snapshot.paramMap.get("id");
+  documento;
 
 
   deleteRow(id: string,nombre:string): void {
@@ -45,12 +47,25 @@ export class ListadosSeComponent implements OnInit {
 
   fatrash = faTrash;
   faedit=faEdit;
-  constructor(private serviciosContratados:GestionServiciosContratadosService,private notification: NzNotificationService,private modalService: NgbModal,private _location: Location,private route: ActivatedRoute ) { }
+  constructor(
+              private serviciosContratados:GestionServiciosContratadosService,
+              private notification: NzNotificationService,
+              private modalService: NgbModal,
+              private _location: Location,
+              private route: ActivatedRoute,
+              private nzImageService: NzImageService
+  )
+  {
+
+
+
+  }
   public form: FormGroup;
   ngOnInit(): void {
     this.getServiciosUsuarioEspecifico();
     this.id = this.route.snapshot.paramMap.get("id");
     // this.getServicios();
+
     console.log(this.id);
   }
 
@@ -216,7 +231,27 @@ export class ListadosSeComponent implements OnInit {
 
 
 
-  // dialogo
+  // documento(imagen)
+  getDocumentsEspecific(dependet){
+    const tipo = '1'
+    this.serviciosContratados.getOneDocumentSpecific(this.idUser,tipo,dependet).subscribe(respuesta=>{
+      this.documento = respuesta[0]['archivo'];
+      this.onClick(respuesta[0]['archivo']);
+    })
+  }
+
+  onClick(imagen): void {
+    const images = [
+      {
+        src: `${imagen}`,
+        width: '30%',
+        height: '60%',
+        alt: 'Imagen'
+      },
+
+    ];
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
 
 
 

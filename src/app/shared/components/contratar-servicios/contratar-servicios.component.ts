@@ -1,11 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { GestionServiciosService } from '../../services/gestion-servicios.service';
 
 export interface Data {
   id: number;
   servicio: string;
   precio: string;
   disabled: boolean;
+
 }
 @Component({
   selector: 'app-contratar-servicios',
@@ -15,16 +17,18 @@ export interface Data {
 export class ContratarServiciosComponent implements OnInit {
 
   @Output() contratar = new EventEmitter();
-
+  value;
   checked = false;
   loading = false;
   indeterminate = false;
-  listOfData: ReadonlyArray<Data> = [];
+  listOfData:any = [];
   listOfCurrentPageData: ReadonlyArray<Data> = [];
   setOfCheckedId = new Set<number>();
 
 
-  constructor(private notification: NzNotificationService){
+  constructor(
+    private servicio : GestionServiciosService,
+    private notification: NzNotificationService){
 
   }
 
@@ -72,26 +76,47 @@ export class ContratarServiciosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listOfData = new Array(20).fill(0).map((_, index) => {
-      return {
-        id: (index+1),
-        servicio: `Servicio ${(index+1)}`,
-        precio: '2000',
-        disabled: index== -1
 
-      };
-    });
+    // this.listOfData = new Array(20).fill(0).map((_, index) => {
+    //   return {
+    //     id: (index+1),
+    //     servicio: `Servicio ${(index+1)}`,
+    //     precio: '2000',
+    //     disabled: index== -1
+
+    //   };
+    // });
+    this.get_serviciosall();
   }
 
 
-        // notificaciones
-        createNotification(type1: string,type2:string,type3:string,): void {
-          this.notification.create(
-            type1,
-            type2,
-            type3,
-            { nzDuration:12000 }
-          );
+  // notificaciones
+  createNotification(type1: string,type2:string,type3:string,): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3,
+      { nzDuration:12000 }
+    );
 
-        }
+  }
+
+  //peticiones
+
+  get_serviciosall(){
+
+    this.servicio.get_servicios().subscribe(data => {
+      // this.indice = data.pop()['id'] +1;
+      this.listOfData = data;
+        console.log(data);
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Error al obtener los servicios: ',err);
+    });
+
+  }
+
+
+
+
 }

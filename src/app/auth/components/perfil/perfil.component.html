@@ -8,7 +8,22 @@
       <nz-form-item>
         <nz-form-label class="text-left pl-4" [nzSpan]="8" nzRequired>Usuario</nz-form-label>
         <nz-form-control [nzSpan]="12">
-          <input nz-input type="text"  [disabled]="disableInput" formControlName="email"  />
+
+          <nz-input-group nzPrefixIcon="user">
+            <input nz-input type="text" [(ngModel)]="user" [disabled]="disableInput" formControlName="email"  />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="text-left pl-4" [nzSpan]="8" nzRequired>Contraseña Actual</nz-form-label>
+        <nz-form-control [nzSpan]="12"  >
+          <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate" nzSize="large">
+            <input nz-input [type]="!isPasswordVisible ? 'text' : 'password'" formControlName="contraseñaActual" placeholder="Ingrese su contraseña actual" />
+          </nz-input-group>
+          <ng-template #suffixTemplate>
+              <i nz-icon [nzType]="isPasswordVisible ? 'eye-invisible' : 'eye'" (click)="isPasswordVisible = !isPasswordVisible"></i>
+          </ng-template>
         </nz-form-control>
       </nz-form-item>
 
@@ -74,20 +89,27 @@
       <nz-form-item>
         <nz-form-label class="text-left pl-4" [nzSpan]="8" nzRequired>Cuenta de banco</nz-form-label>
         <nz-form-control [nzSpan]="12">
-          <input nzPrefixIcon="lock" nz-input type="text"  formControlName="cuenta"  placeholder="Cuenta de banco"  />
+          <nz-input-group nzPrefixIcon="bank">
+            <input  nz-input type="text" [(ngModel)]="cuentaBanco" formControlName="cuentaBanco"  placeholder="Cuenta de banco"  />
+          </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label class="text-left pl-4" [nzSpan]="8" nzRequired>Teléfono</nz-form-label>
         <nz-form-control [nzSpan]="12">
-          <input nzPrefixIcon="lock" nz-input type="text"  formControlName="telefono" placeholder="Teléfono"  />
+          <nz-input-group nzPrefixIcon="phone">
+            <input  nz-input type="text"  [(ngModel)]="telefono"  formControlName="telefono" placeholder="Teléfono"  />
+          </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label class="text-left pl-4" [nzSpan]="8" nzRequired>direccion</nz-form-label>
         <nz-form-control [nzSpan]="20">
-          <input nzPrefixIcon="lock" nz-input type="text"  formControlName="direccion" placeholder="Dirección"  />
+          <nz-input-group  nzPrefixIcon="home">
+            <input nz-input type="text"  [(ngModel)]="direccion"  formControlName="direccion" placeholder="Dirección"  />
+
+          </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 

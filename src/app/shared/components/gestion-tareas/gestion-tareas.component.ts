@@ -5,7 +5,7 @@ import {Location} from '@angular/common';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
+import { AdministrarUserService } from 'src/app/auth/services/administrar-user.service';
 //  editor
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';

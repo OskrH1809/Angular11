@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';import { CreacionServiciosService } from 'src/app/Services/creacion-servicios.service';
-import { GestionServiciosService } from 'src/app/Services/servicios/gestion-servicios.service';
+import { GestionServiciosService } from 'src/app/shared/services/gestion-servicios.service';
 // import { ServiciosService } from 'src/app/Services/servicios.service';
 interface ItemData {
   date: string

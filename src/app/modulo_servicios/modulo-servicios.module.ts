@@ -20,6 +20,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tareas.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { VistaDocumentosComponent } from '../shared/components/vista-documentos/vista-documentos.component';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 
 
@@ -49,7 +50,8 @@ import { VistaDocumentosComponent } from '../shared/components/vista-documentos/
     FormsModule,
     NzModalModule,
     HttpClientModule,
-    NzSelectModule
+    NzSelectModule,
+    NzImageModule,
 
 
   ],

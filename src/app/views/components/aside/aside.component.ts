@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AdministrarUserService } from 'src/app/Services/administrar-user.service';
+import { AdministrarUserService } from 'src/app/auth/services/administrar-user.service';
 
 @Component({
   selector: 'app-aside',

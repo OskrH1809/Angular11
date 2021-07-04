@@ -18,5 +18,17 @@ export class GestionClientesService {
     return this.http.get(`${baseUrlF}/api/users`);
   }
 
+  get_data_this_user(){
+    return this.http.get(`${baseUrlF}/api/data_this_user`);
+  }
+
+  actualizarDatosUsuario(data:any):Observable<any>{
+    return this.http.put(`${baseUrlF}/api/edit_data_this_user`,data);
+  }
+
+  nuevoRegistroDatosUsuarios(data:any):Observable<any>{
+    return this.http.post(`${baseUrlF}/api/new_data_this_user`,data);
+  }
+
 
 }

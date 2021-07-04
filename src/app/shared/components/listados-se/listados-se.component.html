@@ -20,9 +20,10 @@
         <thead>
           <tr>
             <th nzWidth="5%">Id</th>
-            <th nzWidth="50%">Servicios</th>
-            <th nzWidth="50%">Precio</th>
+            <th nzWidth="30%">Servicios</th>
+            <th nzWidth="20%">Precio</th>
             <th nzWidth="50%">Estado</th>
+            <th nzWidth="50%">Comprobante de pago</th>
             <th>Acción</th>
           </tr>
         </thead>
@@ -39,6 +40,10 @@
               <br>
               <a  ><span (click)="showModald(data.id)" nz-tooltip nzTooltipTitle="Editar estado servicio {{data.servicio}}" ><i nz-icon nzType="edit" style="font-size: 25px; color: #2986f1;" nzTheme="outline"></i></span> </a>
               <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
+
+            </td>
+            <td class="text-center">
+              <a (click)="getDocumentsEspecific(data.id)"><span nz-tooltip nzTooltipTitle="Visualizar comprobante de pago" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
 
             </td>
             <td class="text-center">

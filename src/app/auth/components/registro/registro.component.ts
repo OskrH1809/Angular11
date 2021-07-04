@@ -28,7 +28,7 @@ export class RegistroComponent implements OnInit {
     }
 
     console.log(value);
-    const datos = { email:value.email, password:value.password}
+    const datos = { email:value.email, password:value.password , perfil:''}
     this.servicelogin.sendPostRegistro(datos).subscribe(
     res => {
       console.log(res);
@@ -41,8 +41,7 @@ export class RegistroComponent implements OnInit {
 
     },err=>{
       console.log(err);
-      this.createNotification('error','Registro: ','Error al registrarse');
-      this.createNotification('error','error: ',err.error);
+      this.createNotification('error','Error al registrarse: ',err.error.message);
     });
 
   }

@@ -1,7 +1,7 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { Autentificacion } from './core/interceptors/autentificacion.service';
-import { AdministrarUserService } from './Services/administrar-user.service';
+import { AdministrarUserService } from './auth/services/administrar-user.service';
 
 
 

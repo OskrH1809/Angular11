@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, Observer } from 'rxjs';
+import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
 
 @Component({
   selector: 'app-perfil',
@@ -11,35 +13,51 @@ import { Observable, Observer } from 'rxjs';
 export class PerfilComponent implements OnInit {
   isPasswordVisible = true;
   disableInput = true;
-  oscar='hoscar161@gmail.com';
+  user = localStorage.getItem('user');
+  datosUsuario;
+  cuentaBanco;
+  telefono;
+  direccion;
+
 
   ngOnInit(): void {
+    this.get_data_this_user();
 
   }
-  constructor(private fb: FormBuilder) {
+  constructor(private notification: NzNotificationService,
+              private gestionClientes:GestionClientesService,
+              private fb: FormBuilder
+  )
+  {
+
 
 
     this.validateForm = this.fb.group({
-      email: [{ disabled: this.disableInput, value: `${this.oscar}` }],
+      email: [{ disabled: this.disableInput, value: "" }],
       password: ['',],
+      contraseñaActual:[''],
       confirm: ['', [this.confirmValidator]]
     });
 
+    console.log(this.datosUsuario)
     this.validateForm2 = this.fb.group({
-      cuenta: [],
+      cuentaBanco: [],
       telefono: [],
       direccion: [],
 
     });
+
+
   }
 
   validateForm: FormGroup;
-  submitForm(value: { userName: string; email: string; password: string; confirm: string; comment: string }): void {
+  submitForm(value: { cuentaBanco: string; telefono: string; direccion: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
+
   }
 
   validateConfirmPassword(): void {
@@ -62,12 +80,19 @@ export class PerfilComponent implements OnInit {
     // segundo form
 
     validateForm2: FormGroup;
-    submitForm2(value: { userName: string; email: string; password: string; confirm: string; comment: string }): void {
+    submitForm2(value: { cuentaBanco: string; email: string; password: string; confirm: string; comment: string }): void {
       for (const key in this.validateForm2.controls) {
         this.validateForm2.controls[key].markAsDirty();
         this.validateForm2.controls[key].updateValueAndValidity();
       }
       console.log(value);
+      if (this.datosUsuario) {
+        this.actualizarDatos(value);
+      } else {
+        this.nuevoRegistroDatosUsuarios(value)
+      }
+
+
     }
 
     validateConfirmPassword2(): void {
@@ -88,11 +113,68 @@ export class PerfilComponent implements OnInit {
 
 
 
+// peticiones
+
+
+get_data_this_user(){
+
+  this.gestionClientes.get_data_this_user().subscribe(respuesta=>{
+    this.datosUsuario = respuesta;
+    if (this,this.datosUsuario) {
+      console.log(this.datosUsuario);
+      this.cuentaBanco = this.datosUsuario['cuentaBanco'];
+      this.telefono = this.datosUsuario['telefono'];
+      this.direccion= this.datosUsuario['direccion'];
+      this.direccion= this.datosUsuario['direccion'];
+      console.log(this.user);
+    }
+  })
 
 
 
 
 
+}
+
+  actualizarDatos(data){
+    this.gestionClientes.actualizarDatosUsuario(data).subscribe(respuesta=>{
+
+      if (respuesta) {
+      console.log("respuesta")
+      this.createNotification('info','Perfil','Datos actualizados con éxito ');
+      this.get_data_this_user();
+      }
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Error al iniciar sesión: ',err.error.message);
+    });
+  }
+
+  nuevoRegistroDatosUsuarios(data){
+    this.gestionClientes.nuevoRegistroDatosUsuarios(data).subscribe(respuesta=>{
+      if (respuesta) {
+      console.log("respuesta")
+      this.createNotification('Success','Perfil','Datos Ingresados con éxito ');
+      this.get_data_this_user();
+      }
+    },err=>{
+      console.log(err);
+      this.createNotification('error','Error al iniciar sesión: ',err.error.message);
+    });
+  }
+
+
+
+
+// notificacion
+createNotification(type1: string,type2:string,type3:string): void {
+  this.notification.create(
+    type1,
+    type2,
+    type3
+  );
+
+}
 
 
 }
