@@ -10,7 +10,7 @@ import { AdministrarUserService } from 'src/app/auth/services/administrar-user.s
 export class AsideComponent implements OnInit {
 
   constructor(private router:Router,private rol:AdministrarUserService) { }
-   user = this.rol.retornarRol()
+
 
 
    role = 'ADMIN'

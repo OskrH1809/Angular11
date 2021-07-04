@@ -10,7 +10,6 @@ import { GestionUsuariosService } from './gestion-usuarios.service';
 export class AuthGuardGuard implements CanLoad, CanActivate {
   constructor(private notification: NzNotificationService,private router: Router, private gestionUsuario:GestionUsuariosService){}
   token = localStorage.getItem('token')
-  usuario = localStorage.getItem('usuario')
   verificarAcceso = this.gestionUsuario.verificarAcceso();
 
 

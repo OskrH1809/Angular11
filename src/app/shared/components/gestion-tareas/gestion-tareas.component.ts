@@ -71,9 +71,6 @@ export class GestionTareasComponent implements OnInit {
     private modalService: NgbModal,
     private gestionServicios:GestionServiciosContratadosService,
     private ServiciosContratados:GestionServiciosContratadosService) {
-
-    this.administrarService = administrar.validarUser();
-    this.role= administrar.retornarRol();
    }
 
   i = 1;

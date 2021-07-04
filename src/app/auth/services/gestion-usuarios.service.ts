@@ -11,7 +11,6 @@ const baseUrl = environment.baseURLF;
 })
 export class GestionUsuariosService {
   token = localStorage.getItem('token');
-  usuario = localStorage.getItem('usuario');
 
 
   constructor(private router:Router,private http: HttpClient) { }
@@ -30,7 +29,7 @@ export class GestionUsuariosService {
 
 
   verificarAcceso():boolean{
-    if (this.token==null || this.usuario==null) {
+    if (this.token==null) {
       return false
     } else {
       return true
@@ -40,9 +39,6 @@ export class GestionUsuariosService {
 
   logout(){
     localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('user');
-
     this.router.navigate([''])
      .then(() => {
     window.location.reload();

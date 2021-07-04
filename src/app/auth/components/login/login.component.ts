@@ -2,11 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { pipe, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
-import { Autentificacion } from 'src/app/core/interceptors/autentificacion.service';
+
 
 @Component({
   selector: 'app-login',
@@ -14,7 +13,7 @@ import { Autentificacion } from 'src/app/core/interceptors/autentificacion.servi
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  helper = new JwtHelperService();
   validateForm!: FormGroup;
 
   submitForm(): void {
@@ -25,15 +24,17 @@ export class LoginComponent implements OnInit {
 
 
     this.aut.login_check(this.validateForm.value).subscribe(data => {
-      console.log(data);
+
+      const decodeToken = this.helper.decodeToken(data.token)
+
       const  user =  {
-        "nombre": data.data.username,
-        "role": data.data.role,
+        "nombre": decodeToken.username,
+        "role": decodeToken.roles,
       }
 
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user',this.validateForm.value.username)
-      localStorage.setItem('usuario', JSON.stringify(user))
+      // localStorage.setItem('user',decodeToken.username)
+      // localStorage.setItem('usuario', JSON.stringify(user))
 
 
           this.router.navigate([''])

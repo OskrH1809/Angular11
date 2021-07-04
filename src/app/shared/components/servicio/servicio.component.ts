@@ -10,6 +10,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 import { SlicePipe } from '@angular/common';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 // upload
@@ -24,26 +25,29 @@ export class ServicioComponent implements OnInit {
   imagen;
   panelOpenState = false;
   administrarService: any;
-  role:string;
+
   closeModal: string;
   fileExist= false; //declara si la imagen existe
   verificarAcceso = this.gestionUsuario.verificarAcceso();
   dataDocuments; //variable que se utilizara para enviar la imagen a documentos
   documentoEspecifico;
 
+  helper = new JwtHelperService();
+  decodeToken = this.helper.decodeToken(localStorage.getItem('token'))
+  role  = this.decodeToken.roles[0];
   constructor(private router:Router,
               private serviciosContratados:GestionServiciosContratadosService,
               private notification: NzNotificationService ,
-              private administrar:AdministrarUserService,
               private route: ActivatedRoute,
               private modalService: NgbModal,
               private sanitizer: DomSanitizer,
               private gestionUsuario:GestionUsuariosService) {
-    this.administrarService = administrar.validarUser();
-    this.role = administrar.retornarRol();
+
+
   }
 
   ngOnInit(): void {
+    console.log(this.role);
     this.getImageDocuments();
     this.getServiciosContratadosByUser();
 

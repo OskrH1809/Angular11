@@ -12,16 +12,11 @@ import { AdministrarUserService } from './auth/services/administrar-user.service
 })
 export class AppComponent implements OnInit {
   title = 'Servicios';
-  token= localStorage.getItem('token')
+
 
 
   constructor(private auth:Autentificacion,private Usuario:AdministrarUserService) { }
   ngOnInit(): void {
-  if (this.token == null) {
-      console.log('no hay token');
-  } else {
-    console.log('si hay token')
-  }
   }
 
 

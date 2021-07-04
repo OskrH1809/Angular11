@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { decode } from 'querystring';
 import { Observable, Observer } from 'rxjs';
 import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
 
@@ -11,9 +13,11 @@ import { GestionClientesService } from 'src/app/shared/services/gestion-clientes
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
+  helper = new JwtHelperService();
+  decodeToken = this.helper.decodeToken(localStorage.getItem('token'));
   isPasswordVisible = true;
   disableInput = true;
-  user = localStorage.getItem('user');
+  user = this.decodeToken.username;
   datosUsuario;
   cuentaBanco;
   telefono;
