@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -33,29 +33,28 @@ export class ListadosSeComponent implements OnInit {
   listOfData: ItemData[] = [];
   Nombre;
   id: any;
-  idUser =  this.route.snapshot.paramMap.get("id");
+  idUser = this.route.snapshot.paramMap.get("id");
   documento;
 
 
-  deleteRow(id: string,nombre:string): void {
+  deleteRow(id: string, nombre: string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
-    this.createNotification('warning','Cliente: '+`${nombre}`,'Eliminado con éxito');
+    this.createNotification('warning', 'Cliente: ' + `${nombre}`, 'Eliminado con éxito');
 
   }
   //
 
 
   fatrash = faTrash;
-  faedit=faEdit;
+  faedit = faEdit;
   constructor(
-              private serviciosContratados:GestionServiciosContratadosService,
-              private notification: NzNotificationService,
-              private modalService: NgbModal,
-              private _location: Location,
-              private route: ActivatedRoute,
-              private nzImageService: NzImageService
-  )
-  {
+    private serviciosContratados: GestionServiciosContratadosService,
+    private notification: NzNotificationService,
+    private modalService: NgbModal,
+    private _location: Location,
+    private route: ActivatedRoute,
+    private nzImageService: NzImageService
+  ) {
 
 
 
@@ -83,46 +82,46 @@ export class ListadosSeComponent implements OnInit {
   }
 
   // modal
-    // Modal
-    closeModal: string;
-    triggerModal(content) {
-      this.modalService.open(content,
+  // Modal
+  closeModal: string;
+  triggerModal(content) {
+    this.modalService.open(content,
 
-       {size:'xl',ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
+      { size: 'xl', ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
         this.closeModal = `Closed with: ${res}`;
       }, (res) => {
         this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
       });
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
+  }
 
 
-    private getDismissReason(reason: any): string {
-      if (reason === ModalDismissReasons.ESC) {
-        return 'by pressing ESC';
-      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-        return 'by clicking on a backdrop';
-      } else {
-        return  `with: ${reason}`;
-      }
-    }
-
-
-//
-    agregarServicio(array){
+  //
+  agregarServicio(array) {
     console.log(this.listOfData)
     console.log(array)
-    this.listOfData= this.listOfData.concat(array);
-    }
+    this.listOfData = this.listOfData.concat(array);
+  }
 
 
 
-    // notificaciones
-    createNotification(type1: string,type2:string,type3:string,): void {
+  // notificaciones
+  createNotification(type1: string, type2: string, type3: string,): void {
     this.notification.create(
       type1,
       type2,
       type3,
-      { nzDuration:12000 }
+      { nzDuration: 12000 }
     );
 
   }
@@ -133,7 +132,7 @@ export class ListadosSeComponent implements OnInit {
 
   showModald(serviceContractId): void {
     this.isVisibled = true;
-    this.servicioContratadoId= serviceContractId;
+    this.servicioContratadoId = serviceContractId;
   }
 
   handleOkd(): void {
@@ -152,22 +151,26 @@ export class ListadosSeComponent implements OnInit {
 
   // select estado
   optionList = [
-    { label: 'Sin Aprobar', value: '1'},
+    { label: 'Sin Aprobar', value: '1' },
     { label: 'Pendiente de aprobación', value: '2' },
-    { label: 'Aprobado', value: '3'}
+    { label: 'Aprobado', value: '3' }
   ];
-  selectedValue  = 'Seleccionar estado'
+  selectedValue = 'Seleccionar estado'
   // tslint:disable-next-line:no-any
 
-  log(value: {  value: string; }): void {
+  log(value: { value: string; }): void {
     console.log(value.value);
-    const data ={ 'estado': value.value}
-    this.cambiarEstado(this.servicioContratadoId,data);
+    const data = { 'estado': value.value }
+    this.cambiarEstado(this.servicioContratadoId, data);
     console.log(data)
     console.log(this.servicioContratadoId)
     this.getServiciosUsuarioEspecifico();
 
-
+    this.optionList = [
+      { label: 'Sin Aprobar', value: '1' },
+      { label: 'Pendiente de aprobación', value: '2' },
+      { label: 'Aprobado', value: '3' }
+    ];
   }
 
   // modal formulario
@@ -178,9 +181,9 @@ export class ListadosSeComponent implements OnInit {
   showModalFormulariof(): void {
     this.isVisibleFormulariof = true;
     this.optionList = [
-      { label: 'Sin Aprobar', value: '1'},
+      { label: 'Sin Aprobar', value: '1' },
       { label: 'Pendiente de aprobación', value: '2' },
-      { label: 'Aprobado', value: '3'}
+      { label: 'Aprobado', value: '3' }
     ];
   }
 
@@ -200,41 +203,41 @@ export class ListadosSeComponent implements OnInit {
   // ================================================
   ListaserviciosContratados = [];
 
-  getServiciosUsuarioEspecifico(){
+  getServiciosUsuarioEspecifico() {
     const usuario = this.route.snapshot.paramMap.get("id");
-    const data = { user:usuario}
-    this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta=>
-      {
-        this.ListaserviciosContratados=respuesta;
-        console.log(this.ListaserviciosContratados);
-        this.listOfData = this.ListaserviciosContratados;
-      },err=>{
-        console.log(err);
-        this.createNotification('error','Listado: ','Error al obtener los servicio');
-        this.createNotification('error','error: ',err);
-      })
-    }
+    const data = { user: usuario }
+    this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta => {
+      this.ListaserviciosContratados = respuesta;
+      console.log(this.ListaserviciosContratados);
+      this.listOfData = this.ListaserviciosContratados;
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Listado: ', 'Error al obtener los servicio');
+      this.createNotification('error', 'error: ', err);
+    })
+  }
 
-  cambiarEstado(id,data){
-    this.serviciosContratados.updateEstadoServicioContratado(id,data).subscribe(respuesta=>{
+  cambiarEstado(id, data) {
+    this.serviciosContratados.updateEstadoServicioContratado(id, data).subscribe(respuesta => {
       console.log();
       if (respuesta) {
-        this.createNotification('info','Estado: ','Estado actualizado con éxito');
+        this.getServiciosUsuarioEspecifico();
+        this.createNotification('info', 'Estado: ', 'Estado actualizado con éxito');
 
       }
-    },err=>{
+    }, err => {
       console.log(err);
-      this.createNotification('error','Servicio: ','Error al cambiar el estado');
-      this.createNotification('error','error: ',err);
+      this.createNotification('error', 'Servicio: ', 'Error al cambiar el estado');
+      this.createNotification('error', 'error: ', err);
     });
   }
 
 
 
   // documento(imagen)
-  getDocumentsEspecific(dependet){
+  getDocumentsEspecific(dependet) {
     const tipo = '1'
-    this.serviciosContratados.getOneDocumentSpecific(this.idUser,tipo,dependet).subscribe(respuesta=>{
+    this.serviciosContratados.getOneDocumentSpecific(this.idUser, tipo, dependet).subscribe(respuesta => {
       this.documento = respuesta[0]['archivo'];
       this.onClick(respuesta[0]['archivo']);
     })

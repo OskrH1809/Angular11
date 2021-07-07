@@ -2,8 +2,8 @@ import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faEdit,faCoffee,faEye,faTrash } from '@fortawesome/free-solid-svg-icons';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { faEdit, faCoffee, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { AdministrarUserService } from 'src/app/auth/services/administrar-user.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -25,23 +25,24 @@ export class ServicioComponent implements OnInit {
   imagen;
   panelOpenState = false;
   administrarService: any;
-
   closeModal: string;
-  fileExist= false; //declara si la imagen existe
+  fileExist = false; //declara si la imagen existe
   verificarAcceso = this.gestionUsuario.verificarAcceso();
   dataDocuments; //variable que se utilizara para enviar la imagen a documentos
   documentoEspecifico;
 
   helper = new JwtHelperService();
   decodeToken = this.helper.decodeToken(localStorage.getItem('token'))
-  role  = this.decodeToken.roles[0];
-  constructor(private router:Router,
-              private serviciosContratados:GestionServiciosContratadosService,
-              private notification: NzNotificationService ,
-              private route: ActivatedRoute,
-              private modalService: NgbModal,
-              private sanitizer: DomSanitizer,
-              private gestionUsuario:GestionUsuariosService) {
+  role = this.decodeToken.roles[0];
+
+
+  constructor(private router: Router,
+    private serviciosContratados: GestionServiciosContratadosService,
+    private notification: NzNotificationService,
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
+    private gestionUsuario: GestionUsuariosService) {
 
 
   }
@@ -50,25 +51,21 @@ export class ServicioComponent implements OnInit {
     console.log(this.role);
     this.getImageDocuments();
     this.getServiciosContratadosByUser();
-
     this.id = this.route.snapshot.paramMap.get("id");
-    // console.log(this.administrarService );
-    // console.log(this.role );
-
   }
 
 
 
-    // CAPTURAR MES ACTUAL
+  // CAPTURAR MES ACTUAL
 
-    mesActual= moment().format('M');
-    // CAPTURAR MES ACTUAL ^
-
-
+  mesActual = moment().format('M');
+  // CAPTURAR MES ACTUAL ^
 
 
+
+// array para mostrar el encabezado en el encabeezado el mes
   Mes = {
-    1:"Enero",
+    1: "Enero",
     2: "Febrero",
     3: "Marzo",
     4: "Abril",
@@ -85,33 +82,34 @@ export class ServicioComponent implements OnInit {
 
 
 
-// upload file
-public previsualizacion: string;
-public previsualizacion2: string;
-public archivos: any = [];
-public loading: boolean;
-idImagen;
+  // subir archivo
+  public previsualizacion: string;
+  public previsualizacion2: string;
+  public archivos: any = [];
+  public loading: boolean;
+  idImagen;
 
-capturarFile(event,idImage): any {
-  this.idImagen = idImage;
-  const archivoCapturado = event.target.files[0]
-  this.extraerBase64(archivoCapturado).then((imagen:any)=>{
-    this.previsualizacion = imagen.base;
+  // funcion que captura la imagen cargada en el input para mostrarla
+  capturarFile(event, idImage): any {
+    this.idImagen = idImage;
+    const archivoCapturado = event.target.files[0]
+    this.extraerBase64(archivoCapturado).then((imagen: any) => {
+      this.previsualizacion = imagen.base;
 
-    this.imagen=imagen;
-  })
-  this.archivos.push(archivoCapturado)
-  // //
-  console.log(event.target.files);
-  console.log(archivoCapturado);//array con informacion de la imagen
-  this.fileExist=true;
-
-
-}
+      this.imagen = imagen;
+    })
+    this.archivos.push(archivoCapturado)
+    // //
+    console.log(event.target.files);
+    console.log(archivoCapturado);//array con informacion de la imagen
+    this.fileExist = true;        //establece que el archivo ya ha sido cargado
 
 
+  }
 
-// ///////////
+
+
+  // funcion el cual transforma la imagen en base64
   extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
     try {
       const unsafeImg = window.URL.createObjectURL($event);
@@ -135,49 +133,32 @@ capturarFile(event,idImage): any {
   })
 
 
+// funcion para subir archivo
+  subirArchivo(idServicioContracted,): any {
 
-  subirArchivo(idUsuario,idServicioContracted,): any {
-    this.verficarLoginActivo();
-    try {
+    const data = { tipo: '1', dependent: String(idServicioContracted), base64Image: this.imagen['base'] } //el tipo 1 declara que es un la imagene es de un servicio contratado
+    // el tipo 1 declara que es un la imagene es de un servicio contratado
+    // el dependent establace a que servicio contratado pertenece
+    // el base64image es la imagen en formato base64
 
-      const formularioDeDatos = new FormData();
-      this.archivos.forEach(archivo => {
-        formularioDeDatos.append('files', archivo)
-        console.log(this.imagen);
 
-        this.dataDocuments = { tipo:'1', dependent:String(idServicioContracted),base64Image:this.imagen['base']}
-        console.log(this.dataDocuments);
+    console.log(data);
 
-        this.serviciosContratados.postDocumentServiceContracted(this.dataDocuments).subscribe(
-          respuesta =>{
-            console.log(respuesta);
-            if (respuesta) {
-              this.createNotification('success','Documento: ','Documento cargado con éxito');
-              this.getServiciosContratadosByUser();
-              this.getImageDocuments();
-            }
-          },err=>{
-            console.log(err);
-            this.createNotification('error','Error al cargar documento: ',err);
-          }
-        )
-      })
-      // formularioDeDatos.append('_id', 'MY_ID_123')
-      // this.rest.post(`http://localhost:3001/upload`, formularioDeDatos)
-      //   .subscribe(res => {
-      //     this.loading = false;
-      //     console.log('Respuesta del servidor', res);
+    this.serviciosContratados.postDocumentServiceContracted(data).subscribe(      //peticion post que envia los datos para el registro
+      respuesta => {
+        console.log(respuesta);
+        if (respuesta) {
+          this.createNotification('success', 'Documento: ', 'Documento cargado con éxito');  // si el envio fue exitoso se  mostrara una notificacion
+          this.getServiciosContratadosByUser();                                              // llamara a la funcion de getServiciosContratadosByUser el cual mostrara todos los servicios contratados por el cliente que se encuentre logueado
+          this.getImageDocuments();                                                          /// llamara a la funcion getImageDocuments la cual mostrara la imagen siempre y cuando el estado del servicio sea pendiente de aprobacion
 
-        // }
-        //  () => {
-        //   this.loading = false;
-        //   alert('Error');
-        // })
-    } catch (e) {
+        }
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
+      }
+    )
 
-      console.log('ERROR', e);
-
-    }
   }
 
 
@@ -185,7 +166,11 @@ capturarFile(event,idImage): any {
 
 
   // notificaciones
-  createNotification(type1: string,type2:string,type3:string): void {
+  createNotification(
+    type1: string,        //Muestra el tipo de notificación(Success,Info,Waring, error)
+    type2: string,        //Muestra un mensaje elegido por el usuario
+    type3: string         //Muestra un mensaje elegido por el usuario
+  ): void {
     this.notification.create(
       type1,
       type2,
@@ -194,54 +179,42 @@ capturarFile(event,idImage): any {
 
   }
 
-
-
-
-  // conectado  ----------------------------------------------------------------------------------------------
+// funcion el cual se utiliza para mostrar todos los servicios contratados por el usuario que se encuentre logueado
   ListaserviciosContratados = [];
-  getServiciosContratadosByUser(){
+  getServiciosContratadosByUser() {
     this.serviciosContratados.getServiciosContratadosByUser().subscribe(
-      resp =>{
-        this.ListaserviciosContratados=resp;
+      resp => {
+        this.ListaserviciosContratados = resp;
         console.log(this.ListaserviciosContratados);
 
-      },err=>{
+      }, err => {
         console.log(err);
-        this.createNotification('error','Error al obtener los servicios contratados: ',err);
+        this.createNotification('error', 'Error al obtener los servicios contratados: ', err);
       })
 
   }
 
 
+  // funcion que permite cambiar el estado del servicio contratado cuando se cargue una imagen
+  nuevoEstado(servicio, nuevoEstado) {
 
-  nuevoEstado(servicio,nuevoEstado){
-    this.verficarLoginActivo();
-    const data={estado:nuevoEstado}
+    const data = { estado: nuevoEstado }
 
-    this.serviciosContratados.updateEstadoServicioContratado(servicio,data).subscribe(
-      respuesta=>{
+    this.serviciosContratados.updateEstadoServicioContratado(servicio, data).subscribe(
+      respuesta => {
         if (respuesta) {
         }
         this.getServiciosContratadosByUser()
-      },err=>{
+      }, err => {
         console.log(err);
-        this.createNotification('error','Error al actualizar estado: ',err);
+        this.createNotification('error', 'Error al actualizar estado: ', err);
       })
 
 
 
   }
 
-  verficarLoginActivo(){
-    if (this.verificarAcceso==false) {
-      alert('Sesión expirada');
-      this.gestionUsuario.logout();
-    }
-  }
-
-
-
-  // prueba
+  // funcion(que no se esta utizando) que sirve para pasar los archivos a base64
   getBase64(event) {
     let me = this;
     let file = event.target.files[0];
@@ -249,24 +222,26 @@ capturarFile(event,idImage): any {
     reader.readAsDataURL(file);
     reader.onload = function () {
       //me.modelvalue = reader.result;
-      console.log('Imagenasdasd: '+ reader.result);
+      console.log('Imagenasdasd: ' + reader.result);
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
- }
+  }
 
- getImageDocuments(){
-   this.serviciosContratados.getDocumentsServiceContracted().subscribe(
-     respuesta =>{
-     this.documentoEspecifico= respuesta;
-     console.log(respuesta);
-    },err=>{
-      console.log(err);
-      this.createNotification('error','Error al obtener la imagen: ',err);
-    }
-   )
- }
+
+  // funcion que se utiliza paraa mostrar las imagenes de los servicios contratados
+  getImageDocuments() {
+    this.serviciosContratados.getDocumentsServiceContracted().subscribe(
+      respuesta => {
+        this.documentoEspecifico = respuesta;
+        console.log(respuesta);
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al obtener la imagen: ', err);
+      }
+    )
+  }
 
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Observer } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -24,24 +24,24 @@ interface ItemData {
 export class CreacionServiciosComponent implements OnInit {
 
   // tabla
-  value:string;
-  indice:any;
+  value: string;
+  indice: any;
   buscar;
 
 
 
   editId: string | null = null;
-  listOfData:any = [];
-  i ;
+  listOfData: any = [];
+  i;
   nuevoClienteSelect: { userName: string; };
 
   startEdit(id: string): void {
     this.editId = id;
   }
 
-  stopEdit(id,nombre,precio): void {
+  stopEdit(id, nombre, precio): void {
     this.editId = null;
-    this.actualizacionServicio(id,nombre,precio);
+    this.actualizacionServicio(id, nombre, precio);
 
   }
 
@@ -58,7 +58,7 @@ export class CreacionServiciosComponent implements OnInit {
 
   }
 
-  deleteRow(id: string,nombre:string): void {
+  deleteRow(id: string, nombre: string): void {
     this.EliminacionServicio(id)
     this.get_serviciosall(this.buscar);
 
@@ -83,33 +83,33 @@ export class CreacionServiciosComponent implements OnInit {
 
 
   //  formulario modal
-validateForm: FormGroup;
-submitForm(value: { userName: string; }): void {
-  for (const key in this.validateForm.controls) {
-    this.validateForm.controls[key].markAsDirty();
-    this.validateForm.controls[key].updateValueAndValidity();
-  }
-  console.log(value);
-  this.clientes.push(value.userName);
-
-}
-
-
-userNameAsyncValidator = (control: FormControl) =>
-new Observable((observer: Observer<ValidationErrors | null>) => {
-  setTimeout(() => {
-    if (control.value === 'JasonWood') {
-      // you have to return `{error: true}` to mark it as an error event
-      observer.next({ error: true, duplicated: true });
-    } else {
-      observer.next(null);
+  validateForm: FormGroup;
+  submitForm(value: { userName: string; }): void {
+    for (const key in this.validateForm.controls) {
+      this.validateForm.controls[key].markAsDirty();
+      this.validateForm.controls[key].updateValueAndValidity();
     }
-    observer.complete();
-  }, 1000);
-});
+    console.log(value);
+    this.clientes.push(value.userName);
+
+  }
 
 
-//  formulario modal ^
+  userNameAsyncValidator = (control: FormControl) =>
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+      setTimeout(() => {
+        if (control.value === 'JasonWood') {
+          // you have to return `{error: true}` to mark it as an error event
+          observer.next({ error: true, duplicated: true });
+        } else {
+          observer.next(null);
+        }
+        observer.complete();
+      }, 1000);
+    });
+
+
+  //  formulario modal ^
 
 
   // select
@@ -128,20 +128,20 @@ new Observable((observer: Observer<ValidationErrors | null>) => {
   //   })
   // );
 
-// loadMore(): void {
-//   this.isLoading = true;
-//   this.getRandomNameList.subscribe(data => {
-//     this.isLoading = false;
-//     this.optionList = [...this.optionList, ...data];
-//   });
-// }
-// clientes
-isSubmitted = false;
-clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
+  // loadMore(): void {
+  //   this.isLoading = true;
+  //   this.getRandomNameList.subscribe(data => {
+  //     this.isLoading = false;
+  //     this.optionList = [...this.optionList, ...data];
+  //   });
+  // }
+  // clientes
+  isSubmitted = false;
+  clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
 
 
-// select ^
-public form: FormGroup;
+  // select ^
+  public form: FormGroup;
   constructor(
     private notification: NzNotificationService,
 
@@ -149,10 +149,10 @@ public form: FormGroup;
     private modalService: NgbModal,
     private http: HttpClient,
     private _location: Location,
-    private formBuilder:FormBuilder,
-    private servicio : GestionServiciosService
+    private formBuilder: FormBuilder,
+    private servicio: GestionServiciosService
 
-  ){
+  ) {
 
 
 
@@ -168,45 +168,45 @@ public form: FormGroup;
 
 
 
-   }
+  }
 
   // peticion post servicios
   servicios: any;
   // peticion post ^
 
-  CrearServicio(){
+  CrearServicio() {
     // peticion post
-    const nuevoServicio ={ name: `${this.form.value.nombre}`, price: `${this.form.value.precio}`, }
+    const nuevoServicio = { name: `${this.form.value.nombre}`, price: `${this.form.value.precio}`, }
     // peticion post ^
 
     this.servicio.sendPost(nuevoServicio).subscribe(
       res => {
-      console.log(res);
-      if (res) {
-      this.createNotification('success','Servicio: '+`${this.form.value.nombre}`,'Agregado con éxito');
-      this.get_serviciosall(this.buscar);
-      }
-    },err=>{
-      console.log(err);
-      this.createNotification('error','Error al crear servicio: ',err);
-    });
+        console.log(res);
+        if (res) {
+          this.createNotification('success', 'Servicio: ' + `${this.form.value.nombre}`, 'Agregado con éxito');
+          this.get_serviciosall(this.buscar);
+        }
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al crear servicio: ', err);
+      });
 
 
   }
-// peticcion delete servicios
-  EliminacionServicio(id){
+  // peticcion delete servicios
+  EliminacionServicio(id) {
     this.servicio.deleteServicio(id).subscribe(
-      res=>{
+      res => {
         console.log(res);
         if (res) {
-          this.createNotification('warning','Servicio: ','Eliminado con éxito');
+          this.createNotification('warning', 'Servicio: ', 'Eliminado con éxito');
         }
 
 
-    },err=>{
-      console.log(err);
-      this.createNotification('error','Error al eliminar servicio: ',err);
-    }
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al eliminar servicio: ', err);
+      }
     );
 
   }
@@ -214,25 +214,25 @@ public form: FormGroup;
 
   // peticcion put servicios
 
-  actualizacionServicio(id,nombre,precio){
-    const data = {name:nombre, price: precio }
+  actualizacionServicio(id, nombre, precio) {
+    const data = { name: nombre, price: precio }
     console.log(data);
-    this.servicio.updateServicio(id,data).subscribe(
-      resp=>{
+    this.servicio.updateServicio(id, data).subscribe(
+      resp => {
         console.log(resp);
         if (resp) {
-          this.createNotification('info','Servicio: ','Servicio actualizaddo con éxito');
+          this.createNotification('info', 'Servicio: ', 'Servicio actualizaddo con éxito');
 
         }
-      },err=>{
+      }, err => {
         console.log(err);
-        this.createNotification('error','Error al actualizar servicio: ',err);
+        this.createNotification('error', 'Error al actualizar servicio: ', err);
       }
-      )
+    )
 
   }
 
-    // peticcion put servicios ^
+  // peticcion put servicios ^
 
 
 
@@ -283,8 +283,8 @@ public form: FormGroup;
 
 
     this.form = this.formBuilder.group({
-      nombre: ['',[Validators.required]],
-      precio: ['',Validators.required],
+      nombre: ['', [Validators.required]],
+      precio: ['', Validators.required],
 
 
     });
@@ -314,7 +314,7 @@ public form: FormGroup;
   }
 
 
-  send():any{
+  send(): any {
     console.log(this.form.value);
 
   }
@@ -324,14 +324,14 @@ public form: FormGroup;
   // modal
   closeModal: string;
   triggerModal(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
       this.closeModal = `Closed with: ${res}`;
     }, (res) => {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
     });
   }
 
-  clearModal(){
+  clearModal() {
     // this.formModal = this.form2.group({
     //   name: ['',[Validators.required]],
     // });
@@ -342,7 +342,7 @@ public form: FormGroup;
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
@@ -353,66 +353,66 @@ public form: FormGroup;
 
 
 
-// peticion get de servicios
-  data_serviciosall:any;
-    //getSearchServices
-  get_serviciosall(buscar){
+  // peticion get de servicios
+  data_serviciosall: any;
+  //getSearchServices
+  get_serviciosall(buscar) {
 
-      if (buscar) {
-        this.servicio.getSearchServices(this.value).subscribe(data => {
-          this.listOfData = data;
-            console.log(data);
-        },err=>{
-          console.log(err);
-          this.createNotification('error','Error al obtener los servicios: ',err);
-        });
-      } else {
-        this.servicio.get_servicios().subscribe(data => {
-          // this.indice = data.pop()['id'] +1;
-          this.listOfData = data;
-            console.log(data);
-        },err=>{
-          console.log(err);
-          this.createNotification('error','Error al obtener los servicios: ',err);
-        });
-      }
-
-    }
-
-    getIndice(){
+    if (buscar) {
+      this.servicio.getSearchServices(this.value).subscribe(data => {
+        this.listOfData = data;
+        console.log(data);
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al obtener los servicios: ', err);
+      });
+    } else {
       this.servicio.get_servicios().subscribe(data => {
-
-        if(data){
-          this.i = data.pop().id + 1;
-        }
-      //
+        // this.indice = data.pop()['id'] +1;
+        this.listOfData = data;
+        console.log(data);
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al obtener los servicios: ', err);
       });
     }
 
+  }
 
-          // notificaciones
-  createNotification(type1: string,type2:string,type3:string,): void {
+  getIndice() {
+    this.servicio.get_servicios().subscribe(data => {
+
+      if (data) {
+        this.i = data.pop().id + 1;
+      }
+      //
+    });
+  }
+
+
+  // notificaciones
+  createNotification(type1: string, type2: string, type3: string,): void {
     this.notification.create(
       type1,
       type2,
       type3,
-      { nzDuration:12000 }
+      { nzDuration: 12000 }
     );
 
   }
 
-  EnterSubmit(evento){
-    if(evento.keyCode === 13){
-     this.buscar=this.value
-    this.get_serviciosall(this.buscar);
-  }
+  EnterSubmit(evento) {
+    if (evento.keyCode === 13) {
+      this.buscar = this.value
+      this.get_serviciosall(this.buscar);
+    }
 
 
   }
 
-  cancelarBusqueda(){
-    const buscar=null;
-    this.value=''
+  cancelarBusqueda() {
+    const buscar = null;
+    this.value = ''
     this.get_serviciosall(buscar);
   }
 

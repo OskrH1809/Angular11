@@ -131,10 +131,11 @@ transition: 0.2s;
 
 .imagen-pago{
   align-items: center;
-  width: 80% !important;
+  width: 70% !important;
   align-content: center !important;
   float:right;
   padding-right: 10% ;
+  height: 80%;
 }
 .imagenContenedor{
   width: 100% !important;

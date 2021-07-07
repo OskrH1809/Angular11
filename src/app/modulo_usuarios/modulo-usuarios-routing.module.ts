@@ -8,10 +8,11 @@ import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 import { LogueadoGuard } from '../auth/services/logueado.guard';
 import { PerfilComponent } from '../auth/components/perfil/perfil.component';
 import { RolesGuard } from '../auth/services/roles.guard';
+import { RegistroGuard } from '../auth/services/registro.guard';
 
 const routes: Routes = [
   {path:'', component:LoginComponent,canActivate:[LogueadoGuard]},
-  {path:'registro', component:RegistroComponent,canActivate:[LogueadoGuard],},
+  {path:'registro', component:RegistroComponent,canActivate:[RegistroGuard],},
   {path:'recuperar', component:RecuperarContraComponent,canActivate:[LogueadoGuard]},
   {path:'gestionclientes', component:GestionClientesComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
   {path:'perfil', component:PerfilComponent,canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},

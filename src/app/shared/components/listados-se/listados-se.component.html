@@ -1,117 +1,224 @@
 <div class="container espacio">
-  <div class="row">
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-md-2 col-sm-12"></div>
+        <div class=" pl-5 col-md-8 pt-5 col-sm-12">
 
-  </div>
-  <div class="row">
-    <div class="col-md-2 col-sm-12">
+            <h1
+                class="text-center"
+                *ngIf="listOfData!=null"
+            >
+                Listado de servicios
+            </h1>
+            <h1
+                class="text-center"
+                *ngIf="listOfData==null"
+            >
+                El usuario aun no ha contratado servicios
+            </h1>
 
-
-    </div>
-    <div class=" pl-5 col-md-8 pt-5 col-sm-12">
-
-      <h1 class="text-center" *ngIf="listOfData!=null">Listado de servicios </h1>
-      <h1 class="text-center" *ngIf="listOfData==null">El usuario aun no ha contratado servicios</h1>
-
-      <br />
-      <br />
-      <button nz-button  nzType="primary" (click)="showModalFormulariof()">Contratar nuevo servicio</button>
-      <br>
-      <nz-table #editRowTable nzBordered [nzData]="listOfData">
-        <thead>
-          <tr>
-            <th nzWidth="5%">Id</th>
-            <th nzWidth="30%">Servicios</th>
-            <th nzWidth="20%">Precio</th>
-            <th nzWidth="50%">Estado</th>
-            <th nzWidth="50%">Comprobante de pago</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of editRowTable.data" class="editable-row">
-            <td>
-              {{ data.id }}
-          </td>
-            <td>
-                {{ data.servicio }}
-            </td>
-            <td>{{ data.precio }}</td>
-            <td class="text-center"> {{data.estado}}
-              <br>
-              <a  ><span (click)="showModald(data.id)" nz-tooltip nzTooltipTitle="Editar estado servicio {{data.servicio}}" ><i nz-icon nzType="edit" style="font-size: 25px; color: #2986f1;" nzTheme="outline"></i></span> </a>
-              <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
-
-            </td>
-            <td class="text-center">
-              <a (click)="getDocumentsEspecific(data.id)"><span nz-tooltip nzTooltipTitle="Visualizar comprobante de pago" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
-
-            </td>
-            <td class="text-center">
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.servicio}}?"  (nzOnConfirm)="deleteRow(data.Id,data.servicio) "><span nz-tooltip nzTooltipTitle="Eliminar servicio {{data.servicio}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
-            </td>
-
-          </tr>
-        </tbody>
-        <ng-template  class="pull-left " #modalData let-modal>
-          <div class="modal-body">
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <span aria-hidden="true">×</span>
+            <br>
+            <br>
+            <button
+                nz-button
+                nzType="primary"
+                (click)="showModalFormulariof()"
+            >
+                Contratar nuevo servicio
             </button>
-          </div>
-          <div class="modal-body">
+            <br>
+            <nz-table
+                #editRowTable
+                nzBordered
+                [nzData]="listOfData"
+            >
+                <thead>
+                    <tr>
+                        <th nzWidth="5%">Id</th>
+                        <th nzWidth="30%">Servicios</th>
+                        <th nzWidth="20%">Precio</th>
+                        <th nzWidth="30%">Tareas del servicio</th>
+                        <th nzWidth="50%">Estado</th>
+                        <th nzWidth="50%">Comprobante de pago</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let data of editRowTable.data"
+                        class="editable-row"
+                    >
+                        <td>{{ data.id }}</td>
+                        <td>{{ data.servicio }}</td>
+                        <td>{{ data.precio }}</td>
+                        <td class="text-center">
+                            <a
+                                routerLink="/gestiontareas/{{data.idUsuario}}/{{data.idServicio}}"
+                                routerLinkActive="true"
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Ver tareas del servicio:  {{data.servicio}}"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: #08c;"
+                                        nz-icon
+                                        nzType="eye"
+                                        nzTheme="outline"
+                                    ></i>
+                                </span>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            {{data.estado}}
+                            <br>
+                            <a>
+                                <span
+                                    (click)="showModald(data.id)"
+                                    nz-tooltip
+                                    nzTooltipTitle="Editar estado servicio {{data.servicio}}"
+                                >
+                                    <i
+                                        nz-icon
+                                        nzType="edit"
+                                        style="font-size: 25px; color: #2986f1;"
+                                        nzTheme="outline"
+                                    ></i>
+                                </span>
+                            </a>
+                            <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
 
-            <div class="container">
-              <div class="row ">
-                <div class="col-md-12 col-sm-12 ">
-                </div>
-              </div>
-            </div>
+                        </td>
+                        <td class="text-center">
+                            <a *ngIf="data.estado=='Pendiente de aprobación' || data.estado=='Aprobado'" (click)="getDocumentsEspecific(data.id)">
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Visualizar comprobante de pago"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: #08c;"
+                                        nz-icon
+                                        nzType="eye"
+                                        nzTheme="outline"
+                                    ></i>
+                                </span>
+                            </a>
 
-          </div>
-          <div class="modal-footer ">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
-          </div>
-        </ng-template>
-        <!-- modal de select -->
-        <nz-modal [(nzVisible)]="isVisibled" nzTitle="Seleccione el nuevo estado del servicio" (nzOnCancel)="handleCanceld()" (nzOnOk)="handleOkd()">
-          <ng-container *nzModalContent>
-            <!-- select  -->
-            <!-- <p>The selected option's age is {{ selectedValue?.age }}</p> -->
-            <br />
-            <nz-select [(ngModel)]="selectedValue"  (ngModelChange)="log($event)" nzAllowClear nzPlaceHolder="Seleccionar estado">
-              <nz-option *ngFor="let option of optionList" [nzValue]="option"  [nzSize]="small"    [nzLabel]="option.label"></nz-option>
-            </nz-select>
-            <!-- select end -->
-          </ng-container>
-        </nz-modal>
-        <!-- modal de select end -->
+                        </td>
+                        <td class="text-center">
+                            <a
+                                nz-popconfirm
+                                nzPopconfirmTitle="seguro que desea eliminar a {{data.servicio}}?"
+                                (nzOnConfirm)="deleteRow(data.Id,data.servicio) "
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Eliminar servicio {{data.servicio}}"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: rgb(255, 0, 0);"
+                                        nz-icon
+                                        nzType="delete"
+                                        nzTheme="outline"
+                                        [nzTwotoneColor]="red"
+                                    ></i>
+                                </span>
+                            </a>
+                        </td>
 
+                    </tr>
+                </tbody>
+                <ng-template
+                    class="pull-left "
+                    #modalData
+                    let-modal
+                >
+                    <div class="modal-body">
+                        <button
+                            type="button"
+                            class="close"
+                            aria-label="Close"
+                            (click)="modal.dismiss('Cross click')"
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
-        <!-- modal formulario -->
-        <nz-modal [(nzVisible)]="isVisibleFormulariof" [nzStyle]="{ top: '20px' }"  nzTitle="" (nzOnCancel)="handleCancelFormulariof()" (nzOnOk)="handleOkFormulariof()">
-          <ng-container *nzModalContent>
-            <app-contratar-servicios (contratar)="agregarServicio($event)"></app-contratar-servicios>
+                        <div class="container">
+                            <div class="row ">
+                                <div class="col-md-12 col-sm-12 "></div>
+                            </div>
+                        </div>
 
-          </ng-container>
-        </nz-modal>
-        <!-- modal formulario end -->
+                    </div>
+                    <div class="modal-footer ">
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="modal.close('Save click')"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </ng-template>
+                <!-- modal de select -->
+                <nz-modal
+                    [(nzVisible)]="isVisibled"
+                    nzTitle="Seleccione el nuevo estado del servicio"
+                    (nzOnCancel)="handleCanceld()"
+                    (nzOnOk)="handleOkd()"
+                >
+                    <ng-container *nzModalContent>
+                        <!-- select -->
+                        <!-- <p>The selected option's age is {{ selectedValue?.age }}</p> -->
+                        <br>
+                        <nz-select
+                            [(ngModel)]="selectedValue"
+                            (ngModelChange)="log($event)"
+                            nzAllowClear
+                            nzPlaceHolder="Seleccionar estado"
+                        >
+                            <nz-option
+                                *ngFor="let option of optionList"
+                                [nzValue]="option"
+                                [nzSize]="small"
+                                [nzLabel]="option.label"
+                            ></nz-option>
+                        </nz-select>
+                        <!-- select end -->
+                    </ng-container>
+                </nz-modal>
+                <!-- modal de select end -->
 
-      </nz-table>
-      <br>
-      <button class="btn btn-primary"  pull-right pt-5 (click)="backClicked()">Regresar</button>
+                <!-- modal formulario -->
+                <nz-modal
+                    [(nzVisible)]="isVisibleFormulariof"
+                    [nzStyle]="{ top: '20px' }"
+                    nzTitle
+                    (nzOnCancel)="handleCancelFormulariof()"
+                    (nzOnOk)="handleOkFormulariof()"
+                >
+                    <ng-container *nzModalContent>
+                        <app-contratar-servicios (contratar)="agregarServicio($event)"></app-contratar-servicios>
 
+                    </ng-container>
+                </nz-modal>
+                <!-- modal formulario end -->
 
+            </nz-table>
+            <br>
+            <button
+                class="btn btn-primary"
+                pull-right
+                pt-5
+                (click)="backClicked()"
+            >
+                Regresar
+            </button>
 
+        </div>
+        <div class="col-md-2 col-sm-12"></div>
     </div>
-    <div class="col-md-2 col-sm-12">
-
-
-
-
-
-
-    </div>
-  </div>
 </div>
-
 `

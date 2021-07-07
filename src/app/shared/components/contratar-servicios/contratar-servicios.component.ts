@@ -21,14 +21,14 @@ export class ContratarServiciosComponent implements OnInit {
   checked = false;
   loading = false;
   indeterminate = false;
-  listOfData:any = [];
+  listOfData: any = [];
   listOfCurrentPageData: ReadonlyArray<Data> = [];
   setOfCheckedId = new Set<number>();
 
 
   constructor(
-    private servicio : GestionServiciosService,
-    private notification: NzNotificationService){
+    private servicio: GestionServiciosService,
+    private notification: NzNotificationService) {
 
   }
 
@@ -66,7 +66,7 @@ export class ContratarServiciosComponent implements OnInit {
     const requestData = this.listOfData.filter(data => this.setOfCheckedId.has(data.id));
 
     this.contratar.emit(requestData);
-    this.createNotification('success','Servicios','Agregados con éxito');
+    this.createNotification('success', 'Servicios', 'Agregados con éxito');
 
     setTimeout(() => {
       this.setOfCheckedId.clear();
@@ -91,27 +91,27 @@ export class ContratarServiciosComponent implements OnInit {
 
 
   // notificaciones
-  createNotification(type1: string,type2:string,type3:string,): void {
+  createNotification(type1: string, type2: string, type3: string,): void {
     this.notification.create(
       type1,
       type2,
       type3,
-      { nzDuration:12000 }
+      { nzDuration: 12000 }
     );
 
   }
 
   //peticiones
 
-  get_serviciosall(){
+  get_serviciosall() {
 
     this.servicio.get_servicios().subscribe(data => {
       // this.indice = data.pop()['id'] +1;
       this.listOfData = data;
-        console.log(data);
-    },err=>{
+      console.log(data);
+    }, err => {
       console.log(err);
-      this.createNotification('error','Error al obtener los servicios: ',err);
+      this.createNotification('error', 'Error al obtener los servicios: ', err);
     });
 
   }

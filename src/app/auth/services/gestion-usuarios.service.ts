@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 const baseUrl = environment.baseURLF;
@@ -11,7 +12,8 @@ const baseUrl = environment.baseURLF;
 })
 export class GestionUsuariosService {
   token = localStorage.getItem('token');
-
+  helper = new JwtHelperService();
+  decodeToken = this.helper.decodeToken(localStorage.getItem('token'));
 
   constructor(private router:Router,private http: HttpClient) { }
   // registro de usuarios
@@ -19,8 +21,18 @@ export class GestionUsuariosService {
     return this.http.post<any>(`${baseUrl}/api/register`, data);
   }
 
+  cambiarContraseña(data){
+    return this.http.put<any>(`${baseUrl}/api/edit_password`, data);
+  }
 
 
+  username(){
+    if (this.decodeToken==null) {
+      return '';
+    } else {
+      return this.decodeToken.username;
+    }
+  }
 
   // Login
   login_check(data: any): Observable<any> {
@@ -35,6 +47,14 @@ export class GestionUsuariosService {
       return true
     }
 
+  }
+
+  role(){
+    if (this.decodeToken==null) {
+      return 'sin roles';
+    } else {
+      return this.decodeToken.roles[0];
+    }
   }
 
   logout(){

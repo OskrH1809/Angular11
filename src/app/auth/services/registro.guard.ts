@@ -7,34 +7,27 @@ import { GestionUsuariosService } from './gestion-usuarios.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LogueadoGuard implements CanActivate, CanLoad {
+export class RegistroGuard implements CanActivate, CanLoad {
   verificarAcceso = this.gestionUsuario.verificarAcceso();
 
+  role = this.gestion.role()
 
-  constructor( private router: Router, private gestionUsuario:GestionUsuariosService){}
+  constructor(private gestion:GestionUsuariosService, private router: Router, private gestionUsuario:GestionUsuariosService){}
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (this.verificarAcceso==false) {
+    if (this.verificarAcceso==false || this.role == 'ADMIN') {
       return true
 
     } else {
       this.router.navigate(['cards']);
       return false
     }
-
   }
   canLoad(
     route: Route,
-    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-      if (this.verificarAcceso==false) {
-        return true
-      } else {
-        this.router.navigate(['cards']);
-        return false
-      }
-
-
+    segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return true;
   }
 }

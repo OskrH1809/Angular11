@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import * as moment from 'moment';
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AdministrarUserService } from 'src/app/auth/services/administrar-user.service';
 //  editor
@@ -32,31 +32,32 @@ interface ItemData {
 })
 
 export class GestionTareasComponent implements OnInit {
-  ServicioId =  this.route.snapshot.paramMap.get("id");
+  idServicio = this.route.snapshot.paramMap.get("idservicio");
+  idUsuario = this.route.snapshot.paramMap.get("idusuario");
   idTarea;
-  ArchivoCap:any;
+  ArchivoCap: any;
   documentoBase64;
   documentos;
 
   // editor
-  dataDescripcion:any;
-  descripcion:any;
+  dataDescripcion: any;
+  descripcion: any;
   public Editor = ClassicEditor;
 
-  public onChange( { editor } ) {
-      const data = editor.getData();
-      console.log(data);
+  public onChange({ editor }) {
+    const data = editor.getData();
+    console.log(data);
 
   }
 
-  public info(){
+  public info() {
     this.descripcion = this.Editor;
   }
 
 
   //  editor
-  mesActual= moment().format('M').toString();
-  id:string;
+  mesActual = moment().format('M').toString();
+  id: string;
 
   administrarService: boolean;
   role: any;
@@ -65,32 +66,32 @@ export class GestionTareasComponent implements OnInit {
   constructor(
     private notification: NzNotificationService,
     private sanitizer: DomSanitizer,
-    private administrar:AdministrarUserService,
+    private administrar: AdministrarUserService,
     private route: ActivatedRoute,
     private _location: Location,
     private modalService: NgbModal,
-    private gestionServicios:GestionServiciosContratadosService,
-    private ServiciosContratados:GestionServiciosContratadosService) {
-   }
+    private gestionServicios: GestionServiciosContratadosService,
+    private ServiciosContratados: GestionServiciosContratadosService) {
+  }
 
   i = 1;
 
   editId: string | null = null;
-  listOfData:any = [];
+  listOfData: any = [];
 
 
-  idEdit='';
-  tituloEdit='';
-  descripcionEdit='';
-  fileEdit='';
+  idEdit = '';
+  tituloEdit = '';
+  descripcionEdit = '';
+  fileEdit = '';
   arrayEdit;
-  llenarDatos(id,titulo,descripcion){
-    this.arrayEdit= {
-    descripcion2: descripcion,
-    file: "",
-    fileSource: "",​​
-    id: id,
-    titulo: titulo
+  llenarDatos(id, titulo, descripcion) {
+    this.arrayEdit = {
+      descripcion2: descripcion,
+      file: "",
+      fileSource: "",
+      id: id,
+      titulo: titulo
     }
     this.demoReactiveForm2.setValue(this.arrayEdit);
 
@@ -120,7 +121,7 @@ export class GestionTareasComponent implements OnInit {
     console.log(this.ArchivoCap);
   }
 
-  deleteRow(id: string,nombre: string ): void {
+  deleteRow(id: string, nombre: string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
 
@@ -140,11 +141,11 @@ export class GestionTareasComponent implements OnInit {
   triggerModal(content) {
     this.modalService.open(content,
 
-     {size:'xl',ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-      this.closeModal = `Closed with: ${res}`;
-    }, (res) => {
-      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-    });
+      { size: 'xl', ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
+        this.closeModal = `Closed with: ${res}`;
+      }, (res) => {
+        this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+      });
   }
 
 
@@ -154,7 +155,7 @@ export class GestionTareasComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
@@ -165,182 +166,182 @@ export class GestionTareasComponent implements OnInit {
 
 
 
-    // form modal 2
-    public demoReactiveForm = new FormGroup( {
-      id: new FormControl(),
-      titulo: new FormControl(),
-      descripcion: new FormControl( ),
-      file: new FormControl('', [Validators.required]),
-      fileSource: new FormControl('', [Validators.required])
-    } );
+  // form modal 2
+  public demoReactiveForm = new FormGroup({
+    id: new FormControl(),
+    titulo: new FormControl(),
+    descripcion: new FormControl(),
+    file: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required])
+  });
 
-    public formDataPreview?: string;
+  public formDataPreview?: string;
 
-    public ngAfterViewInit() {
-      this.demoReactiveForm!.valueChanges
-        .subscribe( values => {
-          this.formDataPreview = JSON.stringify( values );
-        } );
+  public ngAfterViewInit() {
+    this.demoReactiveForm!.valueChanges
+      .subscribe(values => {
+        this.formDataPreview = JSON.stringify(values);
+      });
 
-        // modal 3
-        this.demoReactiveForm2!.valueChanges
-        .subscribe( values => {
-          this.formDataPreview2 = JSON.stringify( values );
+    // modal 3
+    this.demoReactiveForm2!.valueChanges
+      .subscribe(values => {
+        this.formDataPreview2 = JSON.stringify(values);
 
-        } );
-    }
+      });
+  }
 
-    public onSubmit(): void {
-      console.log(this.demoReactiveForm.value);
-      const dataTareas  = { titulo:this.demoReactiveForm.value.titulo, descripcion:this.demoReactiveForm.value.descripcion, servicio:this.ServicioId,}
-      this.postTareas(dataTareas);
-      console.log(this.demoReactiveForm.value.id);
-      console.log(parseInt(this.idTarea));
-      this.reset();
-    }
+  public onSubmit(): void {
+    console.log(this.demoReactiveForm.value);
+    const dataTareas = { titulo: this.demoReactiveForm.value.titulo, descripcion: this.demoReactiveForm.value.descripcion, servicio: this.idServicio, }
+    this.postTareas(dataTareas);
+    console.log(this.demoReactiveForm.value.id);
+    console.log(parseInt(this.idTarea));
+    this.reset();
+  }
 
-    public reset(): void {
-      this.demoReactiveForm!.reset();
-    }
+  public reset(): void {
+    this.demoReactiveForm!.reset();
+  }
 
-    public get description(): AbstractControl {
-      return this.demoReactiveForm!.controls.descripcion;
-    }
+  public get description(): AbstractControl {
+    return this.demoReactiveForm!.controls.descripcion;
+  }
 
-    get f(){
+  get f() {
 
-      return this.demoReactiveForm.controls;
+    return this.demoReactiveForm.controls;
 
-    }
+  }
 
-    onFileChange(event) {
+  onFileChange(event) {
 
 
 
-      if (event.target.files.length > 0) {
+    if (event.target.files.length > 0) {
 
-        const file = event.target.files[0];
+      const file = event.target.files[0];
 
-        this.demoReactiveForm.patchValue({
+      this.demoReactiveForm.patchValue({
 
-          fileSource: file
+        fileSource: file
 
-        });
-
-      }
+      });
 
     }
 
-    submit(){
+  }
 
-      const formData = new FormData();
+  submit() {
 
-      formData.append('file', this.demoReactiveForm.get('fileSource').value);
+    const formData = new FormData();
 
-      console.log(formData);
+    formData.append('file', this.demoReactiveForm.get('fileSource').value);
 
-      // this.http.post('http://localhost:8001/upload.php', formData)
+    console.log(formData);
 
-      //   .subscribe(res => {
+    // this.http.post('http://localhost:8001/upload.php', formData)
 
-      //     console.log(res);
+    //   .subscribe(res => {
 
-      //     alert('Uploaded Successfully.');
+    //     console.log(res);
 
-      //   })
+    //     alert('Uploaded Successfully.');
 
-    }
+    //   })
 
-
-
-    // modal3
+  }
 
 
 
-    public demoReactiveForm2 = new FormGroup( {
-
-      id: new FormControl(),
-      titulo: new FormControl(),
-      descripcion2: new FormControl(),
-      file: new FormControl('', [Validators.required]),
-      fileSource: new FormControl('', [Validators.required])
-    } );
-
-    public formDataPreview2?: string;
-
-
-    public onSubmit2(): void {
-      console.log(this.demoReactiveForm2.value);
-      this.editTarea(this.demoReactiveForm2.value.id,this.demoReactiveForm2.value.titulo,this.demoReactiveForm2.value.descripcion2);
-
-
-      this.reset2();
-    }
-
-
-    public reset2(): void {
-      this.demoReactiveForm2!.reset();
-    }
-
-    public get descripcion2(): AbstractControl {
-      return this.demoReactiveForm2!.controls.descripcion2;
-    }
-
-    get f2(){
-
-      return this.demoReactiveForm2.controls;
-
-    }
-
-    onFileChange2(event) {
+  // modal3
 
 
 
-      if (event.target.files.length > 0) {
+  public demoReactiveForm2 = new FormGroup({
 
-        const file = event.target.files[0];
+    id: new FormControl(),
+    titulo: new FormControl(),
+    descripcion2: new FormControl(),
+    file: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required])
+  });
 
-        this.demoReactiveForm2.patchValue({
-
-          fileSource: file
-
-        });
-
-      }
-
-    }
-
-    submit2(){
-
-      const formData = new FormData();
-
-      formData.append('file', this.demoReactiveForm2.get('fileSource').value);
-
-      console.log(formData);
+  public formDataPreview2?: string;
 
 
-      // this.http.post('http://localhost:8001/upload.php', formData)
+  public onSubmit2(): void {
+    console.log(this.demoReactiveForm2.value);
+    this.editTarea(this.demoReactiveForm2.value.id, this.demoReactiveForm2.value.titulo, this.demoReactiveForm2.value.descripcion2);
 
-      //   .subscribe(res => {
 
-      //     console.log(res);
+    this.reset2();
+  }
 
-      //     alert('Uploaded Successfully.');
 
-      //   })
+  public reset2(): void {
+    this.demoReactiveForm2!.reset();
+  }
+
+  public get descripcion2(): AbstractControl {
+    return this.demoReactiveForm2!.controls.descripcion2;
+  }
+
+  get f2() {
+
+    return this.demoReactiveForm2.controls;
+
+  }
+
+  onFileChange2(event) {
+
+
+
+    if (event.target.files.length > 0) {
+
+      const file = event.target.files[0];
+
+      this.demoReactiveForm2.patchValue({
+
+        fileSource: file
+
+      });
 
     }
 
+  }
+
+  submit2() {
+
+    const formData = new FormData();
+
+    formData.append('file', this.demoReactiveForm2.get('fileSource').value);
+
+    console.log(formData);
+
+
+    // this.http.post('http://localhost:8001/upload.php', formData)
+
+    //   .subscribe(res => {
+
+    //     console.log(res);
+
+    //     alert('Uploaded Successfully.');
+
+    //   })
+
+  }
 
 
 
-      // notificaciones
-  createNotification(type1: string,type2:string,type3:string,): void {
+
+  // notificaciones
+  createNotification(type1: string, type2: string, type3: string,): void {
     this.notification.create(
       type1,
       type2,
       type3,
-      { nzDuration:12000 }
+      { nzDuration: 12000 }
     );
 
   }
@@ -368,47 +369,47 @@ export class GestionTareasComponent implements OnInit {
 
 
 
-  getTareas(){
-    this.ServiciosContratados.getTareasEspeficas(this.ServicioId).subscribe(
-      respuesta=>{
+  getTareas() {
+    this.ServiciosContratados.getTareasEspeficas(this.idUsuario,this.idServicio).subscribe(
+      respuesta => {
         console.log(respuesta);
         this.listOfData = respuesta;
-      },err=>{
+      }, err => {
         console.log(err);
-        this.createNotification('error','Error al obtener las tareas: ',err);
+        this.createNotification('error', 'Error al obtener las tareas: ', err);
       })
   }
 
-  postTareas(data){
+  postTareas(data) {
     this.gestionServicios.newTareas(data).subscribe(
       respuesta => {
         console.log(respuesta);
-       if (this.documentoBase64) {
-        this.posDocument(parseInt(respuesta.id), this.documentoBase64);
-       }
+        if (this.documentoBase64) {
+          this.posDocument(parseInt(respuesta.id), this.documentoBase64);
+        }
         this.getTareas();
-        this.createNotification('info','Tarea','Agregada con éxito');
+        this.createNotification('info', 'Tarea', 'Agregada con éxito');
 
-      },err=>{
+      }, err => {
         console.log(err);
-        this.createNotification('error','Error al enviar la nueva tarea: ',err);
+        this.createNotification('error', 'Error al enviar la nueva tarea: ', err);
       }
     )
   }
 
 
-  posDocument(tarea,documento){
-    const data = {tipo:'2', dependent:tarea,base64Image:documento}
+  posDocument(tarea, documento) {
+    const data = { tipo: '2', dependent: tarea, base64Image: documento }
     this.gestionServicios.postDocumentServiceContracted(data).subscribe(
-      respuesta=>{
+      respuesta => {
         console.log(respuesta);
         if (respuesta) {
-          this.createNotification('info','Tareas: ','Documento cargado con éxito');
+          this.createNotification('info', 'Tareas: ', 'Documento cargado con éxito');
 
         }
-      },err=>{
+      }, err => {
         console.log(err);
-        this.createNotification('error','Error al enviar el documento de tareas: ',err);
+        this.createNotification('error', 'Error al enviar el documento de tareas: ', err);
       })
   }
 
@@ -423,7 +424,7 @@ export class GestionTareasComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onload = function () {
       // me.modelvalue = reader.result;
-      console.log('Documento base 64: '+ reader.result);
+      console.log('Documento base 64: ' + reader.result);
       me.documentoBase64 = reader.result
     };
 
@@ -431,42 +432,42 @@ export class GestionTareasComponent implements OnInit {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
- }
+  }
 
 
- editTarea(id,titulo,descripcion){
+  editTarea(id, titulo, descripcion) {
 
-  const data = {id:id, titulo:titulo, descripcion:descripcion}
-  this.gestionServicios.editarTarea(data).subscribe(respuesta=>{
-    console.log(respuesta);
-       if (this.documentoBase64) {
+    const data = { id: id, titulo: titulo, descripcion: descripcion }
+    this.gestionServicios.editarTarea(data).subscribe(respuesta => {
+      console.log(respuesta);
+      if (this.documentoBase64) {
         this.posDocument(parseInt(id), this.documentoBase64);
-       }
-        this.getTareas();
-        this.createNotification('info','Tarea','Actualizada con éxito');
+      }
+      this.getTareas();
+      this.createNotification('info', 'Tarea', 'Actualizada con éxito');
 
-  },err=>{
-    console.log(err);
-    this.createNotification('error','Error al actualizar tarea: ',err);
-  })
- }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Error al actualizar tarea: ', err);
+    })
+  }
 
-  eliminarTarea(id){
+  eliminarTarea(id) {
 
     console.log(id);
-    this.gestionServicios.eliminarTarea(id).subscribe(respuesta=>{
-    console.log(respuesta);
-    if (respuesta) {
-      this.getTareas();
-      this.createNotification('warning','Tarea','Eliminada con éxito');
-    }
+    this.gestionServicios.eliminarTarea(id).subscribe(respuesta => {
+      console.log(respuesta);
+      if (respuesta) {
+        this.getTareas();
+        this.createNotification('warning', 'Tarea', 'Eliminada con éxito');
+      }
 
-  },err=>{
-    console.log(err);
-    this.createNotification('error','Error al eliminar tarea: ',err);
-  })
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Error al eliminar tarea: ', err);
+    })
 
 
- }
+  }
 
 }

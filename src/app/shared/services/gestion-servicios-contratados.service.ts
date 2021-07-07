@@ -64,8 +64,8 @@ export class GestionServiciosContratadosService {
     }
 
 
-    getTareasEspeficas(servicio:string){
-      return this.http.get(`${baseUrlF}/api/tareas_especificas/${servicio}`);
+    getTareasEspeficas(usuario,servicio:string){
+      return this.http.get(`${baseUrlF}/api/tareas_especificas/${usuario}/${servicio}`);
     }
 
 

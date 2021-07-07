@@ -15,10 +15,9 @@ export class RecuperarContraComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  validateForm: FormGroup;
+  validateForm: FormGroup;                                 //variable que tendra los valores del form
 
-  // current locale is key of the nzAutoTips
-  // if it is not found, it will be searched again with `default`
+  // funcion que se utiliza para mostrar los mensajes de errores debajo de los inputs
   autoTips: Record<string, Record<string, string>> = {
     'zh-cn': {
       required: '必填项'
@@ -27,10 +26,11 @@ export class RecuperarContraComponent implements OnInit {
       required: 'Correo requerido'
     },
     default: {
-      email: 'El correo no es valido'
+      email: 'Correo no valido'
     }
   };
 
+  // funcion que se encargara del envio de datos del formulario
   submitForm(value: { userName: string; email: string; password: string; confirm: string; comment: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
@@ -39,36 +39,10 @@ export class RecuperarContraComponent implements OnInit {
     console.log(value);
   }
 
-  validateConfirmPassword(): void {
-    setTimeout(() => this.validateForm.controls.confirm.updateValueAndValidity());
-  }
-
-  userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<MyValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
-          observer.next({
-            duplicated: { 'zh-cn': `用户名已存在`, en: `The username is redundant!` }
-          });
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 1000);
-    });
-
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
-
   constructor(private fb: FormBuilder) {
-    // use `MyValidators`
+
     const { required, email } = MyValidators;
+    // declaración del formulario en la construccion del componente
     this.validateForm = this.fb.group({
       email: ['', [required, email]],
 
@@ -76,7 +50,7 @@ export class RecuperarContraComponent implements OnInit {
   }
 }
 
-// current locale is key of the MyErrorsOptions
+// validadores personalizados de la libreria de ng-zorro
 export type MyErrorsOptions = { 'zh-cn': string; en: string } & Record<string, NzSafeAny>;
 export type MyValidationErrors = Record<string, MyErrorsOptions>;
 

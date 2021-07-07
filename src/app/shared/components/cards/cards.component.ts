@@ -14,69 +14,69 @@ export class CardsComponent implements OnInit {
 
 
 
-  constructor(private ges:GestionUsuariosService) {
+  constructor(private ges: GestionUsuariosService) {
 
-   }
+  }
 
 
   //
 
   ngOnInit(): void {
-   
+
   }
 
 
-  listaMeses =[
+  listaMeses = [
     {
-        "id": 1,
-        "Mes":"Enero",
+      "id": 1,
+      "Mes": "Enero",
 
     },
     {
-        "id": 2,
-        "Mes":"Febrero",
+      "id": 2,
+      "Mes": "Febrero",
     },
     {
-        "id": 3,
-        "Mes":"Marzo",
+      "id": 3,
+      "Mes": "Marzo",
     },
     {
       "id": 4,
-      "Mes":"Abril",
+      "Mes": "Abril",
     },
     {
-      "id":5,
-      "Mes":"Mayo"
+      "id": 5,
+      "Mes": "Mayo"
     },
     {
-      "id":6,
-      "Mes":"Junio"
+      "id": 6,
+      "Mes": "Junio"
     },
     {
-      "id":7,
-      "Mes":"Julio"
+      "id": 7,
+      "Mes": "Julio"
     },
     {
-      "id":8,
-      "Mes":"Agosto"
+      "id": 8,
+      "Mes": "Agosto"
     },
     {
-      "id":9,
-      "Mes":"Septiembre"
+      "id": 9,
+      "Mes": "Septiembre"
     },
     {
-      "id":10,
-      "Mes":"Octubre"
+      "id": 10,
+      "Mes": "Octubre"
     },
     {
-      "id":11,
-      "Mes":"Noviembre"
+      "id": 11,
+      "Mes": "Noviembre"
     },
     {
-      "id":12,
-      "Mes":"Diciembre"
+      "id": 12,
+      "Mes": "Diciembre"
     }
 
   ]
 
-  }
+}

@@ -1,81 +1,182 @@
 <div class="container espacio">
-  <h1 class="text-center  pt-5"><strong>Gestión de Clientes </strong></h1>
-  <div class="row">
-    <div class="col-md-3 col-sm-12 pt-5">
-      <form  [formGroup]="form" (submit)="send()">
+    <h1 class="text-center  pt-5">
+        <strong>Gestión de Clientes</strong>
+    </h1>
+    <div class="row">
+        <div class="col-md-3 col-sm-12 pt-5">
+            <form
+                [formGroup]="form"
+                (submit)="send()"
+            >
 
-        <div>
-          <label class="pt-4"  for="email">Correo</label>
-          <input  class="form-control"  type="text" id="email" formControlName="email">
+                <div>
+                    <label
+                        class="pt-4"
+                        for="email"
+                    >
+                        Correo
+                    </label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="email"
+                        formControlName="email"
+                    >
+                </div>
+
+                <br>
+
+                <div>
+                    <button
+                        (click)="addRow()"
+                        class=" mb-5  btn btn-primary"
+                        [disabled]="form.invalid"
+                    >
+                        Registrar
+                    </button>
+                </div>
+
+            </form>
         </div>
+        <div class="col-md-9 pl-5 col-sm-12 pt-5">
+            <!-- <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Registrar Cliente</button> -->
+            <!-- {# (click)="addRow()" #} -->
+            <br>
+            <br>
+            <nz-table
+                #editRowTable
+                class="mb-3"
+                nzBordered
+                [nzData]="listOfData"
+            >
+                <thead>
+                    <tr>
+                        <th nzWidth="5%">Id</th>
+                        <th nzWidth="20%">Correo</th>
+                        <th nzWidth="10%">Servicios de cliente</th>
+                        <th
+                            class="text-center"
+                            nzWidth="15%"
+                        >
+                            Acciones
+                        </th>
 
-        <br>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let data of editRowTable.data"
+                        class="editable-row"
+                    >
+                        <td>{{data.id}}</td>
+                        <td>
+                            <div
+                                class="editable-cell"
+                                [hidden]="editId === data.id"
+                                (click)="startEdit(data.id)"
+                            >
+                                {{ data.email }}
+                            </div>
+                            <input
+                                [hidden]="editId !== data.id"
+                                type="text"
+                                nz-input
+                                [(ngModel)]="data.email"
+                                (blur)="stopEdit(data.email)"
+                            >
+                        </td>
+                        <td class="text-center">
+                            <a
+                                routerLink="/listado/{{data.id}}"
+                                routerLinkActive="true"
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Ver servicios de {{data.email}}"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: #08c;"
+                                        nz-icon
+                                        nzType="eye"
+                                        nzTheme="outline"
+                                    ></i>
+                                </span>
+                            </a>
+                        </td>
 
-        <div>
-          <button (click)="addRow()" class=" mb-5  btn btn-primary" [disabled]="form.invalid" >Registrar</button>
-        </div>
+                        <td class="text-center">
+                            &nbsp;
+                            <a
+                                nz-popconfirm
+                                nzPopconfirmTitle="seguro que desea eliminar a {{data.email}}?"
+                                (nzOnConfirm)="deleteRow(data.id,data.email) "
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Eliminar {{data.email}}"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: rgb(255, 0, 0);"
+                                        nz-icon
+                                        nzType="delete"
+                                        nzTheme="outline"
+                                        [nzTwotoneColor]="red"
+                                    ></i>
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-template
+                    #modalData
+                    let-modal
+                >
+                    <div class="modal-header">
+                        <h4
+                            class="modal-title"
+                            id="modal-basic-title"
+                        >
+                            <strong>Nuevo Cliente</strong>
+                        </h4>
+                        <button
+                            type="button"
+                            class="close"
+                            aria-label="Close"
+                            (click)="modal.dismiss('Cross click')"
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
-      </form>
-    </div>
-    <div class="col-md-9 pl-5 col-sm-12 pt-5">
-     <!-- <button nz-button  (click)="triggerModal(modalData)" nzType="primary">Registrar Cliente</button>-->
-      <!--{# (click)="addRow()" #}-->
-      <br />
-      <br />
-      <nz-table #editRowTable class="mb-3" nzBordered [nzData]="listOfData">
-        <thead>
-          <tr>
-            <th nzWidth="5%">Id</th>
-            <th nzWidth="30%">Correo</th>
+                        <div class="row">
+                            <div class="col-md-10 col-sm-12"></div>
+                        </div>
 
-            <th class="text-center" nzWidth="20%">Acciones</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of editRowTable.data" class="editable-row">
-            <td>{{data.id}}</td>
-            <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                {{ data.email }}
-              </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.email" (blur)="stopEdit(data.email)" />
-            </td>
-            <td class="text-center">
-              <a routerLink="/listado/{{data.id}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver servicios de {{data.email}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
-              &nbsp;
-              <a  nz-popconfirm nzPopconfirmTitle="seguro que desea eliminar a {{data.email}}?"  (nzOnConfirm)="deleteRow(data.id,data.email) "><span nz-tooltip nzTooltipTitle="Eliminar {{data.email}}" ><i  style="font-size: 25px; color: rgb(255, 0, 0);" nz-icon nzType="delete" nzTheme="outline" [nzTwotoneColor]="red"></i></span></a>
-            </td>
-          </tr>
-        </tbody>
-        <ng-template #modalData let-modal>
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title"><strong>Nuevo Cliente</strong></h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <span aria-hidden="true">×</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="modal.close('Save click')"
+                            (click)="clearModal()"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </ng-template>
+            </nz-table>
+            <button
+                class="btn btn-primary"
+                pull-right
+                pt-5
+                (click)="backClicked()"
+            >
+                Regresar
             </button>
-          </div>
-          <div class="modal-body">
 
-            <div class="row">
-              <div class="col-md-10 col-sm-12">
-
-              </div>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')" (click)="clearModal()">Cerrar</button>
-          </div>
-        </ng-template>
-      </nz-table>
-      <button class="btn btn-primary"  pull-right pt-5 (click)="backClicked()">Regresar</button>
+        </div>
 
     </div>
-
-
-  </div>
 
 </div>
-
-
