@@ -59,6 +59,13 @@ padding-top: 5px;
   padding-top: 5px;
   }
 
+  .mat-card-header4{
+    background-color: rgb(204, 204, 204);
+    padding: 13px;
+    border-radius: 6px;
+    padding-top: 5px;
+    }
+
 .mat-card-header3{
     background-color: rgb(251, 102, 9);
     padding: 13px;

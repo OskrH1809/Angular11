@@ -1,20 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosService } from 'src/app/shared/services/gestion-servicios.service';
-// import { ServiciosService } from 'src/app/Services/servicios.service';
 interface ItemData {
   date: string
   id: string;
   name: string;
   price: string;
-
-
 }
 @Component({
   selector: 'app-creacion-servicios',
@@ -27,158 +20,51 @@ export class CreacionServiciosComponent implements OnInit {
   value: string;
   indice: any;
   buscar;
-
-
-
   editId: string | null = null;
   listOfData: any = [];
   i;
-  nuevoClienteSelect: { userName: string; };
+  public form: FormGroup;     //creacion de la variable que contendra los valores del formulario
 
+
+
+  //Funcion para asignar el id del servicio que se ha seleccionado en la tabla para poder editarlo
   startEdit(id: string): void {
     this.editId = id;
   }
 
+  //Funcion que indica que se ha finalizado la edicion y pasa los nuevos parametros para actualizarlos
   stopEdit(id, nombre, precio): void {
     this.editId = null;
     this.actualizacionServicio(id, nombre, precio);
 
   }
 
+  // funcion que se utiliza para agregar un nuevo servicio
   addRow(): void {
     this.listOfData = [
       ...this.listOfData,
-
-
     ];
     this.CrearServicio();
-
     this.i++;
-
-
   }
 
+  // Funcion que proporciona el id del servicio que se procedera a eliminar
   deleteRow(id: string, nombre: string): void {
     this.EliminacionServicio(id)
     this.get_serviciosall(this.buscar);
-
-
   }
 
-  // tabla ^
-
-
-
-
-  resetForm(e: MouseEvent): void {
-    e.preventDefault();
-    this.validateForm.reset();
-    for (const key in this.validateForm.controls) {
-      this.validateForm.controls[key].markAsPristine();
-      this.validateForm.controls[key].updateValueAndValidity();
-    }
-  }
-
-
-
-
-  //  formulario modal
-  validateForm: FormGroup;
-  submitForm(value: { userName: string; }): void {
-    for (const key in this.validateForm.controls) {
-      this.validateForm.controls[key].markAsDirty();
-      this.validateForm.controls[key].updateValueAndValidity();
-    }
-    console.log(value);
-    this.clientes.push(value.userName);
-
-  }
-
-
-  userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
-          // you have to return `{error: true}` to mark it as an error event
-          observer.next({ error: true, duplicated: true });
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 1000);
-    });
-
-
-  //  formulario modal ^
-
-
-  // select
-  // randomUserUrl = 'https://api.randomuser.me/?results=10';
-  optionList: string[] = [];
-  selectedUser = null;
-  isLoading = false;
-
-
-  // getRandomNameList: Observable<string[]> = this.http
-  // .get(`${this.randomUserUrl}`)
-  // .pipe(map((res: any) => res.results))
-  // .pipe(
-  //   map((list: any) => {
-  //     return list.map((item: any) => `${item.name.first}`);
-  //   })
-  // );
-
-  // loadMore(): void {
-  //   this.isLoading = true;
-  //   this.getRandomNameList.subscribe(data => {
-  //     this.isLoading = false;
-  //     this.optionList = [...this.optionList, ...data];
-  //   });
-  // }
-  // clientes
-  isSubmitted = false;
-  clientes: any = ['oscar', 'canales', 'hernandez', 'alberto']
-
-
-  // select ^
-  public form: FormGroup;
   constructor(
     private notification: NzNotificationService,
-
-    private fb: FormBuilder,
-    private modalService: NgbModal,
-    private http: HttpClient,
     private _location: Location,
     private formBuilder: FormBuilder,
     private servicio: GestionServiciosService
 
-  ) {
+  ) { }
 
-
-
-
-
-
-    // this.validateForm = this.fb.group({
-    //   userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-
-    // });
-
-
-
-
-
-  }
-
-  // peticion post servicios
-  servicios: any;
-  // peticion post ^
-
+  // funcion que hace la peticion post a la api para crear el nuevo servicio
   CrearServicio() {
-    // peticion post
     const nuevoServicio = { name: `${this.form.value.nombre}`, price: `${this.form.value.precio}`, }
-    // peticion post ^
-
     this.servicio.sendPost(nuevoServicio).subscribe(
       res => {
         console.log(res);
@@ -190,10 +76,9 @@ export class CreacionServiciosComponent implements OnInit {
         console.log(err);
         this.createNotification('error', 'Error al crear servicio: ', err);
       });
-
-
   }
-  // peticcion delete servicios
+
+  // funcion que hace la peticion delete a la api para crear el nuevo servicio
   EliminacionServicio(id) {
     this.servicio.deleteServicio(id).subscribe(
       res => {
@@ -201,19 +86,15 @@ export class CreacionServiciosComponent implements OnInit {
         if (res) {
           this.createNotification('warning', 'Servicio: ', 'Eliminado con éxito');
         }
-
-
       }, err => {
-        console.log(err);
-        this.createNotification('error', 'Error al eliminar servicio: ', err);
+        if (err) {
+          this.createNotification('error', 'Error al eliminar servicio: ', 'Para eliminar el servicio este no debe estar asociado a contrataciones.');
+        }
       }
     );
-
   }
-  // peticcion delete servicios ^
 
-  // peticcion put servicios
-
+  // funcion que hace la peticion put a la api para crear el nuevo servicio
   actualizacionServicio(id, nombre, precio) {
     const data = { name: nombre, price: precio }
     console.log(data);
@@ -221,143 +102,47 @@ export class CreacionServiciosComponent implements OnInit {
       resp => {
         console.log(resp);
         if (resp) {
-          this.createNotification('info', 'Servicio: ', 'Servicio actualizaddo con éxito');
-
+          this.createNotification('info', 'Servicio: ', 'Servicio actualizado con éxito');
         }
       }, err => {
         console.log(err);
         this.createNotification('error', 'Error al actualizar servicio: ', err);
-      }
-    )
+      })
 
   }
 
-  // peticcion put servicios ^
-
-
-
-
-
-
-
-  // multiselect
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
-
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  //
   ngOnInit(): void {
-    console.log(this.value);
-    this.getIndice();
-    this.get_serviciosall(this.buscar);
 
-    // multiselect
-    this.dropdownList = [
-      { item_id: 1, item_text: 'Mumbai' },
-      { item_id: 2, item_text: 'Bangaluru' },
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' },
-      { item_id: 5, item_text: 'New Delhi' }
-    ];
-    this.selectedItems = [
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' }
-    ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true,
-      itemsShowLimit: 3
-
-    };
-    //
-
-
+    this.get_serviciosall(this.buscar);                              //  llamada a la funcion para obtener y visualizar los servicios
+    //declaración del formulario
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       precio: ['', Validators.required],
 
 
     });
-    // select
-    // this.loadMore();
-    // select ^
-  }
-  changeCity(e) {
-    console.log(e.value)
-    this.clienteNombre.setValue(e.target.value, {
-      onlySelf: true
-    })
-  }
-  get clienteNombre() {
-    return this.form.get('clienteNombre');
-  }
-
-
-  onSubmit() {
-    this.isSubmitted = true;
-    if (!this.form.valid) {
-      return false;
-    } else {
-      alert(JSON.stringify(this.form.value))
-    }
 
   }
 
 
+
+
+  // funcion que envia los datos del formulario
   send(): any {
-    console.log(this.form.value);
-
+    console.log(this.form.value);       // la variable form.value contiene los valores enviados a travez del formulario
   }
 
 
-
-  // modal
-  closeModal: string;
-  triggerModal(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
-      this.closeModal = `Closed with: ${res}`;
-    }, (res) => {
-      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-    });
-  }
-
-  clearModal() {
-    // this.formModal = this.form2.group({
-    //   name: ['',[Validators.required]],
-    // });
-  }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
+  // funcion que permite regresar a la pagina anterior
   backClicked() {
     this._location.back();
   }
 
-
-
-
-  // peticion get de servicios
   data_serviciosall: any;
-  //getSearchServices
-  get_serviciosall(buscar) {
 
+  // funcion que hace un llamado a la api para obtener y visualizar los servicios
+  get_serviciosall(buscar) {
+    // se realiza una validacion el cual se verifica si existe algun elemento por cual se debe filtrar, si existe se visualizaran los servicios que contenga dicho nombre, si no existe ningun elemento en el filtro mostrara todos los servicios
     if (buscar) {
       this.servicio.getSearchServices(this.value).subscribe(data => {
         this.listOfData = data;
@@ -368,7 +153,6 @@ export class CreacionServiciosComponent implements OnInit {
       });
     } else {
       this.servicio.get_servicios().subscribe(data => {
-        // this.indice = data.pop()['id'] +1;
         this.listOfData = data;
         console.log(data);
       }, err => {
@@ -379,28 +163,23 @@ export class CreacionServiciosComponent implements OnInit {
 
   }
 
-  getIndice() {
-    this.servicio.get_servicios().subscribe(data => {
-
-      if (data) {
-        this.i = data.pop().id + 1;
-      }
-      //
-    });
-  }
 
 
   // notificaciones
-  createNotification(type1: string, type2: string, type3: string,): void {
+  createNotification(
+    type1: string,        //Muestra el tipo de notificación(Success,Info,Waring, error)
+    type2: string,        //Muestra un mensaje elegido por el usuario
+    type3: string         //Muestra un mensaje elegido por el usuario
+  ): void {
     this.notification.create(
       type1,
       type2,
-      type3,
-      { nzDuration: 12000 }
+      type3
     );
 
   }
 
+  // funcion que esta a la escucha del evento del momento en el que se presiona la tecla enter para hacer un llamado a la funcion con un elemento de filtro
   EnterSubmit(evento) {
     if (evento.keyCode === 13) {
       this.buscar = this.value
@@ -410,10 +189,38 @@ export class CreacionServiciosComponent implements OnInit {
 
   }
 
+  // funcion que cancela el proceso de filtrado en los servicios, mostrando todos los servicios existentes
   cancelarBusqueda() {
     const buscar = null;
     this.value = ''
     this.get_serviciosall(buscar);
+  }
+
+
+  activarServicio(idServicio,nombreServicio){
+    const data = {servicio:idServicio}
+    this.servicio.activarServicio(data).subscribe(respuesta=>{
+      if (respuesta){
+        this.get_serviciosall(this.buscar);
+        this.createNotification('success', `Servicio: ${nombreServicio} `, 'Servicio activado con éxito');
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Error al activar servicio: ', 'Fallo en el proceso de activar el servicio');
+    })
+  }
+
+  desactivarServicio(idServicio,nombreServicio){
+    const data = {servicio:idServicio}
+    this.servicio.desactivarServicio(data).subscribe(respuesta=>{
+      if (respuesta){
+        this.get_serviciosall(this.buscar);
+        this.createNotification('success', `Servicio: ${nombreServicio} `, 'Servicio desactivado con éxito');
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Error al activar servicio: ', 'Fallo en el proceso de desactivar el servicio');
+    })
   }
 
 }

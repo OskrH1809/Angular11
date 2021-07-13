@@ -4,12 +4,14 @@
     </h1>
     <div class="row">
         <div class="col-md-3 col-sm-12 pt-5">
+            <h3>Registrar nuevo cliente</h3>
             <form
                 [formGroup]="form"
                 (submit)="send()"
             >
 
                 <div>
+
                     <label
                         class="pt-4"
                         for="email"
@@ -28,7 +30,6 @@
 
                 <div>
                     <button
-                        (click)="addRow()"
                         class=" mb-5  btn btn-primary"
                         [disabled]="form.invalid"
                     >
@@ -58,7 +59,7 @@
                             class="text-center"
                             nzWidth="15%"
                         >
-                            Acciones
+                            Activar/Desactivar
                         </th>
 
                     </tr>
@@ -69,25 +70,10 @@
                         class="editable-row"
                     >
                         <td>{{data.id}}</td>
-                        <td>
-                            <div
-                                class="editable-cell"
-                                [hidden]="editId === data.id"
-                                (click)="startEdit(data.id)"
-                            >
-                                {{ data.email }}
-                            </div>
-                            <input
-                                [hidden]="editId !== data.id"
-                                type="text"
-                                nz-input
-                                [(ngModel)]="data.email"
-                                (blur)="stopEdit(data.email)"
-                            >
-                        </td>
+                        <td>{{ data.email }}</td>
                         <td class="text-center">
                             <a
-                                routerLink="/listado/{{data.id}}"
+                                routerLink="/listado/{{data.id}}/{{data.email}}"
                                 routerLinkActive="true"
                             >
                                 <span
@@ -107,18 +93,39 @@
                         <td class="text-center">
                             &nbsp;
                             <a
+                                *ngIf="data.activo=='1'"
                                 nz-popconfirm
-                                nzPopconfirmTitle="seguro que desea eliminar a {{data.email}}?"
-                                (nzOnConfirm)="deleteRow(data.id,data.email) "
+                                nzPopconfirmTitle="Seguro que desea desactivar a {{data.email}}?"
+                                (nzOnConfirm)="desactivarUsuario(data.id)"
                             >
                                 <span
                                     nz-tooltip
-                                    nzTooltipTitle="Eliminar {{data.email}}"
+                                    nzTooltipTitle="Desactivar a {{data.email}}"
                                 >
                                     <i
-                                        style="font-size: 25px; color: rgb(255, 0, 0);"
+                                        style="font-size: 25px; color: rgb(30,150,210);"
                                         nz-icon
-                                        nzType="delete"
+                                        nzType="check-circle"
+                                        nzTheme="outline"
+                                        [nzTwotoneColor]="red"
+                                    ></i>
+                                </span>
+                            </a>
+                            <!--  -->
+                            <a
+                                *ngIf="data.activo=='0'"
+                                nz-popconfirm
+                                nzPopconfirmTitle="Seguro que desea activar a {{data.email}}?"
+                                (nzOnConfirm)="activarUsuario(data.id)"
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Activar a {{data.email}}"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: rgb(241, 12, 12);"
+                                        nz-icon
+                                        nzType="close-circle"
                                         nzTheme="outline"
                                         [nzTwotoneColor]="red"
                                     ></i>

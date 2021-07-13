@@ -4,12 +4,12 @@
         <div class="col-md-2 col-sm-12"></div>
         <div class=" pl-5 col-md-8 pt-5 col-sm-12">
 
-            <h1
-                class="text-center"
+            <h3
+                class="pt-5 text-center"
                 *ngIf="listOfData!=null"
             >
-                Listado de servicios
-            </h1>
+                Listado de servicios de <span style="color: #08c;"><strong>{{cliente}}</strong></span>
+            </h3>
             <h1
                 class="text-center"
                 *ngIf="listOfData==null"
@@ -40,7 +40,7 @@
                         <th nzWidth="30%">Tareas del servicio</th>
                         <th nzWidth="50%">Estado</th>
                         <th nzWidth="50%">Comprobante de pago</th>
-                        <th>Acción</th>
+                        <th>Activar/desactivar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,7 +90,10 @@
 
                         </td>
                         <td class="text-center">
-                            <a *ngIf="data.estado=='Pendiente de aprobación' || data.estado=='Aprobado'" (click)="getDocumentsEspecific(data.id)">
+                            <a
+                                *ngIf="data.estado=='Pendiente de aprobación' || data.estado=='Aprobado'"
+                                (click)="getDocumentsEspecific(data.id)"
+                            >
                                 <span
                                     nz-tooltip
                                     nzTooltipTitle="Visualizar comprobante de pago"
@@ -107,18 +110,39 @@
                         </td>
                         <td class="text-center">
                             <a
+                                *ngIf="data.activo=='1'"
                                 nz-popconfirm
-                                nzPopconfirmTitle="seguro que desea eliminar a {{data.servicio}}?"
-                                (nzOnConfirm)="deleteRow(data.Id,data.servicio) "
+                                nzPopconfirmTitle="Seguro que desea desactivar el servicio de {{data.servicio}}?"
+                                (nzOnConfirm)="desactivarServicioContratado(data.id,data.servicio)"
                             >
                                 <span
                                     nz-tooltip
-                                    nzTooltipTitle="Eliminar servicio {{data.servicio}}"
+                                    nzTooltipTitle="Desactivar el servicio de {{data.servicio}}"
                                 >
                                     <i
-                                        style="font-size: 25px; color: rgb(255, 0, 0);"
+                                        style="font-size: 25px; color: rgb(30,150,210);"
                                         nz-icon
-                                        nzType="delete"
+                                        nzType="check-circle"
+                                        nzTheme="outline"
+                                        [nzTwotoneColor]="red"
+                                    ></i>
+                                </span>
+                            </a>
+                            <!--  -->
+                            <a
+                                *ngIf="data.activo=='0'"
+                                nz-popconfirm
+                                nzPopconfirmTitle="Seguro que desea Activar el servicio de {{data.servicio}}?"
+                                (nzOnConfirm)="activarServicioContratado(data.id,data.servicio)"
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Activar el servicio de {{data.servicio}}"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: rgb(241, 12, 12);"
+                                        nz-icon
+                                        nzType="close-circle"
                                         nzTheme="outline"
                                         [nzTwotoneColor]="red"
                                     ></i>

@@ -26,6 +26,18 @@ export class GestionUsuariosService {
   }
 
 
+  desactivarUsuario(data){
+    return this.http.put<any>(`${baseUrl}/api/desactivar_usuario`, data);
+  }
+
+  activarUsuario(data){
+    return this.http.put<any>(`${baseUrl}/api/activar_usuario`, data);
+  }
+
+  recuperarcontra(data){
+    return this.http.post<any>(`${baseUrl}/api/recuperar`, data);
+  }
+
   username(){
     if (this.decodeToken==null) {
       return '';

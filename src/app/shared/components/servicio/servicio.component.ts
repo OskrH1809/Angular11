@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faEdit, faCoffee, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { AdministrarUserService } from 'src/app/auth/services/administrar-user.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';

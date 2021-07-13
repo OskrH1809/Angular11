@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Location } from '@angular/common';
@@ -34,6 +34,7 @@ export class ListadosSeComponent implements OnInit {
   Nombre;
   id: any;
   idUser = this.route.snapshot.paramMap.get("id");
+  cliente = this.route.snapshot.paramMap.get("cliente");
   documento;
 
 
@@ -110,7 +111,12 @@ export class ListadosSeComponent implements OnInit {
   agregarServicio(array) {
     console.log(this.listOfData)
     console.log(array)
-    this.listOfData = this.listOfData.concat(array);
+    array.forEach(element => {
+
+      console.log(element.name)
+      this.contratarNuevosServicios(element.id, element.name);
+    });
+    // this.listOfData = this.listOfData.concat(array);
   }
 
 
@@ -256,6 +262,49 @@ export class ListadosSeComponent implements OnInit {
     this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
   }
 
+  contratarNuevosServicios(idServicio, nombreServicio) {
+    const data = {
+      usuario: this.idUser,
+      servicio: idServicio
+    }
+    this.serviciosContratados.registrarNuevosServicios(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.getServiciosUsuarioEspecifico();
+        this.createNotification('success', `Registro de servicio: ${nombreServicio} `, 'Registrado con éxito');
 
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', `El servicio: ${nombreServicio}`, 'Ya se encuentra registrado ');
+    });
+  }
+
+  activarServicioContratado(idServicioContratado, nombreServicio) {
+    const data = { servicioContratado: idServicioContratado }
+    this.serviciosContratados.activarServicioContratado(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.getServiciosUsuarioEspecifico();
+        this.createNotification('success', ` servicio contratado: ${nombreServicio} `, 'Activado con éxito');
+
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', `El servicio contratado: ${nombreServicio}`, 'No pudo activarse');
+    });
+  }
+
+  desactivarServicioContratado(idServicioContratado, nombreServicio) {
+    const data = { servicioContratado: idServicioContratado }
+    this.serviciosContratados.desactivarServicioContratado(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.getServiciosUsuarioEspecifico();
+        this.createNotification('success', ` Servicio contratado: ${nombreServicio} `, 'Desactivado con éxito');
+
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', `El servicio contratado: ${nombreServicio}`, 'No pudo desactivarse');
+    });
+  }
 
 }

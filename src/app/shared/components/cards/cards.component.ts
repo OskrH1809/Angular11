@@ -9,22 +9,11 @@ import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.s
 export class CardsComponent implements OnInit {
   administrarService: any;
 
-
-
-
-
-
-  constructor(private ges: GestionUsuariosService) {
-
-  }
-
-
-  //
+  constructor(private ges: GestionUsuariosService) {}
 
   ngOnInit(): void {
 
   }
-
 
   listaMeses = [
     {

@@ -11,11 +11,30 @@
         >
             <mat-card class="example-card">
                 <mat-card-header
-                    class="mat-card-header2"
-                    *ngIf="servicio.estado == 'Sin Aprobar'"
+                    class="mat-card-header4"
+                    *ngIf="servicio.activo == '0'"
                 >
                     <mat-card-title class="titulo1">
-                        {{ servicio.idServicio }}-{{ servicio.id }}
+                        {{ servicio.idServicio }}
+                    </mat-card-title>
+                    <mat-card-title class="titulo2">{{ servicio.servicio }}</mat-card-title>
+                    <mat-card-title class="fuente">
+                        Precio: ${{ servicio.precio }}
+                        <br>
+                        Estado: <strong style="color: red;">Desactivado</strong>
+                    </mat-card-title>
+                </mat-card-header>
+
+
+
+
+
+                <mat-card-header
+                    class="mat-card-header2"
+                    *ngIf="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
+                >
+                    <mat-card-title class="titulo1">
+                        {{ servicio.idServicio }}
                     </mat-card-title>
                     <mat-card-title class="titulo2">{{ servicio.servicio }}</mat-card-title>
                     <mat-card-title class="fuente">
@@ -26,9 +45,12 @@
                 </mat-card-header>
 
 
+
+
+
                 <mat-card-header
                     class="mat-card-header3"
-                    *ngIf="servicio.estado == 'Pendiente de aprobación'"
+                    *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'"
                 >
                     <mat-card-title class="titulo1 ">{{ servicio.idServicio }}</mat-card-title>
                     <mat-card-title class="titulo2">{{ servicio.servicio }}</mat-card-title>
@@ -40,9 +62,12 @@
                 </mat-card-header>
 
 
+
+
+
                 <mat-card-header
                     class="mat-card-header1"
-                    *ngIf="servicio.estado == 'Aprobado'"
+                    *ngIf="servicio.estado == 'Aprobado' && servicio.activo=='1'"
                 >
                     <mat-card-title class="titulo1">{{ servicio.idServicio }}</mat-card-title>
                     <mat-card-title class="titulo2">{{ servicio.servicio }}</mat-card-title>
@@ -61,7 +86,7 @@
                 <mat-card-content></mat-card-content>
                 <mat-card-actions>
                     <!-- .. -->
-                    <div *ngIf="servicio.estado == 'Sin Aprobar'">
+                    <div *ngIf="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'">
                         <div *ngIf="previsualizacion && idImagen == servicio.id">
                             <img
                                 class="img"
@@ -92,8 +117,11 @@
                         <br>
 
 
+
+
+
                         <button
-                            [disabled]="servicio.estado == 'Sin Aprobar'"
+                            [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
                             class="mat-buttonn"
                             routerLink="/gestiontareas/servicio.idServicio"
                             routerLinkActive="active"
@@ -103,7 +131,7 @@
                         </button>
                         <button
                             mat-button
-                            [disabled]="servicio.estado == 'Sin Aprobar'"
+                            [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
                             *ngIf="role == 'ADMIN'"
                             class="mat-buttonn"
                         >
@@ -111,10 +139,7 @@
                         </button>
                     </div>
                     <!-- ............. -->
-                    <div
-                        class
-                        *ngIf="servicio.estado == 'Pendiente de aprobación'"
-                    >
+                    <div *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'">
                         <div class="row imagenContenedor ">
                             <div
                                 class="col-md-12 "
@@ -137,11 +162,17 @@
                         </div>
 
 
+
+
+
                         <br>
 
 
+
+
+
                         <button
-                            [disabled]="servicio.estado == 'Pendiente de aprobación'"
+                            [disabled]="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'"
                             class="mat-buttonn"
                             routerLink="/gestiontareas/{{ id }}"
                             routerLinkActive="active"
@@ -159,8 +190,7 @@
                         </button>
                     </div>
 
-
-                    <div *ngIf="servicio.estado == 'Aprobado'">
+                    <div *ngIf="servicio.estado == 'Aprobado' && servicio.activo=='1'">
                         <button
                             class="mat-buttonn"
                             routerLink="/gestiontareas/{{servicio.idUsuario}}/{{ servicio.idServicio }}"
@@ -170,6 +200,7 @@
                             Gestion tickets
                         </button>
                     </div>
+                    <!---->
 
 
                     <hr>

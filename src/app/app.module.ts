@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { es_ES } from 'ng-zorro-antd/i18n';
 import es from '@angular/common/locales/es';
-import { AdministrarUserService } from './auth/services/administrar-user.service';
 import { TextoEditorComponent } from './components/texto-editor/texto-editor.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DashboardComponent } from './views/components/dashboard/dashboard.component';
@@ -21,6 +20,7 @@ import { AsideComponent } from './views/components/aside/aside.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Autentificacion } from './core/interceptors/autentificacion.service';
 import { GestionUsuariosService } from './auth/services/gestion-usuarios.service';
+import { ClientesDeServicioComponent } from './shared/components/clientes-de-servicio/clientes-de-servicio.component';
 registerLocaleData(es);
 
 
@@ -32,6 +32,7 @@ registerLocaleData(es);
     HeaderComponent,
     FooterComponent,
     AsideComponent,
+    ClientesDeServicioComponent,
 
   ],
   imports: [
@@ -47,7 +48,7 @@ registerLocaleData(es);
     CKEditorModule,
   ],
   providers: [
-    AdministrarUserService,
+
     GestionUsuariosService,
 
     { provide: NZ_I18N , useValue: es_ES,

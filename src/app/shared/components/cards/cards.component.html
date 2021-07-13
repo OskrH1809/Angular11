@@ -1,34 +1,24 @@
 <div class="container esp">
 
-<div class="row ">
+    <div class="row ">
+        <div
+            class="col-md-4 mb-5 col-sm-6 col-12  "
+            *ngFor="let mes of listaMeses"
+        >
 
-  <!-- enero -->
-  <div class="col-md-4 mb-5 col-sm-6 col-12  " *ngFor="let mes of listaMeses" >
+            <a routerLink="/servicio/{{mes.id}}">
 
-    <a routerLink="/servicio/{{mes.id}}">
+                <mat-card class="example-card sombreado">
+                    <mat-card-header class="mat-card-header1">
 
-      <mat-card class="example-card sombreado" >
-        <mat-card-header class="mat-card-header1" >
+                        <mat-card-title class="titulo1">{{mes.id}}</mat-card-title>
+                        <mat-card-title class="titulo2">{{mes.Mes}}</mat-card-title>
+                    </mat-card-header>
+                </mat-card>
 
-          <mat-card-title class="titulo1">{{mes.id}}</mat-card-title>
-          <mat-card-title class="titulo2">{{mes.Mes}}</mat-card-title>
-        </mat-card-header>
-      </mat-card>
+            </a>
 
-    </a>
+        </div>
 
-
-  </div>
-
-
-
-
+    </div>
 </div>
-<!-- fin -->
-</div>
-
-
-
-
-
-

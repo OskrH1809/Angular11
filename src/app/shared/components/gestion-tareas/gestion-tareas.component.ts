@@ -1,29 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
-import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AdministrarUserService } from 'src/app/auth/services/administrar-user.service';
-//  editor
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
-import { DomSanitizer } from '@angular/platform-browser';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
-import { stringify } from '@angular/compiler/src/util';
-
-interface ItemData {
-  id: string;
-  titulo: string;
-  descripcion: string;
-  documento: string;
-  idUsuario?: string;
-  idServicio?: string;
-  servicio?: string;
-  usuario?: string;
-}
 
 @Component({
   selector: 'app-gestion-tareas',
@@ -38,35 +21,28 @@ export class GestionTareasComponent implements OnInit {
   ArchivoCap: any;
   documentoBase64;
   documentos;
-
-  // editor
-  dataDescripcion: any;
-  descripcion: any;
-  public Editor = ClassicEditor;
-
-  public onChange({ editor }) {
-    const data = editor.getData();
-    console.log(data);
-
-  }
-
-  public info() {
-    this.descripcion = this.Editor;
-  }
-
-
-  //  editor
   mesActual = moment().format('M').toString();
   id: string;
-
   administrarService: boolean;
   role: any;
 
 
+  // editor enriquecido
+  dataDescripcion: any;
+  descripcion: any;
+  public Editor = ClassicEditor;
+  public onChange({ editor }) {
+    const data = editor.getData();
+    console.log(data);
+  }
+  public info() {
+    this.descripcion = this.Editor;
+  }
+  //  editor enriquecido end
+
+
   constructor(
     private notification: NzNotificationService,
-    private sanitizer: DomSanitizer,
-    private administrar: AdministrarUserService,
     private route: ActivatedRoute,
     private _location: Location,
     private modalService: NgbModal,
@@ -85,6 +61,9 @@ export class GestionTareasComponent implements OnInit {
   descripcionEdit = '';
   fileEdit = '';
   arrayEdit;
+
+
+  // funcion que se utiliza para llenar los datos en el formulario cuando se desea editar la informacion
   llenarDatos(id, titulo, descripcion) {
     this.arrayEdit = {
       descripcion2: descripcion,
@@ -94,60 +73,24 @@ export class GestionTareasComponent implements OnInit {
       titulo: titulo
     }
     this.demoReactiveForm2.setValue(this.arrayEdit);
-
-
-
   }
 
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-
-      {
-        id: `${this.i}`,
-        titulo: `${this.demoReactiveForm.value.titulo}`,
-        descripcion: `${this.demoReactiveForm.value.descripcion}`,
-        documento: ` ${this.demoReactiveForm.value.file}`
-
-
-      }
-
-
-    ];
-
-    this.i++;
-
-    console.log(this.demoReactiveForm.value.titulo);
-    console.log(this.ArchivoCap);
-  }
-
-  deleteRow(id: string, nombre: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
-  }
 
   ngOnInit(): void {
     this.getTareas();
-
-
     this.id = this.route.snapshot.paramMap.get("id");
-
-
   }
 
-
-
-  // Modal
+  // funcion que abre el modal para el ingreso de nuevas tareas
   closeModal: string;
   triggerModal(content) {
     this.modalService.open(content,
-
       { size: 'xl', ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
         this.closeModal = `Closed with: ${res}`;
       }, (res) => {
         this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
       });
   }
-
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -158,15 +101,15 @@ export class GestionTareasComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+  // final funcion que abre el modal para el ingreso de nuevas tareas
 
+
+  //funcion que regresa a la pagina anterior
   backClicked() {
     this._location.back();
   }
 
-
-
-
-  // form modal 2
+  // formulario de registro de nuevas tareas
   public demoReactiveForm = new FormGroup({
     id: new FormControl(),
     titulo: new FormControl(),
@@ -183,14 +126,8 @@ export class GestionTareasComponent implements OnInit {
         this.formDataPreview = JSON.stringify(values);
       });
 
-    // modal 3
-    this.demoReactiveForm2!.valueChanges
-      .subscribe(values => {
-        this.formDataPreview2 = JSON.stringify(values);
-
-      });
   }
-
+  // Funcion que envia los datos para crear la nueva tarea
   public onSubmit(): void {
     console.log(this.demoReactiveForm.value);
     const dataTareas = { titulo: this.demoReactiveForm.value.titulo, descripcion: this.demoReactiveForm.value.descripcion, servicio: this.idServicio, }
@@ -200,6 +137,7 @@ export class GestionTareasComponent implements OnInit {
     this.reset();
   }
 
+  // funcion que limpia todo lo que contenga el formulario para dejar libre a un nuevo registro
   public reset(): void {
     this.demoReactiveForm!.reset();
   }
@@ -209,55 +147,26 @@ export class GestionTareasComponent implements OnInit {
   }
 
   get f() {
-
     return this.demoReactiveForm.controls;
-
   }
 
+  // funcion que captura el documento cargado en el formulario
   onFileChange(event) {
-
-
-
     if (event.target.files.length > 0) {
-
       const file = event.target.files[0];
-
       this.demoReactiveForm.patchValue({
-
         fileSource: file
-
       });
-
     }
-
   }
-
+  // funcion que envia los datos recolectados en el file enviado a travez del input
   submit() {
-
     const formData = new FormData();
-
     formData.append('file', this.demoReactiveForm.get('fileSource').value);
-
     console.log(formData);
-
-    // this.http.post('http://localhost:8001/upload.php', formData)
-
-    //   .subscribe(res => {
-
-    //     console.log(res);
-
-    //     alert('Uploaded Successfully.');
-
-    //   })
-
   }
 
-
-
-  // modal3
-
-
-
+  // declaración del formulario 2 que se utilizara para la edición
   public demoReactiveForm2 = new FormGroup({
 
     id: new FormControl(),
@@ -269,16 +178,13 @@ export class GestionTareasComponent implements OnInit {
 
   public formDataPreview2?: string;
 
-
+  // funcion que se utilizara para enviar los datos que se han editado para realizar el proceso de actualización
   public onSubmit2(): void {
     console.log(this.demoReactiveForm2.value);
     this.editTarea(this.demoReactiveForm2.value.id, this.demoReactiveForm2.value.titulo, this.demoReactiveForm2.value.descripcion2);
-
-
     this.reset2();
   }
-
-
+  // funcion que se utilizara para limpiar todo el formulario de edición
   public reset2(): void {
     this.demoReactiveForm2!.reset();
   }
@@ -288,89 +194,59 @@ export class GestionTareasComponent implements OnInit {
   }
 
   get f2() {
-
     return this.demoReactiveForm2.controls;
-
   }
 
+  // funcion que captura el documento cargado en el formulario
   onFileChange2(event) {
-
-
-
     if (event.target.files.length > 0) {
-
       const file = event.target.files[0];
-
       this.demoReactiveForm2.patchValue({
-
         fileSource: file
-
       });
-
     }
-
   }
 
+  // funcion que envia los datos recolectados en el file enviado a travez del input
   submit2() {
-
     const formData = new FormData();
-
     formData.append('file', this.demoReactiveForm2.get('fileSource').value);
-
     console.log(formData);
-
-
-    // this.http.post('http://localhost:8001/upload.php', formData)
-
-    //   .subscribe(res => {
-
-    //     console.log(res);
-
-    //     alert('Uploaded Successfully.');
-
-    //   })
-
   }
-
-
-
 
   // notificaciones
-  createNotification(type1: string, type2: string, type3: string,): void {
+  createNotification(
+    type1: string,        //Muestra el tipo de notificación(Success,Info,Waring, error)
+    type2: string,        //Muestra un mensaje elegido por el usuario
+    type3: string         //Muestra un mensaje elegido por el usuario
+  ): void {
     this.notification.create(
       type1,
       type2,
-      type3,
-      { nzDuration: 12000 }
+      type3
     );
 
   }
 
-  // modal formulario
+  // modal que contiene el formulario de edicion
   isVisibleFormulario = false;
-
-
 
   showModalFormulario(): void {
     this.isVisibleFormulario = true;
   }
 
   handleOkFormulario(): void {
-
     this.isVisibleFormulario = false;
   }
 
   handleCancelFormulario(): void {
-
-
-
     this.isVisibleFormulario = false;
   }
+  // fin del modal que contiene el formulario de edicion
 
-
-
+  // funcion que hace un llamado a la api para obtener y visualizar los datos en la tabla
   getTareas() {
-    this.ServiciosContratados.getTareasEspeficas(this.idUsuario,this.idServicio).subscribe(
+    this.ServiciosContratados.getTareasEspeficas(this.idUsuario, this.idServicio).subscribe(
       respuesta => {
         console.log(respuesta);
         this.listOfData = respuesta;
@@ -380,6 +256,7 @@ export class GestionTareasComponent implements OnInit {
       })
   }
 
+  // funcion que se utiliza para enviar los datos para la creacion de una nueva tarea
   postTareas(data) {
     this.gestionServicios.newTareas(data).subscribe(
       respuesta => {
@@ -397,7 +274,7 @@ export class GestionTareasComponent implements OnInit {
     )
   }
 
-
+  // funcion que se utiliza para enviar los datos para la creacion de un nuevo documento perteneciente a una tarea
   posDocument(tarea, documento) {
     const data = { tipo: '2', dependent: tarea, base64Image: documento }
     this.gestionServicios.postDocumentServiceContracted(data).subscribe(
@@ -413,8 +290,7 @@ export class GestionTareasComponent implements OnInit {
       })
   }
 
-  // conversor base64
-
+  // funcion que convierte a base64 los documentos
   getBase64(event) {
     let me = this;
     let file = event.target.files[0];
@@ -434,7 +310,7 @@ export class GestionTareasComponent implements OnInit {
     };
   }
 
-
+  // funcion que hace un llamado a la api para realizar un put de las tareas
   editTarea(id, titulo, descripcion) {
 
     const data = { id: id, titulo: titulo, descripcion: descripcion }
@@ -452,6 +328,7 @@ export class GestionTareasComponent implements OnInit {
     })
   }
 
+  // funcion que hace un llamado a la api para realizar un delete de las tareas
   eliminarTarea(id) {
 
     console.log(id);

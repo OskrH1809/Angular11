@@ -45,17 +45,20 @@ export class ContratarServiciosComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
+  //funcion para limpiar los datos que se han seleccionado
   refreshCheckedStatus(): void {
     const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
     this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
 
+  //funcion que registra el servicio seleccionado
   onItemChecked(id: number, checked: boolean): void {
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
   }
 
+  //funcion que permite seleccionar todos los servicios
   onAllChecked(checked: boolean): void {
     this.listOfCurrentPageData.filter(({ disabled }) => !disabled).forEach(({ id }) => this.updateCheckedSet(id, checked));
     this.refreshCheckedStatus();
@@ -66,7 +69,6 @@ export class ContratarServiciosComponent implements OnInit {
     const requestData = this.listOfData.filter(data => this.setOfCheckedId.has(data.id));
 
     this.contratar.emit(requestData);
-    this.createNotification('success', 'Servicios', 'Agregados con éxito');
 
     setTimeout(() => {
       this.setOfCheckedId.clear();
@@ -76,33 +78,26 @@ export class ContratarServiciosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    // this.listOfData = new Array(20).fill(0).map((_, index) => {
-    //   return {
-    //     id: (index+1),
-    //     servicio: `Servicio ${(index+1)}`,
-    //     precio: '2000',
-    //     disabled: index== -1
-
-    //   };
-    // });
     this.get_serviciosall();
   }
 
 
   // notificaciones
-  createNotification(type1: string, type2: string, type3: string,): void {
+  createNotification(
+    type1: string,        //Muestra el tipo de notificación(Success,Info,Waring, error)
+    type2: string,        //Muestra un mensaje elegido por el usuario
+    type3: string         //Muestra un mensaje elegido por el usuario
+  ): void {
     this.notification.create(
       type1,
       type2,
-      type3,
-      { nzDuration: 12000 }
+      type3
     );
 
   }
 
-  //peticiones
 
+  //funcion que realiza un llamado a la api para obtener y mostrar todos los servicios
   get_serviciosall() {
 
     this.servicio.get_servicios().subscribe(data => {

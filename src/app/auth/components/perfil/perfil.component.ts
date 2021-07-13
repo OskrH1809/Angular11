@@ -79,11 +79,11 @@ export class PerfilComponent implements OnInit {
     this.GestionUsuarios.cambiarContraseña(data).subscribe(respuesta => {
       if (respuesta) {
         console.log("respuesta")
-        this.createNotification('info', 'Actualizar Contraseña', '');
+        this.createNotification('info', 'Actualizar Contraseña', 'La contraseña ha sido actualizada con éxito');
         this.get_data_this_user();
       }
     }, err => {
-      this.createNotification('error', 'Cambiar contraseña fallo', err);
+      this.createNotification('error', 'Cambiar contraseña fallo', 'Revise su contraseña');
     })
 
   }

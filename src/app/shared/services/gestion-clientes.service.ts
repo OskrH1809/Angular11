@@ -30,5 +30,8 @@ export class GestionClientesService {
     return this.http.post(`${baseUrlF}/api/new_data_this_user`,data);
   }
 
+  envioCorreoNuevoUsuario(data){
+    return this.http.post(`${baseUrlF}/api/send_email`,data);
+  }
 
 }

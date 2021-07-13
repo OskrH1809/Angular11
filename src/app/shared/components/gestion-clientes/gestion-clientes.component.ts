@@ -4,7 +4,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Router } from '@angular/router';
+import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 
 interface ItemData {
   id: string;
@@ -20,119 +20,118 @@ export class GestionClientesComponent implements OnInit {
   urlTree: any;
   username: any;
 
-  constructor(private router: Router, private notification: NzNotificationService,
-    private userService: GestionClientesService, private _location: Location, private modalService: NgbModal, private formBuilder: FormBuilder) {
-
-
-
+  constructor(
+    private notification: NzNotificationService,
+    private userService: GestionClientesService,
+    private gestionUsuario: GestionUsuariosService,
+    private _location: Location,
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder) {
   }
 
   i = 1;
   editId: string | null = null;
   listOfData: ItemData[] = [];
 
-  startEdit(id: string): void {
-    this.editId = id;
-  }
-
-  stopEdit(nombre): void {
-    this.editId = null;
-    this.createNotification('info', 'Cliente: ' + `${nombre}`, 'Actualizado con éxito');
-
-
-  }
-
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        email: `${this.form.value.email}`,
-
-      }
-    ];
-    this.createNotification('success', 'Cliente: ' + `${this.form.value.nombre}`, 'Agregado con éxito');
-
-    this.i++;
-  }
-
-  deleteRow(id: string, nombre: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
-    this.createNotification('warning', 'Cliente: ' + `${nombre}`, 'Eliminado con éxito');
-
-  }
 
   ngOnInit(): void {
     this.get_users();
     this.form = this.formBuilder.group({
       email: ['', [Validators.required]],
-
-
-
     });
   }
 
+  // funcion que se utiliza para enviar la informacion del correo para registrar el nuevo usuario
   send(): any {
-    console.log(this.form.value.nombre);
-  }
-  // Modal
-  closeModal: string;
-  triggerModal(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
-      this.closeModal = `Closed with: ${res}`;
-    }, (res) => {
-      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-    });
+    console.log(this.form.value.email);
+    this.enviarCorreoNuevoUsuario(this.form.value.email, '')
   }
 
-  clearModal() {
-    this.form = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      apellido: ['', Validators.required],
-      direccion: ['', Validators.required]
-
-    });
-  }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
+  //Funcion que permite regresar a la pagina anterior
   backClicked() {
     this._location.back();
   }
 
-  // peticion get de servicios
-
+  //Funcion que hace un llamado a la api para obtener y visualizar los datos
   get_users() {
     this.userService.get_usersAll().subscribe(data => {
       this.listOfData = data;
       console.log(data);
-      //  this.i = data.pop().id + 1;
     }, err => {
       console.log(err);
-      this.createNotification('error', 'gestion clientes: ', 'Error al obtener los clientes');
-      this.createNotification('error', 'error: ', err);
+      this.createNotification('error', 'Error al obtener los clientes: ', err);
     });
   }
 
 
 
   // notificaciones
-  createNotification(type1: string, type2: string, type3: string,): void {
+  createNotification(
+    type1: string,        //Muestra el tipo de notificación(Success,Info,Waring, error)
+    type2: string,        //Muestra un mensaje elegido por el usuario
+    type3: string         //Muestra un mensaje elegido por el usuario
+  ): void {
     this.notification.create(
       type1,
       type2,
-      type3,
-      { nzDuration: 12000 }
+      type3
     );
 
   }
+
+
+  // funcion que enviara un correo con la contraseña al usuario, cuando se cree un nuevo usuario solo ingresando el correo
+  enviarCorreoNuevoUsuario(email, perfil) {
+    let data;
+
+    if (perfil) {
+      data = { email: email, perfil: perfil }
+    } else {
+      data = { email: email, perfil: '' }
+    }
+
+    this.userService.envioCorreoNuevoUsuario(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.createNotification('success', 'Crear Usuario', 'Usuario creado Con éxito');
+        this.get_users();
+      }
+    }, err => {
+      this.createNotification('error', 'Crear usuario sin éxito: ', err);
+    })
+  }
+
+
+
+  // funcion que cambiara el estado del usuario de activado a desactivado
+  desactivarUsuario(idUser) {
+    const data = { user: idUser }
+    this.gestionUsuario.desactivarUsuario(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.createNotification('success', 'Desactivar usuario ', 'Usuario desactivado con éxito');
+        this.get_users();
+      }
+    }, err => {
+      this.createNotification('error', 'Desactivar usuario fallo ', 'Error al desactivar usuario');
+    })
+  }
+
+  // funcion que cambiara el estado del usuario de desactivado a activado
+  activarUsuario(idUser) {
+
+    const data = { user: idUser }
+    this.gestionUsuario.activarUsuario(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.createNotification('success', 'Activar usuario ', 'Usuario activado con éxito');
+        this.get_users();
+      }
+    }, err => {
+      this.createNotification('error', 'Activar usuario fallo ', 'Error al desactivar usuario');
+    })
+  }
+
+
+
+
 
 
 }

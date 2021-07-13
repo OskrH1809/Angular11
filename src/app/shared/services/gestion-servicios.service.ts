@@ -30,4 +30,12 @@ export class GestionServiciosService {
   getSearchServices(search){
     return this.http.get(`${baseUrl}/api/services_search/${search}`);
   }
+
+  activarServicio(data){
+    return this.http.put(`${baseUrl}/api/activar_servicios`, data);
+  }
+
+  desactivarServicio(data){
+    return this.http.put(`${baseUrl}/api/desactivar_servicios`, data);
+  }
 }
