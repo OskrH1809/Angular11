@@ -15,14 +15,23 @@
       </ul>
     </nav><!-- #nav-menu-container -->
 
-    <nav *ngIf="verificarAcceso==true" id="nav-menu-container">
+    <nav *ngIf="verificarAcceso==true && role=='ADMIN'" id="nav-menu-container">
       <ul class="nav-menu">
         <li> <a href="/perfil">{{username}}</a> </li>
         <li><a href="/cards">Servicios</a></li>
         <li><a href="/gestionservicios"> Gestión Servicios</a></li>
         <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
         <!-- <li class="menu-active"><a href="">Login</a></li> -->
-        <li> <a href="#" (click)="logout()">Cerrar sesión</a> </li>
+        <li> <a (click)="logout()">Cerrar sesión</a> </li>
+      </ul>
+    </nav><!-- #nav-menu-container -->
+
+    <nav *ngIf="verificarAcceso==true && role!='ADMIN'" id="nav-menu-container">
+      <ul class="nav-menu">
+        <li> <a href="/perfil">{{username}}</a> </li>
+        <li><a href="/cards">Servicios</a></li>
+        <!-- <li class="menu-active"><a href="">Login</a></li> -->
+        <li> <a (click)="logout()">Cerrar sesión</a> </li>
       </ul>
     </nav><!-- #nav-menu-container -->
   </div>

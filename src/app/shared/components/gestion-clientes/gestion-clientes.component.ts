@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
+import * as moment from 'moment';
 
 interface ItemData {
   id: string;
@@ -17,6 +18,7 @@ interface ItemData {
 })
 export class GestionClientesComponent implements OnInit {
   form: any;
+  mesActual = moment().format('M').toString();
   urlTree: any;
   username: any;
 

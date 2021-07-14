@@ -10,13 +10,14 @@ import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.s
 })
 export class HeaderComponent implements OnInit {
 
+  role = this.gestionUsuario.role();
   username= this.gestionUsuario.username();
   constructor(private gestionUsuario:GestionUsuariosService,private router: Router, private gestion: GestionUsuariosService) { }
 
   token = localStorage.getItem('token');
   verificarAcceso = this.gestion.verificarAcceso()
   ngOnInit() {
-
+    console.log(this.role)
   }
 
   logout() {

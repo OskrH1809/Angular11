@@ -1,4 +1,5 @@
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +21,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./servicio.component.css']
 })
 export class ServicioComponent implements OnInit {
-  id: string;
+  id = this.route.snapshot.paramMap.get("id");
   imagen;
   panelOpenState = false;
   administrarService: any;
@@ -29,10 +30,14 @@ export class ServicioComponent implements OnInit {
   verificarAcceso = this.gestionUsuario.verificarAcceso();
   dataDocuments; //variable que se utilizara para enviar la imagen a documentos
   documentoEspecifico;
-
+  mesActual = moment().format('M').toString();
   helper = new JwtHelperService();
   decodeToken = this.helper.decodeToken(localStorage.getItem('token'))
   role = this.decodeToken.roles[0];
+  user = this.decodeToken.username;                                           // Se utiliza para almacenar el nombre del usuario logueado que se encuentra en el jwt
+
+  isVisible = false;  //variable que controla el abrir y cerrar del modal
+
 
 
   constructor(private router: Router,
@@ -41,28 +46,27 @@ export class ServicioComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private sanitizer: DomSanitizer,
-    private gestionUsuario: GestionUsuariosService) {
+    private gestionUsuario: GestionUsuariosService,
+    private _location: Location,
+    )
+  {
 
 
   }
 
   ngOnInit(): void {
-    console.log(this.role);
+    console.log(this.mesActual);
+    console.log(this.id);
     this.getImageDocuments();
     this.getServiciosContratadosByUser();
-    this.id = this.route.snapshot.paramMap.get("id");
+
   }
 
 
 
-  // CAPTURAR MES ACTUAL
-
-  mesActual = moment().format('M');
-  // CAPTURAR MES ACTUAL ^
 
 
-
-// array para mostrar el encabezado en el encabeezado el mes
+  // array para mostrar el encabezado en el encabezado el mes
   Mes = {
     1: "Enero",
     2: "Febrero",
@@ -132,7 +136,7 @@ export class ServicioComponent implements OnInit {
   })
 
 
-// funcion para subir archivo
+  // funcion para subir archivo
   subirArchivo(idServicioContracted,): any {
 
     const data = { tipo: '1', dependent: String(idServicioContracted), base64Image: this.imagen['base'] } //el tipo 1 declara que es un la imagene es de un servicio contratado
@@ -178,7 +182,7 @@ export class ServicioComponent implements OnInit {
 
   }
 
-// funcion el cual se utiliza para mostrar todos los servicios contratados por el usuario que se encuentre logueado
+  // funcion el cual se utiliza para mostrar todos los servicios contratados por el usuario que se encuentre logueado
   ListaserviciosContratados = [];
   getServiciosContratadosByUser() {
     this.serviciosContratados.getServiciosContratadosByUser().subscribe(
@@ -243,7 +247,54 @@ export class ServicioComponent implements OnInit {
   }
 
 
+  // modal para el poder agregar servicios
+  showModal(): void {
+    this.isVisible = true;
+  }
 
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  agregarServicio(array) {
+
+    console.log(array)
+    array.forEach(element => {
+
+      console.log(element.name)
+      this.contratarNuevosServicios(element.id, element.name);
+    });
+    // this.listOfData = this.listOfData.concat(array);
+  }
+
+
+  contratarNuevosServicios(idServicio, nombreServicio) {
+    const data = {
+      email: this.user,
+      servicio: idServicio
+    }
+    this.serviciosContratados.registrarNuevosServiciosOpcional(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.getServiciosContratadosByUser();
+        this.createNotification('success', `Registro de servicio: ${nombreServicio} `, 'Registrado con éxito');
+
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', `El servicio: ${nombreServicio}`, 'Ya se encuentra registrado ');
+    });
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+
+  backClicked() {
+    this._location.back();
+  }
 
 
 }

@@ -25,6 +25,41 @@ export class ContratarServiciosComponent implements OnInit {
   listOfCurrentPageData: ReadonlyArray<Data> = [];
   setOfCheckedId = new Set<number>();
 
+  serviciosOscar = [
+    {
+        "id": 1,
+        "usuario": "hoscar161@gmail.com",
+        "servicio": "Lavado",
+        "estado": "Aprobado",
+        "precio": "23.01",
+        "idServicio": 3,
+        "idUsuario": 2,
+        "activo": "1",
+        "servicioActivo": "0"
+    },
+    {
+        "id": 2,
+        "usuario": "hoscar161@gmail.com",
+        "servicio": "Cambio",
+        "estado": "Sin Aprobar",
+        "precio": "11.92",
+        "idServicio": 5,
+        "idUsuario": 2,
+        "activo": "1",
+        "servicioActivo": "1"
+    },
+    {
+        "id": 3,
+        "usuario": "hoscar161@gmail.com",
+        "servicio": "Reparación",
+        "estado": "Sin Aprobar",
+        "precio": "22.01",
+        "idServicio": 4,
+        "idUsuario": 2,
+        "activo": "1",
+        "servicioActivo": "1"
+    }
+]
 
   constructor(
     private servicio: GestionServiciosService,
@@ -102,7 +137,8 @@ export class ContratarServiciosComponent implements OnInit {
 
     this.servicio.get_servicios().subscribe(data => {
       // this.indice = data.pop()['id'] +1;
-      this.listOfData = data;
+      this.listOfData = data
+
       console.log(data);
     }, err => {
       console.log(err);

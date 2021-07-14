@@ -56,7 +56,8 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 
   ],
   exports:[
-    EdicionTareasComponent
+    EdicionTareasComponent,
+    ContratarServiciosComponent
   ]
 })
 export class ModuloServiciosModule { }

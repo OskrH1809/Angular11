@@ -45,6 +45,7 @@ border-radius: 6px;
 
 padding-top: 5px;
 }
+
 .mat-card-header1:hover{
   background-color: #1b5b9b;
   transition: 0.2s;
@@ -96,4 +97,8 @@ transition: 0.2s;
 
 .esp{
   padding-top:30px;
+}
+
+.letra{
+  color: black !important;
 }

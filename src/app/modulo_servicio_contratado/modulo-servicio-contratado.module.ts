@@ -10,13 +10,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { CardsComponent } from '../shared/components/cards/cards.component';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { ContratarServiciosComponent } from '../shared/components/contratar-servicios/contratar-servicios.component';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { ModuloServiciosModule } from '../modulo_servicios/modulo-servicios.module';
 
 
 @NgModule({
   declarations: [
     ServicioComponent,
     CardsComponent,
-
   ],
   imports: [
     CommonModule,
@@ -27,11 +31,22 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     MatExpansionModule,
     FontAwesomeModule,
     NzImageModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NzModalModule,
+    NzButtonModule,
+    NzTableModule,
+    ModuloServiciosModule
 
 
 
+
+
+  ],
+  exports:[
 
   ]
+
 })
-export class ModuloServicioContratadoModule { }
+export class ModuloServicioContratadoModule {
+
+ }

@@ -52,8 +52,9 @@
                         <td>{{ data.servicio }}</td>
                         <td>{{ data.precio }}</td>
                         <td class="text-center">
+
                             <a
-                                routerLink="/gestiontareas/{{data.idUsuario}}/{{data.idServicio}}"
+                                routerLink="/gestiontareas/{{mesActual}}/{{data.servicio}}/{{data.idUsuario}}/{{data.idServicio}}"
                                 routerLinkActive="true"
                             >
                                 <span
@@ -70,18 +71,30 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            {{data.estado}}
+                            <!-- {{data.estado}} -->
                             <br>
                             <a>
                                 <span
                                     (click)="showModald(data.id)"
                                     nz-tooltip
-                                    nzTooltipTitle="Editar estado servicio {{data.servicio}}"
+                                    nzTooltipTitle="Editar estado servicio {{data.servicio}}, Estado actual: {{data.estado}}"
                                 >
-                                    <i
+                                    <i  *ngIf="data.estado=='Sin Aprobar'"
                                         nz-icon
                                         nzType="edit"
-                                        style="font-size: 25px; color: #2986f1;"
+                                        style="font-size: 25px; color: red;"
+                                        nzTheme="outline"
+                                    ></i>
+                                    <i  *ngIf="data.estado=='Pendiente de aprobación'"
+                                        nz-icon
+                                        nzType="edit"
+                                        style="font-size: 25px; color: rgb(251, 102, 9);"
+                                        nzTheme="outline"
+                                    ></i>
+                                    <i  *ngIf="data.estado=='Aprobado'"
+                                        nz-icon
+                                        nzType="edit"
+                                        style="font-size: 25px; color: #3d9efe"
                                         nzTheme="outline"
                                     ></i>
                                 </span>

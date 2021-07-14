@@ -38,8 +38,8 @@ registerLocaleData(es);
   imports: [
     BrowserModule,
     ModuloUsuariosModule,
-    ModuloServiciosModule,
     ModuloServicioContratadoModule,
+    ModuloServiciosModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     CommonModule,
@@ -47,6 +47,10 @@ registerLocaleData(es);
     ReactiveFormsModule,
     CKEditorModule,
   ],
+  exports:[
+    ModuloServiciosModule
+  ],
+
   providers: [
 
     GestionUsuariosService,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
-
+import * as moment from 'moment';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
@@ -8,11 +9,11 @@ import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.s
 })
 export class CardsComponent implements OnInit {
   administrarService: any;
-
-  constructor(private ges: GestionUsuariosService) {}
+  mesActual = moment().format('M').toString();
+  constructor(private notification: NzNotificationService,) {}
 
   ngOnInit(): void {
-
+    console.log(this.mesActual)
   }
 
   listaMeses = [
@@ -67,5 +68,23 @@ export class CardsComponent implements OnInit {
     }
 
   ]
+
+  alerta(){
+    this.createNotification('error', 'No permitido: ', 'Los servicios para este mes aun no estan habilitados');
+  }
+
+   // notificaciones
+   createNotification(
+    type1: string,        //Muestra el tipo de notificación(Success,Info,Waring, error)
+    type2: string,        //Muestra un mensaje elegido por el usuario
+    type3: string         //Muestra un mensaje elegido por el usuario
+  ): void {
+    this.notification.create(
+      type1,
+      type2,
+      type3
+    );
+
+  }
 
 }

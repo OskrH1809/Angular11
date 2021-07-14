@@ -17,9 +17,9 @@ export class PerfilComponent implements OnInit {
 
   helper = new JwtHelperService();                                            // Biblioteca a la cual se le proporcionara un jwt mas adelante para decodificarlo
   decodeToken = this.helper.decodeToken(localStorage.getItem('token'));       // Se utiliza para decodificar la información que contiene el jwt
+  user = this.decodeToken.username;                                           // Se utiliza para almacenar el nombre del usuario logueado que se encuentra en el jwt
   isPasswordVisible = true;                                                   // Se utiliza para controlar el tipo de input del input password
   disableInput = true;                                                        // Se utiliza para deshabilitar el input que contiene el formControlName = email
-  user = this.decodeToken.username;                                           // Se utiliza para almacenar el nombre del usuario logueado que se encuentra en el jwt
   datosUsuario;                                                               // Se utiliza para almacenar teporalmente los datos del usuario
   cuentaBanco;                                                                // Almacena la cuenta de banco del usuario
   telefono;                                                                   // Almacena el numero de telefono del usuario

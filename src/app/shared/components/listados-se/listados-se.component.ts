@@ -8,6 +8,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { NzImageService } from 'ng-zorro-antd/image';
+import * as moment from 'moment';
 
 
 interface ItemData {
@@ -31,6 +32,7 @@ export class ListadosSeComponent implements OnInit {
   i = 0;
   editId: string | null = null;
   listOfData: ItemData[] = [];
+  mesActual = moment().format('M').toString();
   Nombre;
   id: any;
   idUser = this.route.snapshot.paramMap.get("id");

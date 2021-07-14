@@ -17,6 +17,8 @@ import { GestionServiciosContratadosService } from '../../services/gestion-servi
 export class GestionTareasComponent implements OnInit {
   idServicio = this.route.snapshot.paramMap.get("idservicio");
   idUsuario = this.route.snapshot.paramMap.get("idusuario");
+  servicio = this.route.snapshot.paramMap.get("nombreservicio");
+  idMes= this.route.snapshot.paramMap.get("mes");
   idTarea;
   ArchivoCap: any;
   documentoBase64;

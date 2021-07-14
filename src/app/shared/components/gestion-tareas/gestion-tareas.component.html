@@ -1,12 +1,21 @@
 <div class="container espacio">
-  <h1 class="text-center  pt-5"><strong>Gestión de Tareas </strong></h1>
+  <h3 class="text-center  pt-5"><strong>Gestionar Tareas de <span style="color: #08c;"><strong>{{servicio}}</strong></span> </strong></h3>
   <div class="row">
-    <div class="col-md-2   col-sm-12 pt-5"></div>
-    <div class="col-md-8 col-sm-12 pt-5">
-      <button nz-button (click)="triggerModal(modalData2)" nzType="primary">Ingresar Nueva Solicitud</button>
+    <div class="col-md-1   col-sm-12 pt-5"></div>
+    <div class="col-md-10 col-sm-12 pt-5">
       <!--{# (click)="addRow()" #}-->
-      <br />
-      <br />
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <button nz-button [disabled]="idMes!=mesActual" (click)="triggerModal(modalData2)" nzType="primary">Ingresar Nueva Solicitud</button>
+
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <button nz-button class="pull-right" [nzType]="'primary'" (click)="backClicked()"><span>Regresar</span></button>
+
+        </div>
+      </div>
+
+      <hr>
      <div class="row">
        <div class="col-md-1 col-sm-12"></div>
        <div class="col-md-10" >
@@ -39,7 +48,9 @@
                 <a routerLink="/documentos/{{data.id}}/{{data.idUsuario}}" routerLinkActive="true" ><span nz-tooltip nzTooltipTitle="Ver los documentos de {{data.titulo}}" ><i  style="font-size: 25px; color: #08c;" nz-icon nzType="eye" nzTheme="outline"></i></span></a>
               </td>
                 <td class="text-center">
-                  <a ><span (click)="llenarDatos(data.id,data.titulo,data.descripcion)" (click)="showModalFormulario()" nz-tooltip nzTooltipTitle="Editar {{data.titulo}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: #08c;"></i></span></a>
+                  <a  *ngIf="mesActual==idMes"> <span (click)="llenarDatos(data.id,data.titulo,data.descripcion)" (click)="showModalFormulario()" nz-tooltip nzTooltipTitle="Editar {{data.titulo}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: #08c;"></i></span></a>
+                  <a  *ngIf="mesActual!=idMes"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: #08c;"></i></span></a>
+
                   &nbsp;
                   <a  nz-popconfirm *ngIf="role=='ADMIN'" nzPopconfirmTitle="seguro que desea eliminar a {{data.titulo}}?"  (nzOnConfirm)="eliminarTarea(data.id)"><span nz-tooltip nzTooltipTitle="Eliminar {{data.titulo}}" ><i nz-icon nzType="delete" nzTheme="outline" style="font-size: 25px; color: rgb(255, 8, 0);" [nzTwotoneColor]="red"></i></span></a>
                 <span *ngIf="role=='USER'" >Eliminar</span>
@@ -205,10 +216,9 @@
        </div>
        <div class="col-md-1 col-sm-12"></div>
      </div>
-      <button class="btn btn-primary "  pull-right pt-5 (click)="backClicked()">Regresar</button>
 
     </div>
-
+    <div class="col-md-1   col-sm-12 pt-5"></div>
 
 
 </div>

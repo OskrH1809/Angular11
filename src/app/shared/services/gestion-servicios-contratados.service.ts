@@ -24,6 +24,10 @@ export class GestionServiciosContratadosService {
     return this.http.post(`${baseUrlF}/api/new_contrated`, data);
   }
 
+  registrarNuevosServiciosOpcional(data) {
+    return this.http.post(`${baseUrlF}/api/new_contrated_optional`, data);
+  }
+
   getClientesDeServicios(idServicio){
     return this.http.get(`${baseUrlF}/api/clientes_de_servicio/${idServicio}`);
   }
