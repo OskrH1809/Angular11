@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-gestion-tareas',
@@ -15,10 +16,12 @@ import { GestionServiciosContratadosService } from '../../services/gestion-servi
 })
 
 export class GestionTareasComponent implements OnInit {
+  helper = new JwtHelperService();
+  decodeToken = this.helper.decodeToken(localStorage.getItem('token'))
   idServicio = this.route.snapshot.paramMap.get("idservicio");
   idUsuario = this.route.snapshot.paramMap.get("idusuario");
   servicio = this.route.snapshot.paramMap.get("nombreservicio");
-  idMes= this.route.snapshot.paramMap.get("mes");
+  idMes = this.route.snapshot.paramMap.get("mes");
   idTarea;
   ArchivoCap: any;
   documentoBase64;
@@ -26,7 +29,7 @@ export class GestionTareasComponent implements OnInit {
   mesActual = moment().format('M').toString();
   id: string;
   administrarService: boolean;
-  role: any;
+  role = this.decodeToken.roles
 
 
   // editor enriquecido
@@ -349,4 +352,87 @@ export class GestionTareasComponent implements OnInit {
 
   }
 
+
+  // modal del estado de la tarea
+
+  isVisible = false;
+  tarea;
+  showModal(tarea): void {
+    this.tarea = tarea
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+  // select estado
+  optionList = [
+    { label: 'Creado', value: '4' },
+    { label: 'En revisión', value: '5' },
+    { label: 'Finalizado', value: '6' }
+  ];
+  selectedValue = 'Seleccionar estado'
+  // tslint:disable-next-line:no-any
+
+  log(value: { value: string; }): void {
+    console.log(value.value);
+    const data = { id: this.tarea, estado: value.value }
+    this.actualizarEstadoTarea(data);
+
+
+    this.optionList = [
+      { label: 'Creado', value: '4' },
+      { label: 'En revisión', value: '5' },
+      { label: 'Finalizado', value: '6' }
+    ];
+  }
+
+  actualizarEstadoTarea(data) {
+    this.gestionServicios.actualizarEstadoTarea(data).subscribe(respuesta => {
+      if (respuesta) {
+        this.getTareas();
+        this.createNotification('info', 'Tarea', 'Estado actualizado con éxito');
+      }
+
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Error al actualizar estado: ', 'Actualizar estado sin éxito');
+    })
+  }
+
+  startEdit(id: string): void {
+    this.editId = id;
+  }
+
+
+  //Funcion que indica que se ha finalizado la edicion y pasa los nuevos parametros para actualizarlos
+  stopEdit(id, tiempo): void {
+
+    console.log(id)
+    console.log(tiempo)
+    const data = {
+      id: id,
+      horasTarea: tiempo
+
+    }
+
+    this.gestionServicios.ingresarHorasTarea(data).subscribe(respuesta=>{
+      if (respuesta) {
+        this.getTareas();
+        this.createNotification('info', 'Tarea', 'Horas actualizadas con éxito');
+      }
+
+    }, err => {
+      console.log(err);
+      this.getTareas();
+      this.createNotification('error', 'Error al actualizar estado: ', err);
+    })
+  }
 }

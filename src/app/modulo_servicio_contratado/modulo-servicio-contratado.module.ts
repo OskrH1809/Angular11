@@ -15,7 +15,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ContratarServiciosComponent } from '../shared/components/contratar-servicios/contratar-servicios.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { ModuloServiciosModule } from '../modulo_servicios/modulo-servicios.module';
-
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { ModuloServiciosModule } from '../modulo_servicios/modulo-servicios.modu
     NzModalModule,
     NzButtonModule,
     NzTableModule,
-    ModuloServiciosModule
+    ModuloServiciosModule,
+    NzCheckboxModule,
+    NzCollapseModule
 
 
 

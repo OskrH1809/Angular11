@@ -28,7 +28,7 @@ export class GestionServiciosContratadosService {
     return this.http.post(`${baseUrlF}/api/new_contrated_optional`, data);
   }
 
-  getClientesDeServicios(idServicio){
+  getClientesDeServicios(idServicio) {
     return this.http.get(`${baseUrlF}/api/clientes_de_servicio/${idServicio}`);
   }
 
@@ -41,6 +41,11 @@ export class GestionServiciosContratadosService {
   updateEstadoServicioContratado(id, data): Observable<any> {
     return this.http.put(`${baseUrlF}/api/editestado/${id}`, data);
   }
+
+  cambiarPeriodoPagoServicioContratado(data): Observable<any> {
+    return this.http.put(`${baseUrlF}/api/periodo_pago`, data);
+  }
+
 
   postDocumentServiceContracted(data: any): Observable<any> {
     return this.http.post(`${baseUrlF}/api/documents`, data);
@@ -87,7 +92,12 @@ export class GestionServiciosContratadosService {
     return this.http.get(`${baseUrlF}/api/tareas_especificas/${usuario}/${servicio}`);
   }
 
+  actualizarEstadoTarea(data) {
+    return this.http.put(`${baseUrlF}/api/tareas_actualizar_estado`, data);
+  }
 
-
+  ingresarHorasTarea(data){
+    return this.http.put(`${baseUrlF}/api/tareas_ingresar_horas`, data);
+  }
 
 }

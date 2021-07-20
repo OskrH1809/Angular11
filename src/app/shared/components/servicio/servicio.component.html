@@ -3,30 +3,54 @@
         <strong>Servicios del mes de {{ Mes[id] }}</strong>
     </h1>
     <!-- aqui -->
-   <div class="row">
-     <div class="col-md-6 col-sm-12">
-      <button [disabled]="id!=mesActual" nz-button [nzType]="'primary'" (click)="showModal()"><span>Solicitar nuevos servicios</span></button>
-      <nz-modal [(nzVisible)]="isVisible" nzTitle="" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-        <ng-container *nzModalContent>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <button
+                [disabled]="id!=mesActual"
+                nz-button
+                [nzType]="'primary'"
+                (click)="showModal()"
+            >
+                <span>Solicitar nuevos servicios</span>
+            </button>
+            <nz-modal
+                [(nzVisible)]="isVisible"
+                nzTitle
+                (nzOnCancel)="handleCancel()"
+                (nzOnOk)="handleOk()"
+            >
+                <ng-container *nzModalContent>
 
-          <app-contratar-servicios (contratar)="agregarServicio($event)"></app-contratar-servicios>
+
+                    <app-contratar-servicios
+                        (contratar)="agregarServicio($event)"
+                        [serviciosContratados]="ListaserviciosContratados"
+                    ></app-contratar-servicios>
 
 
-        </ng-container>
-      </nz-modal>
-     </div>
-     <div class="col-md-6 col-sm-12">
-      <button nz-button class="pull-right" [nzType]="'primary'" (click)="backClicked()"><span>Regresar</span></button>
-     </div>
-   </div>
+
+                </ng-container>
+            </nz-modal>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <button
+                nz-button
+                class="pull-right"
+                [nzType]="'primary'"
+                (click)="backClicked()"
+            >
+                <span>Regresar</span>
+            </button>
+        </div>
+    </div>
     <!-- modal formulario -->
-   <hr>
+    <hr>
     <!-- modal formulario end -->
     <div class="row">
         <!-- servicio 1 -->
         <div
             *ngFor="let servicio of ListaserviciosContratados"
-            class="col-md-4 mb-5 col-sm-6 col-12 pt-4 sombreado"
+            class="col-md-4 mb-2 col-sm-6 col-12  sombreado"
         >
             <mat-card class="example-card">
                 <mat-card-header
@@ -40,13 +64,11 @@
                         <br>
                         Estado:
                         <strong style="color: red;">Desactivado</strong>
+                        <br>
+                        Horas total del servicio : {{servicio.hours_service}}
+                        <br>
                     </mat-card-title>
                 </mat-card-header>
-
-
-
-
-
 
 
 
@@ -60,8 +82,19 @@
                         Precio: ${{ servicio.precio }}
                         <br>
                         Estado: {{ servicio.estado }}
+                        <br>
+                        Horas total del servicio : {{servicio.hours_service}}
+                        <br>
+                        Solicitar pago a fin de mes:
+                        <label
+                            nz-checkbox
+                            (change)="cambiarPeriodoPago(servicio.id)"
+                        ></label>
+
+
                     </mat-card-title>
                 </mat-card-header>
+
 
 
 
@@ -80,8 +113,12 @@
                         Precio: ${{ servicio.precio }}
                         <br>
                         Estado:{{ servicio.estado }}
+                        <br>
+                        Horas total del servicio : {{servicio.hours_service}}
+                        <br>
                     </mat-card-title>
                 </mat-card-header>
+
 
 
 
@@ -101,150 +138,196 @@
                         <s>${{ servicio.precio }}</s>
                         <br>
                         Estado: {{ servicio.estado }}
+                        <br>
+                        Horas total del servicio : {{servicio.hours_service}}
+                        <br>
+                        <span
+                            *ngIf="servicio.periodo_pago=='2'"
+                            style="color: red;"
+                        >
+                        </span>
+                        <br>
                     </mat-card-title>
                 </mat-card-header>
-                <img
-                    mat-card-image
-                    src
-                    alt
+
+                <mat-card-header
+                    class="mat-card-header1"
+                    *ngIf="servicio.idEstado == 7 && servicio.activo=='1'"
                 >
-                <mat-card-content></mat-card-content>
-                <mat-card-actions>
-                    <!-- .. -->
-                    <div *ngIf="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'">
-                        <div *ngIf="previsualizacion && idImagen == servicio.id">
-                            <img
-                                class="img"
-                                [src]="previsualizacion"
-                                alt="imagen"
-                            >
-                        </div>
+                    <mat-card-title class="titulo1">{{ servicio.idServicio }}</mat-card-title>
+                    <mat-card-title class="titulo2">{{ servicio.servicio }}</mat-card-title>
+                    <mat-card-title class="fuente">
+                        Precio:
+                        <s>${{ servicio.precio }}</s>
                         <br>
-                        <div class="pl-2">
-                            <input
-                                class="mb-3 form-control input-file"
-                                (change)="getBase64($event)"
-                                (change)="capturarFile($event, servicio.id)"
-                                type="file"
-                            >
-                            <button
-                                (click)="subirArchivo(servicio.id)"
-                                (click)="nuevoEstado(servicio.id, 2)"
-                                [disabled]="fileExist == false"
-                                class="mat-buttonn mb-3 btn btn-primary "
-                                type="button"
-                            >
-                                Subir Imagen
-                            </button>
-                            <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button> -->
-                            <br>
-                        </div>
+                        <span  style="color: red;">Estado: {{ servicio.estado }}</span>
                         <br>
-
-
-
-
-
-
-
-
-                        <button
-                            [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
-                            class="mat-buttonn"
-                            routerLink="/gestiontareas/servicio.idServicio"
-                            routerLinkActive="active"
-                            mat-button
+                        Horas total del servicio : {{servicio.hours_service}}
+                        <br>
+                        <span
+                            *ngIf="servicio.periodo_pago=='2'"
+                            style="color: red;"
                         >
-                            Gestion tickets
-                        </button>
-                        <button
-                            mat-button
-                            [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
-                            *ngIf="role == 'ADMIN'"
-                            class="mat-buttonn"
-                        >
-                            Desbloquear Servicios
-                        </button>
-                    </div>
-                    <!-- ............. -->
-                    <div *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'">
-                        <div class="row imagenContenedor ">
-                            <div
-                                class="col-md-12 "
-                                *ngFor="let documento of documentoEspecifico"
-                            >
-                                <img
-                                    *ngIf="
+                            Le quedan {{diasRestantesPago}} dias para cancelar el servicio.
+                        </span>
+                        <br>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <br>
+                <nz-collapse>
+                    <nz-collapse-panel
+                        *ngFor="let panel of panels"
+                        [nzHeader]="panel.name"
+                        [nzActive]="panel.active"
+                        [nzDisabled]="panel.disabled"
+                    >
+                        <mat-card-actions>
+                            <!-- .. -->
+                            <div *ngIf="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'">
+                                <div *ngIf="previsualizacion && idImagen == servicio.id">
+                                    <img
+                                        class="img"
+                                        [src]="previsualizacion"
+                                        alt="imagen"
+                                    >
+                                </div>
+                                <br>
+                                <div class="pl-2">
+                                    <input
+                                        class="mb-3 form-control input-file"
+                                        (change)="getBase64($event)"
+                                        (change)="capturarFile($event, servicio.id)"
+                                        type="file"
+                                    >
+                                    <button
+                                        (click)="subirArchivo(servicio.id)"
+                                        (click)="nuevoEstado(servicio.id, 2)"
+                                        [disabled]="fileExist == false"
+                                        class="mat-buttonn mb-3 btn btn-primary "
+                                        type="button"
+                                    >
+                                        Subir Imagen
+                                    </button>
+                                    <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button> -->
+                                    <br>
+                                </div>
+                                <br>
+
+
+
+
+
+
+
+
+
+                                <button
+                                    [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
+                                    class="mat-buttonn"
+                                    routerLink="/gestiontareas/servicio.idServicio"
+                                    routerLinkActive="active"
+                                    mat-button
+                                >
+                                    Gestion tickets
+                                </button>
+                                <button
+                                    mat-button
+                                    [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
+                                    *ngIf="role == 'ADMIN'"
+                                    class="mat-buttonn"
+                                >
+                                    Desbloquear Servicios
+                                </button>
+                            </div>
+                            <!-- ............. -->
+                            <div *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'">
+                                <div class="row imagenContenedor ">
+                                    <div
+                                        class="col-md-12 "
+                                        *ngFor="let documento of documentoEspecifico"
+                                    >
+                                        <img
+                                            *ngIf="
                     servicio.id == documento.dependent &&
                     servicio.idUsuario == documento.idUser &&
                     documento.tipoDocumento == 'Servicios_Contratados'
                   "
-                                    nz-image
-                                    width="100px"
-                                    class="imagen-pago text-center"
-                                    height="100px"
-                                    nzSrc="{{ documento.archivo }}"
-                                    alt="Imagen"
+                                            nz-image
+                                            width="100px"
+                                            class="imagen-pago text-center"
+                                            height="100px"
+                                            nzSrc="{{ documento.archivo }}"
+                                            alt="Imagen"
+                                        >
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                                <button
+                                    [disabled]="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'"
+                                    class="mat-buttonn"
+                                    routerLink="/gestiontareas/{{ id }}"
+                                    routerLinkActive="active"
+                                    mat-button
                                 >
+                                    Gestion tickets
+                                </button>
+                                <button
+                                    mat-button
+                                    *ngIf="role == 'ADMIN'"
+                                    class="mat-buttonn"
+                                    (click)="nuevoEstado(servicio.id, 3)"
+                                >
+                                    Desbloquear Servicios
+                                </button>
                             </div>
-                        </div>
+
+
+
+
+
+                            <div *ngIf="servicio.estado == 'Aprobado' && servicio.activo=='1'">
+                                <button
+                                    class="mat-buttonn"
+                                    routerLink="/gestiontareas/{{id}}/{{servicio.servicio}}/{{servicio.idUsuario}}/{{ servicio.idServicio }}"
+                                    routerLinkActive="active"
+                                    mat-button
+                                >
+                                    Gestion tickets
+                                </button>
+                            </div>
+
+                            <div *ngIf="servicio.idEstado == 7 && servicio.activo=='1'">
+                              <button
+                                  class="mat-buttonn"
+                                  routerLink="/gestiontareas/{{id}}/{{servicio.servicio}}/{{servicio.idUsuario}}/{{ servicio.idServicio }}"
+                                  routerLinkActive="active"
+                                  mat-button
+                              >
+                                  Gestion tickets
+                              </button>
+                          </div>
+                            <!--  -->
 
 
 
 
 
 
+                        </mat-card-actions>
+                    </nz-collapse-panel>
+                </nz-collapse>
 
 
-                        <br>
-
-
-
-
-
-
-
-
-                        <button
-                            [disabled]="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'"
-                            class="mat-buttonn"
-                            routerLink="/gestiontareas/{{ id }}"
-                            routerLinkActive="active"
-                            mat-button
-                        >
-                            Gestion tickets
-                        </button>
-                        <button
-                            mat-button
-                            *ngIf="role == 'ADMIN'"
-                            class="mat-buttonn"
-                            (click)="nuevoEstado(servicio.id, 3)"
-                        >
-                            Desbloquear Servicios
-                        </button>
-                    </div>
-
-
-
-
-                    <div *ngIf="servicio.estado == 'Aprobado' && servicio.activo=='1'">
-                        <button
-                            class="mat-buttonn"
-                            routerLink="/gestiontareas/{{id}}/{{servicio.servicio}}/{{servicio.idUsuario}}/{{ servicio.idServicio }}"
-                            routerLinkActive="active"
-                            mat-button
-                        >
-                            Gestion tickets
-                        </button>
-                    </div>
-                    <!--  -->
-
-
-
-
-
-                    <hr>
-                </mat-card-actions>
             </mat-card>
         </div>
     </div>

@@ -174,12 +174,9 @@ export class ListadosSeComponent implements OnInit {
     console.log(this.servicioContratadoId)
     this.getServiciosUsuarioEspecifico();
 
-    this.optionList = [
-      { label: 'Sin Aprobar', value: '1' },
-      { label: 'Pendiente de aprobación', value: '2' },
-      { label: 'Aprobado', value: '3' }
-    ];
+
   }
+
 
   // modal formulario
   isVisibleFormulariof = false;

@@ -21,7 +21,8 @@
           <tr>
             <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
             <th>Nombre Servicio</th>
-            <th>precio</th>
+            <th>Precio</th>
+            <th>Horas Servicio</th>
 
           </tr>
         </thead>
@@ -34,6 +35,7 @@
             ></td>
             <td>{{ data.name }}</td>
             <td>{{ data.price }}</td>
+            <td>{{ data.hours_service}}</td>
 
           </tr>
         </tbody>

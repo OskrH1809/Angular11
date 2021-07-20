@@ -81,3 +81,7 @@ p.alert::before {
 .titulo{
   width: 100% !important;
 }
+
+nz-select {
+  width: 100%
+}

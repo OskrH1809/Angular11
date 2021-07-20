@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosService } from '../../services/gestion-servicios.service';
 
@@ -17,6 +17,7 @@ export interface Data {
 export class ContratarServiciosComponent implements OnInit {
 
   @Output() contratar = new EventEmitter();
+  @Input() serviciosContratados;
   value;
   checked = false;
   loading = false;
@@ -27,39 +28,39 @@ export class ContratarServiciosComponent implements OnInit {
 
   serviciosOscar = [
     {
-        "id": 1,
-        "usuario": "hoscar161@gmail.com",
-        "servicio": "Lavado",
-        "estado": "Aprobado",
-        "precio": "23.01",
-        "idServicio": 3,
-        "idUsuario": 2,
-        "activo": "1",
-        "servicioActivo": "0"
+      "id": 1,
+      "usuario": "hoscar161@gmail.com",
+      "servicio": "Lavado",
+      "estado": "Aprobado",
+      "precio": "23.01",
+      "idServicio": 3,
+      "idUsuario": 2,
+      "activo": "1",
+      "servicioActivo": "0"
     },
     {
-        "id": 2,
-        "usuario": "hoscar161@gmail.com",
-        "servicio": "Cambio",
-        "estado": "Sin Aprobar",
-        "precio": "11.92",
-        "idServicio": 5,
-        "idUsuario": 2,
-        "activo": "1",
-        "servicioActivo": "1"
+      "id": 2,
+      "usuario": "hoscar161@gmail.com",
+      "servicio": "Cambio",
+      "estado": "Sin Aprobar",
+      "precio": "11.92",
+      "idServicio": 5,
+      "idUsuario": 2,
+      "activo": "1",
+      "servicioActivo": "1"
     },
     {
-        "id": 3,
-        "usuario": "hoscar161@gmail.com",
-        "servicio": "Reparación",
-        "estado": "Sin Aprobar",
-        "precio": "22.01",
-        "idServicio": 4,
-        "idUsuario": 2,
-        "activo": "1",
-        "servicioActivo": "1"
+      "id": 3,
+      "usuario": "hoscar161@gmail.com",
+      "servicio": "Reparación",
+      "estado": "Sin Aprobar",
+      "precio": "22.01",
+      "idServicio": 4,
+      "idUsuario": 2,
+      "activo": "1",
+      "servicioActivo": "1"
     }
-]
+  ]
 
   constructor(
     private servicio: GestionServiciosService,
@@ -114,6 +115,7 @@ export class ContratarServiciosComponent implements OnInit {
 
   ngOnInit(): void {
     this.get_serviciosall();
+    console.log(this.serviciosContratados)
   }
 
 
@@ -137,9 +139,11 @@ export class ContratarServiciosComponent implements OnInit {
 
     this.servicio.get_servicios().subscribe(data => {
       // this.indice = data.pop()['id'] +1;
-      this.listOfData = data
+      // const datosFiltrados = data.filter(data =>)
 
-      console.log(data);
+      const dataFiltrada = data.filter(data=>data.activo!=0)  //saca de la array de objectos todos aquellos que se encuentren desactivados
+
+      this.listOfData =dataFiltrada
     }, err => {
       console.log(err);
       this.createNotification('error', 'Error al obtener los servicios: ', err);

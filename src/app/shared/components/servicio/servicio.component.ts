@@ -31,14 +31,31 @@ export class ServicioComponent implements OnInit {
   dataDocuments; //variable que se utilizara para enviar la imagen a documentos
   documentoEspecifico;
   mesActual = moment().format('M').toString();
+  diaActual = moment().format('D')
   helper = new JwtHelperService();
   decodeToken = this.helper.decodeToken(localStorage.getItem('token'))
   role = this.decodeToken.roles[0];
   user = this.decodeToken.username;                                           // Se utiliza para almacenar el nombre del usuario logueado que se encuentra en el jwt
-
+  checked = false;
+  currentDate: moment.Moment = moment();
   isVisible = false;  //variable que controla el abrir y cerrar del modal
+  diasRestantesPago   = (parseInt( moment().endOf('months').format('D'))) - ((parseInt(this.diaActual)+10)) ;
 
+  cambiarPeriodoPago(idServicioContratado){
 
+    const data = {servicioContratado: idServicioContratado}
+    this.serviciosContratados.cambiarPeriodoPagoServicioContratado(data).subscribe(respuesta=>
+      {
+        if (respuesta) {
+          this.getServiciosContratadosByUser();                                              // llamara a la funcion de getServiciosContratadosByUser el cual mostrara todos los servicios contratados por el cliente que se encuentre logueado
+          this.nuevoEstado(idServicioContratado,'3');
+          this.createNotification('success', 'Periodo de pago actualizado ', 'Actualizado con éxito');  // si el envio fue exitoso se  mostrara una notificacion
+        }
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
+      })
+  }
 
   constructor(private router: Router,
     private serviciosContratados: GestionServiciosContratadosService,
@@ -55,7 +72,9 @@ export class ServicioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.mesActual);
+    console.log('restante'+this.diasRestantesPago);
+    console.log('dia actuaal'+this.diaActual);
+
     console.log(this.id);
     this.getImageDocuments();
     this.getServiciosContratadosByUser();
@@ -159,8 +178,7 @@ export class ServicioComponent implements OnInit {
       }, err => {
         console.log(err);
         this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
-      }
-    )
+      })
 
   }
 
@@ -296,5 +314,13 @@ export class ServicioComponent implements OnInit {
     this._location.back();
   }
 
+  panels = [
+    {
+      active: false,
+      name: 'Desplegar Acciones',
+      disabled: false
+    },
+
+  ];
 
 }
