@@ -13,11 +13,13 @@ export class RegistroGuard implements CanActivate, CanLoad {
   role = this.gestion.role()
 
   constructor(private gestion:GestionUsuariosService, private router: Router, private gestionUsuario:GestionUsuariosService){}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (this.verificarAcceso==false || this.role == 'ADMIN') {
+      this.router.navigate(['panel']);
       return true
 
     } else {

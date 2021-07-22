@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuloServiciosRoutingModule } from './modulo-servicios-routing.module';
-import { ListadosSeComponent } from '../shared/components/listados-se/listados-se.component';
+import { ListadosSeComponent } from '../shared/components/listados-servicios-contratados-usuario/listados-servicios-contratados-usuario.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -21,7 +21,8 @@ import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tar
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { VistaDocumentosComponent } from '../shared/components/vista-documentos/vista-documentos.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
-
+import { ListadoServiciosContradadosAllComponent } from '../shared/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { NzImageModule } from 'ng-zorro-antd/image';
     ContratarServiciosComponent,
     EdicionTareasComponent,
     VistaDocumentosComponent,
+    ListadoServiciosContradadosAllComponent
 
   ],
   imports: [
@@ -52,7 +54,7 @@ import { NzImageModule } from 'ng-zorro-antd/image';
     HttpClientModule,
     NzSelectModule,
     NzImageModule,
-
+    NzRadioModule
 
   ],
   exports:[

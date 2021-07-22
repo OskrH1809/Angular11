@@ -21,6 +21,11 @@ export class GestionServiciosContratadosService {
     //
   }
 
+  getServiciosContratadosAll(): Observable<any> {
+    return this.http.get(`${baseUrlF}/api/contrated_services`);
+    //
+  }
+
   registrarNuevosServicios(data) {
     return this.http.post(`${baseUrlF}/api/new_contrated`, data);
   }

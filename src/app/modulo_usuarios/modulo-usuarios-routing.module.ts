@@ -7,7 +7,7 @@ import { RecuperarContraComponent } from '../auth/components/recuperar-contra/re
 import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 import { LogueadoGuard } from '../auth/services/logueado.guard';
 import { PerfilComponent } from '../auth/components/perfil/perfil.component';
-import { RolesGuard } from '../auth/services/roles.guard';
+import { RolesGuard } from '../auth/services/role-admin.guard';
 import { RegistroGuard } from '../auth/services/registro.guard';
 
 const routes: Routes = [

@@ -21,9 +21,9 @@ interface ItemData {
 
 }
 @Component({
-  selector: 'app-listados-se',
-  templateUrl: './listados-se.component.html',
-  styleUrls: ['./listados-se.component.css']
+  selector: 'app-listados-servicios-contratados-usuario',
+  templateUrl: './listados-servicios-contratados-usuario.component.html',
+  styleUrls: ['./listados-servicios-contratados-usuario.component.css']
 })
 export class ListadosSeComponent implements OnInit {
 

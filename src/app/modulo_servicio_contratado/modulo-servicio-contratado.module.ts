@@ -17,11 +17,13 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { ModuloServiciosModule } from '../modulo_servicios/modulo-servicios.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-
+import { PanelAdministracionComponent } from '../shared/components/panel-administracion/panel-administracion.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 @NgModule({
   declarations: [
     ServicioComponent,
     CardsComponent,
+    PanelAdministracionComponent,
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
     NzTableModule,
     ModuloServiciosModule,
     NzCheckboxModule,
-    NzCollapseModule
+    NzCollapseModule,
+    NzIconModule
 
 
 

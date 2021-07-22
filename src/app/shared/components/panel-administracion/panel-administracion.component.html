@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <h1 class="pb-4 text-center">Panel de administración</h1>
+    <div class="row ">
+        <div class="col-md-6 mb-5 col-sm-12 col-12  ">
+          <a href="/listado-servicios-all/2" class="letra">
+            <mat-card class="example-card">
+
+                <h3 class="text-center">Clientes pendientes de aprobación</h3>
+                <mat-card-header>
+
+                        <mat-card-title>
+                            <i
+                                class="pt-4"
+                                nz-icon
+                                [nzTwotoneColor]="'red'"
+                                nzType="exclamation-circle"
+                                nzTheme="twotone"
+                            >
+                            </i>
+                            <span *ngIf="pendientes==1" class="titulo2">
+                                Hay {{pendientes}} solicitud pendiente de aprobación
+                            </span>
+                            <span *ngIf="pendientes!=1" class="titulo2">
+                              Hay {{pendientes}} solicitudes pendientes de aprobación
+                          </span>
+                        </mat-card-title>
+
+                </mat-card-header>
+
+            </mat-card>
+          </a>
+        </div>
+
+        <div class="col-md-6 mb-5 col-sm-12 col-12  ">
+
+          <mat-card class="example-card">
+
+              <h3 class="text-center">Clientes que han pagado sus servicios</h3>
+              <mat-card-header>
+                  <a class="letra" href="/listado-servicios-all/3">
+                      <mat-card-title>
+                          <i
+                              class="pt-4"
+                              nz-icon
+                              [nzTwotoneColor]="'blue'"
+                              nzType="info-circle"
+                              nzTheme="twotone"
+                          >
+                          </i>
+                          <span *ngIf="aprobado==1" class="titulo2">
+                              Hay {{aprobado}} usuario que ha pagado sus servicios
+                          </span>
+                          <span *ngIf="aprobado!=1" class="titulo2">
+                            Hay {{aprobado}} usuarios que han pagado sus servicios
+                        </span>
+                      </mat-card-title>
+                  </a>
+              </mat-card-header>
+
+          </mat-card>
+
+        </div>
+
+        <div class="col-md-6 mb-5 col-sm-12 col-12  ">
+
+        <mat-card class="example-card">
+
+            <h3 class="text-center">Tareas creadas</h3>
+            <mat-card-header>
+                <a class="letra">
+                    <mat-card-title>
+                        <i
+                            class="pt-4"
+                            nz-icon
+                            [nzTwotoneColor]="'red'"
+                            nzType="exclamation-circle"
+                            nzTheme="twotone"
+                        >
+                        </i>
+                        <span>
+                          Hay 1 tareas pendientes de revisión
+                        </span>
+                    </mat-card-title>
+                </a>
+            </mat-card-header>
+
+        </mat-card>
+
+        </div>
+
+    </div>
+</div>

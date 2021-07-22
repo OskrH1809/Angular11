@@ -34,6 +34,7 @@ registerLocaleData(es);
     AsideComponent,
     ClientesDeServicioComponent,
 
+
   ],
   imports: [
     BrowserModule,

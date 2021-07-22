@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 col-sm-12 espacio" >
+      <h5>Seleccionar Estado</h5>
+
+      <nz-radio-group [(ngModel)]="radioValue"  (ngModelChange)="filtro($event)" >
+      <label nz-radio  style="color: red;" nzValue="1" >Sin aprobar</label>
+      <label nz-radio style="color: rgb(251, 102, 9);" nzValue="2">Pendiente de aprobar</label>
+      <label nz-radio style="color: #1b5b9b;" nzValue="3">Aprobado</label>
+      <label nz-radio style="color: rgb(204, 204, 204);" nzValue="7">Pendiente de pago</label>
+
+    </nz-radio-group>
+    </div>
+    <div class="col-md-9 col-sm-12">
+      <!-- <button nz-button nzType="primary">Add</button> -->
+  <br />
+  <br />
+  <nz-table #editRowTable nzBordered [nzData]="listOfData">
+    <thead>
+      <tr>
+        <th nzWidth="10%">Id</th>
+        <th>Usuario</th>
+        <th>Servicio</th>
+        <th>Precio</th>
+        <th>Periodo de Pago</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of editRowTable.data" class="editable-row">
+        <td>
+          {{ data.id }}
+        </td>
+        <td>{{ data.usuario }}</td>
+        <td>{{ data.servicio }}</td>
+        <td>{{ data.precio }}</td>
+        <td *ngIf="data.periodo_pago=='1'">
+            Inicio de mes
+        </td>
+        <td *ngIf="data.periodo_pago=='2'">
+            Fin de mes
+      </td>
+      <td class="text-center">
+        <!-- {{data.estado}} -->
+        <br>
+        <a>
+            <span
+                (click)="showModald(data.id)"
+                nz-tooltip
+                nzTooltipTitle="Editar estado servicio {{data.servicio}}, Estado actual: {{data.estado}}"
+            >
+                <i
+                    *ngIf="data.estado=='Sin Aprobar'"
+                    nz-icon
+                    nzType="edit"
+                    style="font-size: 25px; color: red;"
+                    nzTheme="outline"
+                ></i>
+                <i
+                    *ngIf="data.estado=='Pendiente de aprobación'"
+                    nz-icon
+                    nzType="edit"
+                    style="font-size: 25px; color: rgb(251, 102, 9);"
+                    nzTheme="outline"
+                ></i>
+                <i
+                    *ngIf="data.estado=='Aprobado'"
+                    nz-icon
+                    nzType="edit"
+                    style="font-size: 25px; color: #3d9efe"
+                    nzTheme="outline"
+                ></i>
+            </span>
+        </a>
+        <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
+
+    </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+    </div>
+
+
+</div>
