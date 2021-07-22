@@ -11,6 +11,7 @@ export class GestionServiciosContratadosService {
   constructor(private http: HttpClient) { }
   usuario = localStorage.getItem('usuario');
   headers = new HttpHeaders();
+  bloqueador :boolean;
 
 
 

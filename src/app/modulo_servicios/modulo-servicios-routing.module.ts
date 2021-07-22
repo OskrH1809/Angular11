@@ -11,7 +11,7 @@ import { VistaDocumentosComponent } from '../shared/components/vista-documentos/
 import { RolesGuard } from '../auth/services/roles.guard';
 
 const routes: Routes = [
-  {path:'listado/:id/:cliente', component:ListadosSeComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
+  {path:'listado/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
   {path:'gestionservicios', component:CreacionServiciosComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
   {path:'gestiontareas/:nombreservicio/:idusuario/:idservicio', component:GestionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
   {path:'gestiontareas/:mes/:nombreservicio/:idusuario/:idservicio', component:GestionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},

@@ -8,7 +8,10 @@
                 class="pt-5 text-center"
                 *ngIf="listOfData!=null"
             >
-                Listado de servicios de <span style="color: #08c;"><strong>{{cliente}}</strong></span>
+                Listado de servicios de
+                <span style="color: #08c;">
+                    <strong>{{cliente}}</strong>
+                </span>
             </h3>
             <h1
                 class="text-center"
@@ -19,14 +22,30 @@
 
             <br>
             <br>
-            <button
-                nz-button
-                nzType="primary"
-                (click)="showModalFormulariof()"
-            >
-                Contratar nuevo servicio
-            </button>
-            <br>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <button
+                        nz-button
+                        nzType="primary"
+                        (click)="showModalFormulariof()"
+                    >
+                        Contratar nuevo servicio
+                    </button>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <button
+                        nz-button
+                        class="pull-right"
+                        [nzType]="'primary'"
+                        (click)="backClicked()"
+                    >
+                        <span>Regresar</span>
+                    </button>
+
+                </div>
+            </div>
+            <hr>
             <nz-table
                 #editRowTable
                 nzBordered
@@ -79,19 +98,22 @@
                                     nz-tooltip
                                     nzTooltipTitle="Editar estado servicio {{data.servicio}}, Estado actual: {{data.estado}}"
                                 >
-                                    <i  *ngIf="data.estado=='Sin Aprobar'"
+                                    <i
+                                        *ngIf="data.estado=='Sin Aprobar'"
                                         nz-icon
                                         nzType="edit"
                                         style="font-size: 25px; color: red;"
                                         nzTheme="outline"
                                     ></i>
-                                    <i  *ngIf="data.estado=='Pendiente de aprobación'"
+                                    <i
+                                        *ngIf="data.estado=='Pendiente de aprobación'"
                                         nz-icon
                                         nzType="edit"
                                         style="font-size: 25px; color: rgb(251, 102, 9);"
                                         nzTheme="outline"
                                     ></i>
-                                    <i  *ngIf="data.estado=='Aprobado'"
+                                    <i
+                                        *ngIf="data.estado=='Aprobado'"
                                         nz-icon
                                         nzType="edit"
                                         style="font-size: 25px; color: #3d9efe"
@@ -245,14 +267,6 @@
 
             </nz-table>
             <br>
-            <button
-                class="btn btn-primary"
-                pull-right
-                pt-5
-                (click)="backClicked()"
-            >
-                Regresar
-            </button>
 
         </div>
         <div class="col-md-2 col-sm-12"></div>

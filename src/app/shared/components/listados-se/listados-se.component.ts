@@ -36,7 +36,7 @@ export class ListadosSeComponent implements OnInit {
   Nombre;
   id: any;
   idUser = this.route.snapshot.paramMap.get("id");
-  cliente = this.route.snapshot.paramMap.get("cliente");
+  cliente;
   documento;
 
 
@@ -174,6 +174,11 @@ export class ListadosSeComponent implements OnInit {
     console.log(this.servicioContratadoId)
     this.getServiciosUsuarioEspecifico();
 
+    this.optionList = [
+      { label: 'Sin Aprobar', value: '1' },
+      { label: 'Pendiente de aprobación', value: '2' },
+      { label: 'Aprobado', value: '3' }
+    ];
 
   }
 
@@ -214,6 +219,8 @@ export class ListadosSeComponent implements OnInit {
     this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta => {
       this.ListaserviciosContratados = respuesta;
       console.log(this.ListaserviciosContratados);
+      this.cliente = respuesta[0].usuario;
+      console.log(this.cliente)
       this.listOfData = this.ListaserviciosContratados;
     }, err => {
       console.log(err);

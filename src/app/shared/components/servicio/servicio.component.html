@@ -2,6 +2,7 @@
     <h1 class=" pt-5 pb-5 text-center">
         <strong>Servicios del mes de {{ Mes[id] }}</strong>
     </h1>
+    <h4 *ngIf='bloqueador==true' style="color: red;" class="pt-3 text-center">Los servicios se han deshabilitado hasta que se realice el pago pendiente.</h4>
     <!-- aqui -->
     <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -90,6 +91,9 @@
                             nz-checkbox
                             (change)="cambiarPeriodoPago(servicio.id)"
                         ></label>
+                        <br>
+                      <span *ngIf="diasRestantesPagoInicioMes>=10">Debe realizar el pago!</span>
+                      <span *ngIf="diasRestantesPagoInicioMes<=10">Debe realizar el pago!</span>
 
 
                     </mat-card-title>
@@ -165,10 +169,16 @@
                         Horas total del servicio : {{servicio.hours_service}}
                         <br>
                         <span
-                            *ngIf="servicio.periodo_pago=='2'"
+                            *ngIf="diasRestantesPagoFinMes>0"
                             style="color: red;"
                         >
-                            Le quedan {{diasRestantesPago}} dias para cancelar el servicio.
+                            Le quedan {{diasRestantesPagoFinMes}} dias para cancelar el servicio.
+                        </span>
+                        <span
+                            *ngIf="diasRestantesPagoFinMes<=0"
+                            style="color: red;"
+                        >
+                        ¡Debe realizar el pago!
                         </span>
                         <br>
                     </mat-card-title>
@@ -180,7 +190,8 @@
                         *ngFor="let panel of panels"
                         [nzHeader]="panel.name"
                         [nzActive]="panel.active"
-                        [nzDisabled]="panel.disabled"
+
+                        [nzDisabled]="(panel.disabled || bloqueador==true) && servicio.idEstado==3  "
                     >
                         <mat-card-actions>
                             <!-- .. -->
@@ -241,24 +252,24 @@
                                 </button>
                             </div>
                             <!-- ............. -->
-                            <div *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1'">
+                            <div *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1' && servicio.periodo_pago=='1'">
                                 <div class="row imagenContenedor ">
                                     <div
                                         class="col-md-12 "
                                         *ngFor="let documento of documentoEspecifico"
                                     >
                                         <img
-                                            *ngIf="
-                    servicio.id == documento.dependent &&
-                    servicio.idUsuario == documento.idUser &&
-                    documento.tipoDocumento == 'Servicios_Contratados'
-                  "
+                                            *ngIf="   documento.mesCreado==id &&
+                                                      servicio.id == documento.dependent &&
+                                                      servicio.idUsuario == documento.idUser &&
+                                                      documento.tipoDocumento == 'Servicios_Contratados'
+                                                    "
                                             nz-image
                                             width="100px"
                                             class="imagen-pago text-center"
                                             height="100px"
                                             nzSrc="{{ documento.archivo }}"
-                                            alt="Imagen"
+                                            alt="{{documento.id}}"
                                         >
                                     </div>
                                 </div>
@@ -291,9 +302,55 @@
                                 </button>
                             </div>
 
+                            <div *ngIf="servicio.estado == 'Pendiente de aprobación' && servicio.activo=='1' && servicio.periodo_pago=='2'">
+                              <div class="row imagenContenedor ">
+                                  <div
+                                      class="col-md-12 "
+                                      *ngFor="let documento of documentoEspecifico"
+                                  >
+                                      <img
+                                          *ngIf="   documento.mesCreado==mesActual &&
+                                                    servicio.id == documento.dependent &&
+                                                    servicio.idUsuario == documento.idUser &&
+                                                    documento.tipoDocumento == 'Servicios_Contratados'
+                                                  "
+                                          nz-image
+                                          width="100px"
+                                          class="imagen-pago text-center"
+                                          height="100px"
+                                          nzSrc="{{ documento.archivo }}"
+                                          alt="{{documento.id}}"
+                                      >
+                                  </div>
+                              </div>
 
 
 
+
+
+
+
+
+
+
+                              <button
+                                  [disabled]="bloqueador==true"
+                                  class="mat-buttonn"
+                                  routerLink="/gestiontareas/{{ id }}"
+                                  routerLinkActive="active"
+                                  mat-button
+                              >
+                                  Gestion tickets
+                              </button>
+                              <button
+                                  mat-button
+                                  *ngIf="role == 'ADMIN'"
+                                  class="mat-buttonn"
+                                  (click)="nuevoEstado(servicio.id, 3)"
+                              >
+                                  Desbloquear Servicios
+                              </button>
+                          </div>
 
                             <div *ngIf="servicio.estado == 'Aprobado' && servicio.activo=='1'">
                                 <button
@@ -306,8 +363,39 @@
                                 </button>
                             </div>
 
-                            <div *ngIf="servicio.idEstado == 7 && servicio.activo=='1'">
+                            <div *ngIf="servicio.idEstado == 7 && servicio.activo=='1' && servicio.periodo_pago=='2' && diasRestantesPagoFinMes>='1' ">
+
+                              <div *ngIf="previsualizacion && idImagen == servicio.id">
+                                <img
+                                    class="img"
+                                    [src]="previsualizacion"
+                                    alt="imagen"
+                                >
+                            </div>
+                            <br>
+                            <div class="pl-2">
+                                <input
+                                    class="mb-3 form-control input-file"
+                                    (change)="getBase64($event)"
+                                    (change)="capturarFile($event, servicio.id)"
+                                    type="file"
+                                >
+                                <button
+                                    (click)="subirArchivo(servicio.id)"
+                                    (click)="nuevoEstado(servicio.id, 2)"
+                                    [disabled]="fileExist == false"
+                                    class="mat-buttonn mb-3 btn btn-primary "
+                                    type="button"
+                                >
+                                    Subir Imagen
+                                </button>
+                                <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button> -->
+                                <br>
+                            </div>
+
+
                               <button
+                                  [disabled]="bloqueador==true"
                                   class="mat-buttonn"
                                   routerLink="/gestiontareas/{{id}}/{{servicio.servicio}}/{{servicio.idUsuario}}/{{ servicio.idServicio }}"
                                   routerLinkActive="active"
@@ -316,6 +404,56 @@
                                   Gestion tickets
                               </button>
                           </div>
+
+                          <div *ngIf="servicio.idEstado == 7 && servicio.activo=='1' && servicio.periodo_pago==2 && diasRestantesPagoFinMes <= '0'">
+                            <div *ngIf="previsualizacion && idImagen == servicio.id">
+                                <img
+                                    class="img"
+                                    [src]="previsualizacion"
+                                    alt="imagen"
+                                >
+                            </div>
+                            <br>
+                            <div class="pl-2">
+                                <input
+                                    class="mb-3 form-control input-file"
+                                    (change)="getBase64($event)"
+                                    (change)="capturarFile($event, servicio.id)"
+                                    type="file"
+                                >
+                                <button
+                                    (click)="subirArchivo(servicio.id)"
+                                    (click)="nuevoEstado(servicio.id, 2)"
+                                    [disabled]="fileExist == false"
+                                    class="mat-buttonn mb-3 btn btn-primary "
+                                    type="button"
+                                >
+                                    Subir Imagen
+                                </button>
+                                <!-- <button mat-button class="mat-buttonn pl-4" (click)="subirArchivo()" (click)="pago=!pago"  [disabled]="fileExist==false" (click)="clearImage()"  >Subir Imagen</button> -->
+                                <br>
+                            </div>
+                            <br>
+
+                            <button
+                                [disabled]="servicio.idEstado == 7 && servicio.activo=='1' && servicio.periodo_pago==2 && diasRestantesPagoFinMes <= '0'"
+                                class="mat-buttonn"
+                                routerLink="/gestiontareas/servicio.idServicio"
+                                routerLinkActive="active"
+                                mat-button
+                            >
+                                Gestion tickets
+                            </button>
+                            <button
+                                mat-button
+                                [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
+                                *ngIf="role == 'ADMIN'"
+                                class="mat-buttonn"
+                            >
+                                Desbloquear Servicios
+                            </button>
+                        </div>
+
                             <!--  -->
 
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
 import * as moment from 'moment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
@@ -10,7 +11,10 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 export class CardsComponent implements OnInit {
   administrarService: any;
   mesActual = moment().format('M').toString();
-  constructor(private notification: NzNotificationService,) {}
+  bloqueador = this.serviciosContratados.bloqueador;
+  constructor(
+    private serviciosContratados: GestionServiciosContratadosService,
+    private notification: NzNotificationService,) {}
 
   ngOnInit(): void {
     console.log(this.mesActual)

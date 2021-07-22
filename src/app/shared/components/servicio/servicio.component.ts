@@ -1,15 +1,12 @@
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faEdit, faCoffee, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
-import { SlicePipe } from '@angular/common';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 
@@ -39,7 +36,9 @@ export class ServicioComponent implements OnInit {
   checked = false;
   currentDate: moment.Moment = moment();
   isVisible = false;  //variable que controla el abrir y cerrar del modal
-  diasRestantesPago   = (parseInt( moment().endOf('months').format('D'))) - ((parseInt(this.diaActual)+10)) ;
+  diasRestantesPagoFinMes   = (parseInt( moment().endOf('months').format('D'))) - ((parseInt(this.diaActual)+13)) ;
+  diasRestantesPagoInicioMes = parseInt(this.diaActual) - (parseInt(moment().startOf('month').format('D')));
+  bloqueador;
 
   cambiarPeriodoPago(idServicioContratado){
 
@@ -48,7 +47,7 @@ export class ServicioComponent implements OnInit {
       {
         if (respuesta) {
           this.getServiciosContratadosByUser();                                              // llamara a la funcion de getServiciosContratadosByUser el cual mostrara todos los servicios contratados por el cliente que se encuentre logueado
-          this.nuevoEstado(idServicioContratado,'3');
+          this.nuevoEstado(idServicioContratado,'7');
           this.createNotification('success', 'Periodo de pago actualizado ', 'Actualizado con éxito');  // si el envio fue exitoso se  mostrara una notificacion
         }
       }, err => {
@@ -72,15 +71,39 @@ export class ServicioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('restante'+this.diasRestantesPago);
+    console.log('restante'+this.diasRestantesPagoFinMes);
     console.log('dia actuaal'+this.diaActual);
-
     console.log(this.id);
+    console.log(this.diasRestantesPagoInicioMes);
     this.getImageDocuments();
     this.getServiciosContratadosByUser();
 
+
   }
 
+  observadorPagoFinMes(listado){
+   listado.forEach(element => {
+      if (element.idEstado ==7 && this.diasRestantesPagoFinMes<=0 ) {
+        this.serviciosContratados.bloqueador = true;
+        this.bloqueador = this.serviciosContratados.bloqueador;
+      }
+    });
+
+    console.log(this.bloqueador);
+
+  }
+
+  observadorPagoInicioMes(listado){
+    listado.forEach(element => {
+       if (element.idEstado==1 && this.diasRestantesPagoInicioMes>=10 ) {
+         this.serviciosContratados.bloqueador = true;
+         this.bloqueador = this.serviciosContratados.bloqueador;
+       }
+     });
+
+     console.log(this.bloqueador);
+
+   }
 
 
 
@@ -206,6 +229,8 @@ export class ServicioComponent implements OnInit {
     this.serviciosContratados.getServiciosContratadosByUser().subscribe(
       resp => {
         this.ListaserviciosContratados = resp;
+        this.observadorPagoFinMes(resp);
+        this.observadorPagoInicioMes(resp)
         console.log(this.ListaserviciosContratados);
 
       }, err => {
