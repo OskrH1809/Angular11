@@ -9,12 +9,14 @@ import { GestionServiciosContratadosService } from '../../services/gestion-servi
 export class PanelAdministracionComponent implements OnInit {
   pendientes: any;
   aprobado: any;
+  tareasCreadas: any;
 
   constructor(private gestionServiciosContratados: GestionServiciosContratadosService) { }
 
   ngOnInit(): void {
     this.getServiciosContratadosPendientes();
     this.getServiciosContratadosAprobados();
+    this.getTareas();
   }
 
   getServiciosContratadosPendientes() {
@@ -31,6 +33,14 @@ export class PanelAdministracionComponent implements OnInit {
 
       console.log(this.aprobado);
     })
+  }
+
+  getTareas(){
+    this.gestionServiciosContratados.getTareasAll().subscribe(respuesta=>{
+      this.tareasCreadas = respuesta.filter(respuesta=>respuesta.idEstado==5).length
+      console.log(this.tareasCreadas);
+    })
+
   }
 
 }

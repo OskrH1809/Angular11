@@ -1,20 +1,16 @@
 <div class="container-fluid">
-  <h2 *ngIf="radioValue=='1'" class=" text-center pt-3">Listado de servicios contratados <span  style="color: red;" >sin aprobar</span></h2>
-  <h2 *ngIf="radioValue=='2'" class=" text-center pt-3">Listado de servicios contratados <span  style="color: rgb(251, 102, 9);" >Pendientes de aprobar</span></h2>
-  <h2 *ngIf="radioValue=='3'" class=" text-center pt-3">Listado de servicios contratados <span  style="color: #1b5b9b;" >aprobados</span></h2>
-  <h2 *ngIf="radioValue=='7'" class=" text-center pt-3">Listado de servicios contratados <span  style="color: #595a5c;" >Pendientes de pago</span></h2>
-
-
+  <h2 *ngIf="radioValue=='4'" class=" text-center pt-3">Listado de tareas <span  style="color: red;" >creadas</span></h2>
+  <h2 *ngIf="radioValue=='5'" class=" text-center pt-3">Listado de tareas <span  style="color: rgb(251, 102, 9);" >en revisión</span></h2>
+  <h2 *ngIf="radioValue=='6'" class=" text-center pt-3">Listado de tareas <span  style="color: #1b5b9b;" >finalizadas</span></h2>
 
   <div class="row">
     <div class="col-md-3 col-sm-12 espacio" >
       <h5>Seleccionar Estado</h5>
 
       <nz-radio-group [(ngModel)]="radioValue"  (ngModelChange)="filtro($event)" >
-      <label nz-radio  style="color: red;" nzValue="1" >Sin aprobar</label>
-      <label nz-radio style="color: rgb(251, 102, 9);" nzValue="2">Pendiente de aprobar</label>
-      <label nz-radio style="color: #1b5b9b;" nzValue="3">Aprobado</label>
-      <label nz-radio style="color: #595a5c;" nzValue="7">Pendiente de pago</label>
+      <label nz-radio  style="color: red;" nzValue="4" >Creado</label>
+      <label nz-radio style="color: rgb(251, 102, 9);" nzValue="5">En revisión</label>
+      <label nz-radio style="color: #1b5b9b;" nzValue="6">Finalizado</label>
 
     </nz-radio-group>
     </div>
@@ -25,11 +21,13 @@
   <nz-table #editRowTable nzBordered [nzData]="listOfData">
     <thead>
       <tr>
-        <th nzWidth="10%">Id</th>
-        <th>Usuario</th>
+        <th nzWidth="5%">Id</th>
+        <th nzWidth="10%">Usuario</th>
         <th>Servicio</th>
-        <th>Precio</th>
-        <th>Periodo de Pago</th>
+        <th>Titulo</th>
+        <th nzWidth="10%">Tiempo tarea</th>
+        <th>Descripción</th>
+        <th>Documento</th>
         <th>Estado</th>
       </tr>
     </thead>
@@ -40,15 +38,12 @@
         </td>
         <td>{{ data.usuario }}</td>
         <td>{{ data.servicio }}</td>
-        <td>{{ data.precio }}</td>
-        <td *ngIf="data.periodo_pago=='1'">
-            Inicio de mes
-        </td>
-        <td *ngIf="data.periodo_pago=='2'">
-            Fin de mes
-      </td>
-      <td class="text-center">
-        <!-- {{data.estado}} -->
+        <td>{{ data.titulo }}</td>
+        <td>{{ data.tiempo }}</td>
+        <td> <div class="text-left" style="font-family: Verdana, Geneva, Tahoma, sans-serif;" [innerHTML]="data.descripcion"></div></td>
+        <td>documento</td>
+         <td class="text-center">
+
         <br>
         <a>
             <span
@@ -57,38 +52,32 @@
                 nzTooltipTitle="Editar estado servicio {{data.servicio}}, Estado actual: {{data.estado}}"
             >
                 <i
-                    *ngIf="data.idEstado==1"
+                    *ngIf="data.idEstado==4"
                     nz-icon
                     nzType="edit"
                     style="font-size: 25px; color: red;"
                     nzTheme="outline"
                 ></i>
                 <i
-                    *ngIf="data.idEstado==2"
+                    *ngIf="data.idEstado==5"
                     nz-icon
                     nzType="edit"
                     style="font-size: 25px; color: rgb(251, 102, 9);"
                     nzTheme="outline"
                 ></i>
                 <i
-                    *ngIf="data.idEstado==3"
+                    *ngIf="data.idEstado==6"
                     nz-icon
                     nzType="edit"
                     style="font-size: 25px; color: #3d9efe"
                     nzTheme="outline"
                 ></i>
-                <i
-                *ngIf="data.idEstado==7"
-                nz-icon
-                nzType="edit"
-                style="font-size: 25px; color: #595a5c"
-                nzTheme="outline"
-            ></i>
+
             </span>
         </a>
         <!-- <button nz-button [nzType]="'primary'" ><span>Show Modal</span></button> -->
 
-    </td>
+        </td>
       </tr>
     </tbody>
     <nz-modal [(nzVisible)]="isVisible" nzTitle="Actualizar Estado" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
@@ -116,6 +105,4 @@
   </nz-table>
 
     </div>
-
-
 </div>

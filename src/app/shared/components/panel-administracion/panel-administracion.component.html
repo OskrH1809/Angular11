@@ -67,7 +67,7 @@
 
             <h3 class="text-center">Tareas creadas</h3>
             <mat-card-header>
-                <a class="letra">
+                <a class="letra" href="/listado-tareas-all/4">
                     <mat-card-title>
                         <i
                             class="pt-4"
@@ -77,8 +77,11 @@
                             nzTheme="twotone"
                         >
                         </i>
-                        <span>
-                          Hay 1 tareas pendientes de revisión
+                        <span class="titulo2" *ngIf="tareasCreadas==1">
+                          Hay {{tareasCreadas}} tarea creada recientemente
+                        </span>
+                        <span class="titulo2" *ngIf="tareasCreadas!=1">
+                          Hay {{tareasCreadas}} tares creadas recientemente
                         </span>
                     </mat-card-title>
                 </a>

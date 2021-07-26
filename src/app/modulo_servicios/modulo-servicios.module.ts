@@ -23,6 +23,8 @@ import { VistaDocumentosComponent } from '../shared/components/vista-documentos/
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { ListadoServiciosContradadosAllComponent } from '../shared/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { ListadoTareasAllComponent } from '../shared/components/listado-tareas-all/listado-tareas-all.component';
+
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     ContratarServiciosComponent,
     EdicionTareasComponent,
     VistaDocumentosComponent,
-    ListadoServiciosContradadosAllComponent
+    ListadoServiciosContradadosAllComponent,
+    ListadoTareasAllComponent
 
   ],
   imports: [

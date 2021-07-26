@@ -106,4 +106,9 @@ export class GestionServiciosContratadosService {
     return this.http.put(`${baseUrlF}/api/tareas_ingresar_horas`, data);
   }
 
+  getTareasAll(){
+    return this.http.get<any>(`${baseUrlF}/api/get_all_task`);
+
+  }
+
 }
