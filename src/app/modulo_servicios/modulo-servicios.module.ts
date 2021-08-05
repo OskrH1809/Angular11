@@ -21,11 +21,13 @@ import { EdicionTareasComponent } from '../components/edicion-tareas/edicion-tar
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { VistaDocumentosComponent } from '../shared/components/vista-documentos/vista-documentos.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { ListadoServiciosContradadosAllComponent } from '../shared/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ListadoTareasAllComponent } from '../shared/components/listado-tareas-all/listado-tareas-all.component';
-
-
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { ConversacionesComponent } from '../shared/components/conversaciones/conversaciones.component';
+import { NzBackTopModule } from 'ng-zorro-antd/back-top';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { ListadoServiciosContradadosAllComponent } from '../shared/components/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,9 @@ import { ListadoTareasAllComponent } from '../shared/components/listado-tareas-a
     ContratarServiciosComponent,
     EdicionTareasComponent,
     VistaDocumentosComponent,
+    ListadoTareasAllComponent,
     ListadoServiciosContradadosAllComponent,
-    ListadoTareasAllComponent
+    ConversacionesComponent,
 
   ],
   imports: [
@@ -57,7 +60,10 @@ import { ListadoTareasAllComponent } from '../shared/components/listado-tareas-a
     HttpClientModule,
     NzSelectModule,
     NzImageModule,
-    NzRadioModule
+    NzRadioModule,
+    NzBadgeModule,
+    NzBackTopModule,
+    NzProgressModule
 
   ],
   exports:[

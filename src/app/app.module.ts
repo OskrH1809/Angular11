@@ -35,6 +35,7 @@ registerLocaleData(es);
     ClientesDeServicioComponent,
 
 
+
   ],
   imports: [
     BrowserModule,

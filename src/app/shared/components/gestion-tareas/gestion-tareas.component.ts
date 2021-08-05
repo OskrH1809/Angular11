@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
@@ -49,6 +49,7 @@ export class GestionTareasComponent implements OnInit {
   constructor(
     private notification: NzNotificationService,
     private route: ActivatedRoute,
+    private router:Router,
     private _location: Location,
     private modalService: NgbModal,
     private gestionServicios: GestionServiciosContratadosService,
@@ -433,6 +434,33 @@ export class GestionTareasComponent implements OnInit {
       console.log(err);
       this.getTareas();
       this.createNotification('error', 'Error al actualizar estado: ', err);
+    })
+  }
+
+  verComentario(idTarea,idUsuario){
+    this.changeViewedAdmin(idTarea);
+    this.router.navigate([`conversacion/${idTarea}/${idUsuario}`])
+
+  }
+
+  verComentarioAdmin(idTarea,idUsuario){
+    this.changeViewedUser(idTarea);
+    this.router.navigate([`conversacion/${idTarea}/${idUsuario}`])
+
+  }
+
+  changeViewedAdmin(idTarea){
+    const data= { tarea:idTarea}
+    console.log(idTarea);
+    this.gestionServicios.changeViewedAdmin(data).subscribe(respuesta =>{
+      console.log(respuesta)
+    })
+  }
+  changeViewedUser(idTarea){
+    const data= { tarea:idTarea}
+    console.log(idTarea);
+    this.gestionServicios.changeViewedUser(data).subscribe(respuesta =>{
+      console.log(respuesta)
     })
   }
 }

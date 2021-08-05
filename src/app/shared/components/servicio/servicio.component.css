@@ -87,6 +87,11 @@ padding-top: 5px;
 
 .mat-buttonn{
   transition: 0.2s;
+  width: 100%;
+  font-size:medium;
+  padding-right: 3px !important;
+  color: #ffffff !important;
+
 
 }
 

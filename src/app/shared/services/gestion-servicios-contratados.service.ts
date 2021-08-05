@@ -90,7 +90,7 @@ export class GestionServiciosContratadosService {
   }
 
   getOneDocumentSpecific(usuario, tipo, servicioContratado) {
-    return this.http.get(`${baseUrlF}/api/documents/${usuario}/${tipo}/${servicioContratado}`);
+    return this.http.get<any>(`${baseUrlF}/api/documents/${usuario}/${tipo}/${servicioContratado}`);
   }
 
 
@@ -109,6 +109,28 @@ export class GestionServiciosContratadosService {
   getTareasAll(){
     return this.http.get<any>(`${baseUrlF}/api/get_all_task`);
 
+  }
+
+  //comentarios
+
+  getComentariosTareas(tarea){
+    return this.http.get<any>(`${baseUrlF}/api/comments/${tarea}`);
+  }
+
+  postComentariosTarea(data){
+    return this.http.post(`${baseUrlF}/api/comment`, data);
+  }
+
+  getComentariosAll(){
+    return this.http.get<any>(`${baseUrlF}/api/comments`);
+  }
+
+  changeViewedUser(data){
+    return this.http.post(`${baseUrlF}/api/change_viewed_user`, data);
+  }
+
+  changeViewedAdmin(data){
+    return this.http.post(`${baseUrlF}/api/change_viewed_admin`, data);
   }
 
 }

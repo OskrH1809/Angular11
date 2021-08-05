@@ -9,8 +9,9 @@ import { ServicioComponent } from '../shared/components/servicio/servicio.compon
 import { AuthGuardGuard } from '../auth/services/auth-guard.guard';
 import { VistaDocumentosComponent } from '../shared/components/vista-documentos/vista-documentos.component';
 import { RolesGuard } from '../auth/services/role-admin.guard';
-import { ListadoServiciosContradadosAllComponent } from '../shared/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
 import { ListadoTareasAllComponent } from '../shared/components/listado-tareas-all/listado-tareas-all.component';
+import { ConversacionesComponent } from '../shared/components/conversaciones/conversaciones.component';
+import { ListadoServiciosContradadosAllComponent } from '../shared/components/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
 
 const routes: Routes = [
   {path:'listado/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:'edit', component:EdicionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
   {path:'documentos/:tarea/:usuario', component:VistaDocumentosComponent},
   {path:'listado-tareas-all/:idEstado', component:ListadoTareasAllComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard]},
+  {path:'conversacion/:idTarea/:idUsuario', component:ConversacionesComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
 
 
 ];

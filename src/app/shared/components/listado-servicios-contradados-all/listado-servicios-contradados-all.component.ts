@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NzImageService } from 'ng-zorro-antd/image';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { GestionServiciosContratadosService } from '../services/gestion-servicios-contratados.service';
+import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 interface ItemData {
   id: string;
   name: string;
@@ -23,11 +24,13 @@ export class ListadoServiciosContradadosAllComponent implements OnInit {
   isVisible = false;
   servicioContratadoId: any;
   dataSelect: { estado: string; };
+  documento: any;
 
   constructor(
     private gestionServiciosContratados: GestionServiciosContratadosService,
     private route: ActivatedRoute,
     private notification: NzNotificationService,
+    private nzImageService: NzImageService
     ) {
 
     }
@@ -143,5 +146,27 @@ export class ListadoServiciosContradadosAllComponent implements OnInit {
       { nzDuration: 12000 }
     );
 
+  }
+
+  getDocumentsEspecific(dependet,idUser) {
+    const tipo = '1'
+    this.gestionServiciosContratados.getOneDocumentSpecific(idUser, tipo, dependet).subscribe(respuesta => {
+      const ultimoElemento = respuesta[respuesta.length -1]['archivo']
+      console.log(ultimoElemento);
+      // console.log(respuesta[1]['archivo']);
+      this.onClick(ultimoElemento);
+    })
+  }
+  onClick(imagen): void {
+    const images = [
+      {
+        src: `${imagen}`,
+        width: '30%',
+        height: '60%',
+        alt: 'Imagen'
+      },
+
+    ];
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
   }
 }

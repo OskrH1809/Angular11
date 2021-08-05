@@ -23,14 +23,23 @@
   <br />
   <br />
   <nz-table #editRowTable nzBordered [nzData]="listOfData">
-    <thead>
-      <tr>
-        <th nzWidth="10%">Id</th>
-        <th>Usuario</th>
-        <th>Servicio</th>
-        <th>Precio</th>
-        <th>Periodo de Pago</th>
-        <th>Estado</th>
+    <thead  *ngFor="let data of editRowTable.data">
+      <tr  *ngIf="data.idEstado!=1 && data.idEstado!=7">
+        <th class="text-center" nzWidth="10%">Id</th>
+        <th class="text-center">Usuario</th>
+        <th class="text-center">Servicio</th>
+        <th class="text-center">Precio</th>
+        <th class="text-center">Documento</th>
+        <th class="text-center">Periodo de Pago</th>
+        <th class="text-center">Estado</th>
+      </tr>
+      <tr *ngIf="data.idEstado==1 || data.idEstado==7">
+        <th class="text-center" nzWidth="10%">Id</th>
+        <th class="text-center">Usuario</th>
+        <th class="text-center">Servicio</th>
+        <th class="text-center">Precio</th>
+        <th class="text-center">Periodo de Pago</th>
+        <th class="text-center">Estado</th>
       </tr>
     </thead>
     <tbody>
@@ -41,6 +50,24 @@
         <td>{{ data.usuario }}</td>
         <td>{{ data.servicio }}</td>
         <td>{{ data.precio }}</td>
+        <td class="text-center">
+          <a
+                                *ngIf="data.estado=='Pendiente de aprobación' || data.estado=='Aprobado'"
+                                (click)="getDocumentsEspecific(data.id,data.idUsuario)"
+                            >
+                                <span
+                                    nz-tooltip
+                                    nzTooltipTitle="Visualizar comprobante de pago"
+                                >
+                                    <i
+                                        style="font-size: 25px; color: #08c;"
+                                        nz-icon
+                                        nzType="eye"
+                                        nzTheme="outline"
+                                    ></i>
+                                </span>
+                            </a>
+        </td>
         <td *ngIf="data.periodo_pago=='1'">
             Inicio de mes
         </td>

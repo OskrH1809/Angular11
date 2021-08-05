@@ -20,9 +20,13 @@
                             <span *ngIf="pendientes==1" class="titulo2">
                                 Hay {{pendientes}} solicitud pendiente de aprobación
                             </span>
-                            <span *ngIf="pendientes!=1" class="titulo2">
+                            <span *ngIf="pendientes>1 || pendientes<1" class="titulo2">
                               Hay {{pendientes}} solicitudes pendientes de aprobación
-                          </span>
+                           </span>
+                           <span *ngIf="pendientes==null" class="titulo2">
+                            Hay 0 solicitudes pendientes de aprobación
+                         </span>
+
                         </mat-card-title>
 
                 </mat-card-header>
@@ -50,9 +54,13 @@
                           <span *ngIf="aprobado==1" class="titulo2">
                               Hay {{aprobado}} usuario que ha pagado sus servicios
                           </span>
-                          <span *ngIf="aprobado!=1" class="titulo2">
+                          <span *ngIf="aprobado!=1 || aprobado < 1" class="titulo2">
                             Hay {{aprobado}} usuarios que han pagado sus servicios
                         </span>
+                        <span *ngIf="aprobado==null" class="titulo2">
+                          Hay 0 usuarios que han pagado sus servicios
+                      </span>
+
                       </mat-card-title>
                   </a>
               </mat-card-header>
@@ -80,8 +88,11 @@
                         <span class="titulo2" *ngIf="tareasCreadas==1">
                           Hay {{tareasCreadas}} tarea creada recientemente
                         </span>
-                        <span class="titulo2" *ngIf="tareasCreadas!=1">
-                          Hay {{tareasCreadas}} tares creadas recientemente
+                        <span class="titulo2" *ngIf="tareasCreadas > 1 || tareasCreadas < 1 ">
+                          Hay {{tareasCreadas}} tareas creadas recientemente
+                        </span>
+                        <span class="titulo2" *ngIf="tareasCreadas==null">
+                          Hay 0 tareas creadas recientemente
                         </span>
                     </mat-card-title>
                 </a>

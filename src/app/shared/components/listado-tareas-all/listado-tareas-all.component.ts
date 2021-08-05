@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 
@@ -16,13 +16,19 @@ export class ListadoTareasAllComponent implements OnInit {
   servicioContratadoId: any;
   tarea: any;
   dataSelect: { id: any; estado: string; };
+  editId: string;
+  ContadorMensajesAdmin: any;
+  ContadorMensajesUser: any;
+  comentariosUsuarios;
 
   constructor( private gestionServiciosContratados: GestionServiciosContratadosService,
     private route: ActivatedRoute,
-    private notification: NzNotificationService,) { }
+    private notification: NzNotificationService,
+    private router:Router) { }
 
   ngOnInit(): void {
-    this.getTareas()
+    this.getTareas();
+    this.getComentariosAll();
   }
 
 
@@ -114,5 +120,53 @@ export class ListadoTareasAllComponent implements OnInit {
       { nzDuration: 12000 }
     );
 
+  }
+
+  startEdit(id: string): void {
+    this.editId = id;
+  }
+
+  stopEdit(id, tiempo): void {
+
+    console.log(id)
+    console.log(tiempo)
+    const data = {
+      id: id,
+      horasTarea: tiempo
+
+    }
+
+    this.gestionServiciosContratados.ingresarHorasTarea(data).subscribe(respuesta=>{
+      if (respuesta) {
+        this.getTareas();
+        this.createNotification('info', 'Tarea', 'Horas actualizadas con éxito');
+      }
+
+    }, err => {
+      console.log(err);
+      this.getTareas();
+      this.createNotification('error', 'Error al actualizar estado: ', err);
+    })
+  }
+
+  verComentario(idTarea,idUsuario){
+    this.changeViewedUser(idTarea);
+    this.router.navigate([`conversacion/${idTarea}/${idUsuario}`])
+
+  }
+
+  getComentariosAll(){
+    this.gestionServiciosContratados.getComentariosAll().subscribe(respuesta =>{
+      this.comentariosUsuarios = respuesta.filter(respuesta => respuesta.viewed == 2);
+    })
+  }
+
+
+  changeViewedUser(idTarea){
+    const data= { tarea:idTarea}
+    console.log(idTarea);
+    this.gestionServiciosContratados.changeViewedUser(data).subscribe(respuesta =>{
+      console.log(respuesta)
+    })
   }
 }

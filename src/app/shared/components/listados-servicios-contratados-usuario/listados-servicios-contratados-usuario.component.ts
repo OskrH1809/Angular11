@@ -218,7 +218,8 @@ export class ListadosSeComponent implements OnInit {
     const data = { user: usuario }
     this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta => {
       this.ListaserviciosContratados = respuesta;
-      console.log(this.ListaserviciosContratados);
+
+      console.log(respuesta);
       this.cliente = respuesta[0].usuario;
       console.log(this.cliente)
       this.listOfData = this.ListaserviciosContratados;
