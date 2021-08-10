@@ -10,7 +10,7 @@
 
                 <mat-card class="example-card sombreado">
                     <mat-card-header *ngIf="mes.id==mesActual" class="mat-card-header1">
-                      <a class="letra" routerLink="/servicio/{{mes.id}}">
+                      <a class="letra" routerLink="/servicios/{{mes.id}}">
                         <mat-card-title class="titulo1">{{mes.id}}</mat-card-title>
                         <mat-card-title class="titulo2">{{mes.Mes}}</mat-card-title>
                       </a>
@@ -25,7 +25,7 @@
                       </a>
                   </mat-card-header>
                   <mat-card-header *ngIf="mes.id<mesActual" class="mat-card-header3">
-                    <a class="letra" routerLink="/servicio/{{mes.id}}">
+                    <a class="letra" routerLink="/servicios/{{mes.id}}">
                       <mat-card-title class="titulo1">{{mes.id}}</mat-card-title>
                       <mat-card-title class="titulo2">{{mes.Mes}}</mat-card-title>
                     </a>

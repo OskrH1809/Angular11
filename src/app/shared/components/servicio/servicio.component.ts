@@ -38,6 +38,7 @@ export class ServicioComponent implements OnInit {
   isVisible = false;  //variable que controla el abrir y cerrar del modal
   diasRestantesPagoFinMes   = (parseInt( moment().endOf('months').format('D'))) - ((parseInt(this.diaActual)+13)) ;
   diasRestantesPagoInicioMes = parseInt(this.diaActual) - (parseInt(moment().startOf('month').format('D')));
+
   bloqueador;
 
   cambiarPeriodoPago(idServicioContratado){
@@ -100,9 +101,7 @@ export class ServicioComponent implements OnInit {
          this.bloqueador = this.serviciosContratados.bloqueador;
        }
      });
-
      console.log(this.bloqueador);
-
    }
 
 
@@ -148,7 +147,6 @@ export class ServicioComponent implements OnInit {
     console.log(event.target.files);
     console.log(archivoCapturado);//array con informacion de la imagen
     this.fileExist = true;        //establece que el archivo ya ha sido cargado
-
 
   }
 

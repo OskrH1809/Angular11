@@ -15,6 +15,11 @@ export class GestionServiciosContratadosService {
 
 
 
+  pay_service_by_user
+  getPayServiceByUser(): Observable<any> {
+    return this.http.get(`${baseUrlF}/api/pay_service_by_user`);
+    //
+  }
 
   getServiciosContratadosByUser(): Observable<any> {
     return this.http.get(`${baseUrlF}/api/services_by_user`);

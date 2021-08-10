@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
       } else {
 
         this.router.navigate([''])                                      // se actualiza la pagina para que se pueda visualizar el token
-        .then(() => {
-          window.location.reload();
-        });
+          .then(() => {
+            window.location.reload();
+          });
       }
 
     }, err => {

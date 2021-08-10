@@ -19,11 +19,16 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { PanelAdministracionComponent } from '../shared/components/panel-administracion/panel-administracion.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ServiciosComponent } from '../shared/components/servicios/servicios.component';
+
 @NgModule({
   declarations: [
     ServicioComponent,
     CardsComponent,
     PanelAdministracionComponent,
+    ServiciosComponent
+
+
   ],
   imports: [
     CommonModule,
