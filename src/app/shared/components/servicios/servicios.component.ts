@@ -21,14 +21,18 @@ export class ServiciosComponent implements OnInit {
   decodeToken = this.helper.decodeToken(localStorage.getItem('token'))
   role = this.decodeToken.roles[0];
   user = this.decodeToken.username;
-  fechaActual = moment().format('DD/MM/YYYY HH:mm:ss');
+  fechaActual = moment();
+  fecha1 = moment("2021-07-01 04:05:34");
+  fechaz = this.fechaActual.diff(this.fecha1, 'month')
+
   id = this.route.snapshot.paramMap.get("id");
   diaActual = moment().format('D')
+  anioActual = moment().format('Y')
   mesActual = moment().format('M').toString();
   diasRestantesPagoFinMes = (parseInt(moment().endOf('months').format('D'))) - ((parseInt(this.diaActual) + 10));
   diasRestantesPagoInicioMes = parseInt(this.diaActual) - (parseInt(moment().startOf('month').format('D')));
   bloqueador;
-  ListaserviciosContratados=[];
+  ListaserviciosContratados = [];
   fileExist = false;
   Servicios: any;
   previsualizacion: any;
@@ -36,6 +40,14 @@ export class ServiciosComponent implements OnInit {
   imagen: any;
   baseUrl = baseUrlF
   contador: any;
+  x = 0;
+  serviciosMesActual: any;
+  bloqueadorInicioMes = true;
+  bloqueadorFinMes = true;
+  bloqueadorMesAnterior: boolean;
+  contadorMesAnterior = 1
+  alerta = "";
+  serviciosMesAnterior: void;
 
 
 
@@ -51,13 +63,10 @@ export class ServiciosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPayServiceByUser();
-    console.log(this.fechaActual)
-    console.log(this.mesActual);
-
-    console.log(this.diasRestantesPagoFinMes);
-    console.log(this.diasRestantesPagoInicioMes);
-
+    console.log(this.mesActual)
+    console.log(this.anioActual);
   }
+
   backClicked() {
     this._location.back();
   }
@@ -96,10 +105,15 @@ export class ServiciosComponent implements OnInit {
   getPayServiceByUser() {
     this.serviciosContratados.getPayServiceByUser().subscribe(
       respuesta => {
-        this.Servicios = respuesta;
-        this.observadorPago(this.Servicios);
-        this.observadorPagoMesesAnterior(this.Servicios);
+        this.Servicios = respuesta
+        this.serviciosMesActual = respuesta.filter(respuesta => (respuesta.visualizar == 0 || respuesta.subido == null ))
+        this.serviciosMesAnterior = respuesta.filter(respuesta => (respuesta.subido <= this.id || respuesta.subido == null))
+        console.log(parseInt(this.id))
         console.log(this.Servicios);
+        console.log(this.serviciosMesActual);
+        this.observadorPagoInicioMes(this.serviciosMesActual);
+        this.observadorPagoFinMes(this.serviciosMesActual);
+        this.observadorPagoMesesAnterior(this.Servicios);
       }, err => {
         console.log(err);
         this.createNotification('error', 'Error al obtener los servicios contratados: ', '');
@@ -210,24 +224,40 @@ export class ServiciosComponent implements OnInit {
   subirArchivo(idServicioContracted,): any {
 
     const data = { tipo: '1', dependent: String(idServicioContracted), base64Image: this.imagen['base'] } //el tipo 1 declara que es un la imagene es de un servicio contratado
+    const data2 = {createAt:`${this.anioActual}-${this.id}-01`, tipo: '1', dependent: String(idServicioContracted), base64Image: this.imagen['base'] } //el tipo 1 declara que es un la imagene es de un servicio contratado
+
     // el tipo 1 declara que es un la imagene es de un servicio contratado
     // el dependent establace a que servicio contratado pertenece
     // el base64image es la imagen en formato base64
 
 
-    console.log(data);
+    console.log(this.imagen['base']);
 
-    this.serviciosContratados.postDocumentServiceContracted(data).subscribe(      //peticion post que envia los datos para el registro
-      respuesta => {
-        console.log(respuesta);
-        if (respuesta) {
-          this.createNotification('success', 'Documento: ', 'Documento cargado con éxito');  // si el envio fue exitoso se  mostrara una notificacion
-          this.getPayServiceByUser();                                              // llamara a la funcion de getPayServiceByUser el cual mostrara todos los servicios contratados por el cliente que se encuentre logueado
-        }
-      }, err => {
-        console.log(err);
-        this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
-      })
+    if (this.id == this.mesActual) {
+      this.serviciosContratados.postDocumentServiceContracted(data).subscribe(      //peticion post que envia los datos para el registro
+        respuesta => {
+          console.log(respuesta);
+          if (respuesta) {
+            this.createNotification('success', 'Documento: ', 'Documento cargado con éxito');  // si el envio fue exitoso se  mostrara una notificacion
+            this.getPayServiceByUser();                                              // llamara a la funcion de getPayServiceByUser el cual mostrara todos los servicios contratados por el cliente que se encuentre logueado
+          }
+        }, err => {
+          console.log(err);
+          this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
+        })
+    } else {
+      this.serviciosContratados.postDocumentosMesAnterior(data2).subscribe(      //peticion post que envia los datos para el registro
+        respuesta => {
+          console.log(respuesta);
+          if (respuesta) {
+            this.createNotification('success', 'Documento: ', 'Documento cargado con éxito');  // si el envio fue exitoso se  mostrara una notificacion
+            this.getPayServiceByUser();                                              // llamara a la funcion de getPayServiceByUser el cual mostrara todos los servicios contratados por el cliente que se encuentre logueado
+          }
+        }, err => {
+          console.log(err);
+          this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
+        })
+    }
 
   }
 
@@ -247,58 +277,86 @@ export class ServiciosComponent implements OnInit {
 
 
 
-  // observadorPagoFinMes(listado) {
-  //   listado.forEach(element => {
-  //     if (element.documento == null && this.diasRestantesPagoFinMes <= 0 && element.periodo_pago == "2") {
-  //       this.serviciosContratados.bloqueador = true;
-  //       this.bloqueador = this.serviciosContratados.bloqueador;
-  //     }
-
-  //   });
-
-  //   console.log(this.bloqueador);
-
-  // }
-
-  // observadorPagoInicioMes(listado) {
-  //   listado.forEach(element => {
-  //     if (element.documento == null && this.diasRestantesPagoInicioMes >= 10 && element.periodo_pago == "1") {
-  //       this.serviciosContratados.bloqueador = true;
-  //       this.bloqueador = this.serviciosContratados.bloqueador;
-  //     }
-  //   });
-  //   console.log(this.bloqueador);
-  // }
-
-  observadorPago(listado){
+  observadorPagoFinMes(listado) {
+    let contador = 0
     listado.forEach(element => {
-      if ((element.documento == null && this.diasRestantesPagoInicioMes >= 10 && element.periodo_pago == "1")||(element.documento == null && this.diasRestantesPagoFinMes <= 0 && element.periodo_pago == "2" )) {
-        this.serviciosContratados.bloqueador = true;
-        this.bloqueador = this.serviciosContratados.bloqueador;
-      }else{
-        this.serviciosContratados.bloqueador = false;
-        this.bloqueador = this.serviciosContratados.bloqueador;
+      if ((element.subido == null || element.subido < 8) && this.diasRestantesPagoFinMes <= 0 && element.periodo_pago == "2") {
+        contador += 1;
       }
     });
+    if (contador >= 1) {
+      this.serviciosContratados.bloqueadorFinMes = true;
+      this.bloqueadorFinMes = this.serviciosContratados.bloqueadorFinMes
+      this.alerta = "Los servicios se han deshabilitado hasta que se realice el pago pendiente.";
+    }
+    if (contador == 0) {
+      this.serviciosContratados.bloqueadorFinMes = false;
+      this.bloqueadorFinMes = this.serviciosContratados.bloqueadorFinMes;
+    }
+
+
   }
 
-  observadorPagoMesesAnterior(listado){
+  observadorPagoInicioMes(listado) {
+    let contador = 0
     listado.forEach(element => {
-    if (element.subido) {
-      this.contador+=1
-     }
-
-
-
+      // (servicio.subido<id && servicio.periodo_pago=='1')
+      if ((element.subido == null || element.subido < 8) && this.diasRestantesPagoInicioMes >= 10 && element.periodo_pago == "1") {
+        contador += 1;
+      }
     });
-    // if (element.) {
-    //   this.serviciosContratados.bloqueador = true;
-    //   this.bloqueador = this.serviciosContratados.bloqueador;
-    // }else{
-    //   this.serviciosContratados.bloqueador = false;
-    //   this.bloqueador = this.serviciosContratados.bloqueador;
-    // }
-    console.log(this.contador)
+    if (contador >= 1) {
+      this.serviciosContratados.bloqueadorInicioMes = true;
+      this.bloqueadorInicioMes = this.serviciosContratados.bloqueadorInicioMes
+      this.alerta = "Los servicios se han deshabilitado hasta que se realice el pago pendiente."
+    }
+    if (contador == 0) {
+      this.serviciosContratados.bloqueadorInicioMes = false;
+      this.bloqueadorInicioMes = this.serviciosContratados.bloqueadorInicioMes;
+    }
+  }
+
+
+
+  observadorPagoMesesAnterior(listado) {
+    let fecha1
+    let fecha2
+    listado.forEach(element => {
+      const data = { idServicioContratado: element.servicio_contratado_id }
+      this.serviciosContratados.contadorDocumentosServicioContratado(data).subscribe(respuesta => {
+        respuesta.forEach(element => {
+          fecha1 = moment(element.creado);
+          fecha2 = this.fechaActual.diff(this.fecha1, 'month')
+          if (parseInt(element.documentos) < parseInt(fecha2)) {
+            this.contadorMesAnterior += 1
+
+          }
+          this.verificador(this.contadorMesAnterior)
+
+        });
+
+      }, err => {
+        console.log(err);
+        this.createNotification('error', 'Error al cargar documento: ', err);                // si hay algun error mostrara una notificacion y el detalle del error
+      })
+
+    }
+    );
+
+  }
+
+  verificador(contador) {
+    if (contador > 1) {
+      this.serviciosContratados.bloqueadorMesAnteriores = true;
+      this.bloqueadorMesAnterior = this.serviciosContratados.bloqueadorMesAnteriores;
+      this.alerta = "Los servicios se han deshabilitado hasta que se realice el pago pendiente.";
+    }
+
+    if (contador == 1) {
+      this.serviciosContratados.bloqueadorMesAnteriores = false;
+      this.bloqueadorMesAnterior = this.serviciosContratados.bloqueadorMesAnteriores;
+    }
+
   }
 
 

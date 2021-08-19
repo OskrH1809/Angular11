@@ -21,6 +21,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Autentificacion } from './core/interceptors/autentificacion.service';
 import { GestionUsuariosService } from './auth/services/gestion-usuarios.service';
 import { ClientesDeServicioComponent } from './shared/components/clientes-de-servicio/clientes-de-servicio.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 registerLocaleData(es);
 
 
@@ -49,6 +51,8 @@ registerLocaleData(es);
     FormsModule,
     ReactiveFormsModule,
     CKEditorModule,
+    NzIconModule,
+    NzDropDownModule
   ],
   exports:[
     ModuloServiciosModule

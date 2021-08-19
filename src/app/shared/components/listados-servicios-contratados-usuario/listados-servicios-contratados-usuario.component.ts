@@ -9,6 +9,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
+const baseUrlF = environment.baseURLF;
 
 
 interface ItemData {
@@ -27,7 +29,7 @@ interface ItemData {
 })
 export class ListadosSeComponent implements OnInit {
 
-
+  baseUrl = baseUrlF
   // tabla
   i = 0;
   editId: string | null = null;
@@ -35,9 +37,15 @@ export class ListadosSeComponent implements OnInit {
   mesActual = moment().format('M').toString();
   Nombre;
   id: any;
-  idUser = this.route.snapshot.paramMap.get("id");
-  cliente;
+
+  idUser = this.route.snapshot.paramMap.get("idUser");
+  idEstado = this.route.snapshot.paramMap.get("id");
+  radioValue = this.idEstado;
+  cliente=" ";
   documento;
+  sinAprobar: any;
+  aprobado: any;
+  pendienteDeAprobar: any;
 
 
   deleteRow(id: string, nombre: string): void {
@@ -64,48 +72,17 @@ export class ListadosSeComponent implements OnInit {
   }
   public form: FormGroup;
   ngOnInit(): void {
-    this.getServiciosUsuarioEspecifico();
-    this.id = this.route.snapshot.paramMap.get("id");
-    // this.getServicios();
+    this.getServiciosContratadosSinAprobarByUser();
+    this.getServiciosContratadosPendientesDeAprobarByUser();
+    this.getServiciosContratadosAprobadosByUser();
 
-    console.log(this.id);
+
+
   }
 
-  // getServicios(){
-  //  this.service.get_serviciosxUsuario(this.id)
-  //  .subscribe( values => {
-  //    this.listOfData= values;
-  //    this.Nombre = values[0].Nombre;
-  //   console.log(values);
-  // } );
-  // }
 
   backClicked() {
     this._location.back();
-  }
-
-  // modal
-  // Modal
-  closeModal: string;
-  triggerModal(content) {
-    this.modalService.open(content,
-
-      { size: 'xl', ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
-        this.closeModal = `Closed with: ${res}`;
-      }, (res) => {
-        this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-      });
-  }
-
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 
 
@@ -156,45 +133,13 @@ export class ListadosSeComponent implements OnInit {
     this.isVisibled = false;
   }
 
-
-  // select estado
-  optionList = [
-    { label: 'Sin Aprobar', value: '1' },
-    { label: 'Pendiente de aprobación', value: '2' },
-    { label: 'Aprobado', value: '3' }
-  ];
-  selectedValue = 'Seleccionar estado'
-  // tslint:disable-next-line:no-any
-
-  log(value: { value: string; }): void {
-    console.log(value.value);
-    const data = { 'estado': value.value }
-    this.cambiarEstado(this.servicioContratadoId, data);
-    console.log(data)
-    console.log(this.servicioContratadoId)
-    this.getServiciosUsuarioEspecifico();
-
-    this.optionList = [
-      { label: 'Sin Aprobar', value: '1' },
-      { label: 'Pendiente de aprobación', value: '2' },
-      { label: 'Aprobado', value: '3' }
-    ];
-
-  }
-
-
   // modal formulario
   isVisibleFormulariof = false;
 
 
-
   showModalFormulariof(): void {
     this.isVisibleFormulariof = true;
-    this.optionList = [
-      { label: 'Sin Aprobar', value: '1' },
-      { label: 'Pendiente de aprobación', value: '2' },
-      { label: 'Aprobado', value: '3' }
-    ];
+
   }
 
   handleOkFormulariof(): void {
@@ -213,61 +158,56 @@ export class ListadosSeComponent implements OnInit {
   // ================================================
   ListaserviciosContratados = [];
 
-  getServiciosUsuarioEspecifico() {
-    const usuario = this.route.snapshot.paramMap.get("id");
-    const data = { user: usuario }
-    this.serviciosContratados.getServiciosContratadosUsuarioEspecifico(usuario).subscribe(respuesta => {
-      this.ListaserviciosContratados = respuesta;
 
-      console.log(respuesta);
-      this.cliente = respuesta[0].usuario;
-      console.log(this.cliente)
-      this.listOfData = this.ListaserviciosContratados;
-    }, err => {
-      console.log(err);
-      this.createNotification('error', 'Listado: ', 'Error al obtener los servicio');
-      this.createNotification('error', 'error: ', err);
-    })
-  }
-
-  cambiarEstado(id, data) {
-    this.serviciosContratados.updateEstadoServicioContratado(id, data).subscribe(respuesta => {
-      console.log();
-      if (respuesta) {
-        this.getServiciosUsuarioEspecifico();
-        this.createNotification('info', 'Estado: ', 'Estado actualizado con éxito');
-
+  getServiciosContratadosSinAprobarByUser() {
+    const data = { userId: this.idUser }
+    this.serviciosContratados.getServiciosContratadosSinAprobarByUser(data).subscribe(respuesta => {
+      this.cliente = respuesta[0].email;
+      this.sinAprobar = respuesta;
+      if (this.idEstado=="1") {
+        this.listOfData= this.sinAprobar;
       }
     }, err => {
       console.log(err);
-      this.createNotification('error', 'Servicio: ', 'Error al cambiar el estado');
-      this.createNotification('error', 'error: ', err);
-    });
-  }
-
-
-
-  // documento(imagen)
-  getDocumentsEspecific(dependet) {
-    const tipo = '1'
-    this.serviciosContratados.getOneDocumentSpecific(this.idUser, tipo, dependet).subscribe(respuesta => {
-      this.documento = respuesta[0]['archivo'];
-      this.onClick(respuesta[0]['archivo']);
+      this.createNotification('error', 'Listado: ', err);
     })
   }
 
-  onClick(imagen): void {
-    const images = [
-      {
-        src: `${imagen}`,
-        width: '30%',
-        height: '60%',
-        alt: 'Imagen'
-      },
+  getServiciosContratadosPendientesDeAprobarByUser() {
 
-    ];
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+    const data = { userId: this.idUser }
+    this.serviciosContratados.getServiciosContratadosPendientesDeAprobarByUser(data).subscribe(respuesta => {
+      this.cliente = respuesta[0].email;
+      this.pendienteDeAprobar = respuesta;
+      if (this.idEstado=="2") {
+        this.listOfData= this.pendienteDeAprobar;
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Listado: ', 'Error al obtener los servicio');
+    })
   }
+
+
+  getServiciosContratadosAprobadosByUser() {
+
+    const data = { userId: this.idUser }
+    this.serviciosContratados.getServiciosContratadosAprobadosByUser(data).subscribe(respuesta => {
+      this.cliente = respuesta[0].email;
+      this.aprobado = respuesta
+      if (this.idEstado=="2") {
+        this.listOfData==this.aprobado
+      }
+    }, err => {
+      console.log(err);
+      this.createNotification('error', 'Listado: ', 'Error al obtener los servicio');
+    })
+  }
+
+
+
+
+
 
   contratarNuevosServicios(idServicio, nombreServicio) {
     const data = {
@@ -276,7 +216,9 @@ export class ListadosSeComponent implements OnInit {
     }
     this.serviciosContratados.registrarNuevosServicios(data).subscribe(respuesta => {
       if (respuesta) {
-        this.getServiciosUsuarioEspecifico();
+        this.getServiciosContratadosSinAprobarByUser();
+        this.getServiciosContratadosPendientesDeAprobarByUser();
+        this.getServiciosContratadosAprobadosByUser();
         this.createNotification('success', `Registro de servicio: ${nombreServicio} `, 'Registrado con éxito');
 
       }
@@ -290,7 +232,9 @@ export class ListadosSeComponent implements OnInit {
     const data = { servicioContratado: idServicioContratado }
     this.serviciosContratados.activarServicioContratado(data).subscribe(respuesta => {
       if (respuesta) {
-        this.getServiciosUsuarioEspecifico();
+        this.getServiciosContratadosSinAprobarByUser();
+        this.getServiciosContratadosPendientesDeAprobarByUser();
+        this.getServiciosContratadosAprobadosByUser();
         this.createNotification('success', ` servicio contratado: ${nombreServicio} `, 'Activado con éxito');
 
       }
@@ -304,7 +248,9 @@ export class ListadosSeComponent implements OnInit {
     const data = { servicioContratado: idServicioContratado }
     this.serviciosContratados.desactivarServicioContratado(data).subscribe(respuesta => {
       if (respuesta) {
-        this.getServiciosUsuarioEspecifico();
+        this.getServiciosContratadosSinAprobarByUser();
+        this.getServiciosContratadosPendientesDeAprobarByUser();
+        this.getServiciosContratadosAprobadosByUser();
         this.createNotification('success', ` Servicio contratado: ${nombreServicio} `, 'Desactivado con éxito');
 
       }
@@ -313,5 +259,19 @@ export class ListadosSeComponent implements OnInit {
       this.createNotification('error', `El servicio contratado: ${nombreServicio}`, 'No pudo desactivarse');
     });
   }
+
+  filtro(filtro) {
+    if (filtro == '1') {
+      this.listOfData = this.sinAprobar
+    }
+
+    if (filtro == '2') {
+      this.listOfData = this.pendienteDeAprobar
+    }
+    if (filtro == '3') {
+      this.listOfData = this.aprobado
+    }
+  }
+
 
 }

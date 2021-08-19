@@ -8,6 +8,8 @@ interface ItemData {
   id: string;
   name: string;
   price: string;
+  horasServicio: string;
+
 }
 @Component({
   selector: 'app-creacion-servicios',
@@ -64,13 +66,14 @@ export class CreacionServiciosComponent implements OnInit {
 
   // funcion que hace la peticion post a la api para crear el nuevo servicio
   CrearServicio() {
-    const nuevoServicio = { name: `${this.form.value.nombre}`, price: `${this.form.value.precio}`, }
+    const nuevoServicio = { name: `${this.form.value.nombre}`, price: `${this.form.value.precio}`, horasServicio:`${this.form.value.horasServicio}` }
     this.servicio.sendPost(nuevoServicio).subscribe(
       res => {
         console.log(res);
         if (res) {
           this.createNotification('success', 'Servicio: ' + `${this.form.value.nombre}`, 'Agregado con éxito');
           this.get_serviciosall(this.buscar);
+          this.form.reset();
         }
       }, err => {
         console.log(err);
@@ -118,6 +121,7 @@ export class CreacionServiciosComponent implements OnInit {
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       precio: ['', Validators.required],
+      horasServicio: ['', Validators.required]
 
 
     });

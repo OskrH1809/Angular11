@@ -39,6 +39,20 @@
                             formControlName="precio"
                         >
                     </div>
+                    <div>
+                      <label
+                          class="pt-4"
+                          for="horasServicio"
+                      >
+                          Horas Servicio
+                      </label>
+                      <input
+                          class="form-control"
+                          type="text"
+                          id="horasServicio"
+                          formControlName="horasServicio"
+                      >
+                  </div>
                     <br>
                     <div>
                         <button
@@ -99,6 +113,8 @@
                         <th>Id</th>
                         <th nzWidth="30%">Nombre</th>
                         <th>Precio</th>
+                        <th>Horas Servicio</th>
+                        <th>Tiempo Restante</th>
                         <th nzWidth="30%">Clientes que han contratado el servicio</th>
                         <th nzWidth="3%">Activar/desactivar</th>
                     </tr>
@@ -125,6 +141,7 @@
                                 (blur)="stopEdit(data.id,data.name,data.price)"
                             >
                         </td>
+
                         <td>
                             <div
                                 class="editable-cell"
@@ -141,6 +158,8 @@
                                 (blur)="stopEdit(data.id,data.name,data.price)"
                             >
                         </td>
+                        <td>{{data.hours_service}}</td>
+                        <td>{{data.time_remaining}}</td>
                         <td class="text-center">
                           <a
                               href="clientes/{{data.id}}/{{data.name}}"

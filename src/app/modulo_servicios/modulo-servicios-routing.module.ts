@@ -14,7 +14,7 @@ import { ConversacionesComponent } from '../shared/components/conversaciones/con
 import { ListadoServiciosContradadosAllComponent } from '../shared/components/listado-servicios-contradados-all/listado-servicios-contradados-all.component';
 
 const routes: Routes = [
-  {path:'listado/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
+  {path:'listado/:idUser/:id', component:ListadosSeComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
   {path:'gestionservicios', component:CreacionServiciosComponent, canActivate: [AuthGuardGuard,RolesGuard],canLoad:[AuthGuardGuard,RolesGuard]},
   {path:'gestiontareas/:nombreservicio/:idusuario/:idservicio', component:GestionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},
   {path:'gestiontareas/:mes/:nombreservicio/:idusuario/:idservicio', component:GestionTareasComponent, canActivate: [AuthGuardGuard],canLoad:[AuthGuardGuard]},

@@ -17,22 +17,56 @@
 
     <nav *ngIf="verificarAcceso==true && role=='ADMIN'" id="nav-menu-container">
       <ul class="nav-menu">
-        <li> <a href="/perfil">{{username}}</a> </li>
+
         <li><a href="/panel">Panel</a></li>
         <li><a href="/gestionservicios"> Gestión Servicios</a></li>
         <li> <a href="/gestionclientes">Gestión Clientes</a> </li>
         <!-- <li class="menu-active"><a href="">Login</a></li> -->
-        <li> <a (click)="logout()">Cerrar sesión</a> </li>
+
+        <li class="pl-5">
+          <a nz-dropdown [nzDropdownMenu]="menu">
+
+            <i nz-icon   style="font-size: 25px; color: rgb(30,150,210);" nzType="user" nzTheme="outline"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <hr>
+              <li> <a style="color: black;" href="/perfil">{{username}}</a> </li>
+              <hr>
+              <li class="text-center"> <a style="color: black;" (click)="logout()">Cerrar sesión</a> </li>
+                <hr>
+
+            </ul>
+          </nz-dropdown-menu>
+        </li>
       </ul>
+
     </nav><!-- #nav-menu-container -->
 
     <nav *ngIf="verificarAcceso==true && role!='ADMIN'" id="nav-menu-container">
       <ul class="nav-menu">
-        <li> <a href="/perfil">{{username}}</a> </li>
+
         <li><a href="/cards">Servicios</a></li>
         <!-- <li class="menu-active"><a href="">Login</a></li> -->
-        <li> <a (click)="logout()">Cerrar sesión</a> </li>
+        <li class="pl-5">
+          <a nz-dropdown [nzDropdownMenu]="menu">
+
+            <i nz-icon   style="font-size: 25px; color: rgb(30,150,210);" nzType="user" nzTheme="outline"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <hr>
+              <li> <a style="color: black;" href="/perfil">{{username}}</a> </li>
+              <hr>
+              <li class="text-center"> <a style="color: black;" (click)="logout()">Cerrar sesión</a> </li>
+                <hr>
+
+            </ul>
+          </nz-dropdown-menu>
+        </li>
       </ul>
+
     </nav><!-- #nav-menu-container -->
+
   </div>
 </header><!-- #header -->
