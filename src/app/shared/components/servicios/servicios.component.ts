@@ -105,9 +105,9 @@ export class ServiciosComponent implements OnInit {
   getPayServiceByUser() {
     this.serviciosContratados.getPayServiceByUser().subscribe(
       respuesta => {
-        this.Servicios = respuesta
-        this.serviciosMesActual = respuesta.filter(respuesta => (respuesta.visualizar == 0 || respuesta.subido == null ))
-        this.serviciosMesAnterior = respuesta.filter(respuesta => (respuesta.subido <= this.id || respuesta.subido == null))
+        this.Servicios = respuesta.filter(respuesta => (respuesta.servicio_contratado_activo == 1 || respuesta.servicio_activo ==1 ))
+        this.serviciosMesActual = respuesta.filter(respuesta => ((respuesta.servicio_contratado_activo==1 && respuesta.servicio_activo==1 && respuesta.visualizar == 0) || (respuesta.servicio_contratado_activo==1 && respuesta.servicio_activo==1 && respuesta.subido == null)  ))
+        this.serviciosMesAnterior = respuesta.filter(respuesta => (respuesta.servicio_contratado_activo==1 && respuesta.servicio_activo==1 && respuesta.subido <= this.id || ( respuesta.servicio_contratado_activo==1 && respuesta.servicio_activo==1 && respuesta.subido == null) )  )
         console.log(parseInt(this.id))
         console.log(this.Servicios);
         console.log(this.serviciosMesActual);

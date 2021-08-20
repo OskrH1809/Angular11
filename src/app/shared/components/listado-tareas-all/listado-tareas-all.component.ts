@@ -9,6 +9,7 @@ import { GestionServiciosContratadosService } from '../../services/gestion-servi
   styleUrls: ['./listado-tareas-all.component.css']
 })
 export class ListadoTareasAllComponent implements OnInit {
+  listado: any;
   listOfData:any ;
   idEstado = this.route.snapshot.paramMap.get("idEstado");
   radioValue = this.idEstado;
@@ -28,28 +29,32 @@ export class ListadoTareasAllComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTareas();
+    this.filtroInicial();
     this.getComentariosAll();
   }
 
 
-
   getTareas(){
     this.gestionServiciosContratados.getTareasAll().subscribe(respuesta=>{
-      this.listOfData = respuesta.filter(respuesta=>respuesta.idEstado==this.idEstado)
+      this.listOfData = respuesta.filter(respuesta=>respuesta.idEstado==this.radioValue);
+      this.listado = respuesta;
 
     })
 
   }
 
+  filtroInicial(){
+  }
 
   filtro(filtro){
-    this.gestionServiciosContratados.getTareasAll().subscribe(respuesta=>{
-      console.log(filtro)
-      console.log(respuesta)
-      console.log(this.radioValue)
-      this.listOfData = respuesta.filter(respuesta=>respuesta.idEstado==filtro)
+    // this.gestionServiciosContratados.getTareasAll().subscribe(respuesta=>{
+    //   console.log(filtro)
+    //   console.log(respuesta)
+    //   console.log(this.radioValue)
 
-    })
+    // })
+    this.radioValue=filtro;
+    this.listOfData = this.listado.filter(respuesta=>respuesta.idEstado==this.radioValue)
   }
 
    // modal
@@ -101,7 +106,7 @@ export class ListadoTareasAllComponent implements OnInit {
   actualizarEstadoTarea(data) {
     this.gestionServiciosContratados.actualizarEstadoTarea(data).subscribe(respuesta => {
       if (respuesta) {
-        this.filtro(this.radioValue);
+        this.getTareas();
         this.createNotification('info', 'Tarea', 'Estado actualizado con éxito');
       }
 

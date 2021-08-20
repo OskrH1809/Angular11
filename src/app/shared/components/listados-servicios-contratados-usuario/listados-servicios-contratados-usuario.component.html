@@ -2,7 +2,7 @@
 
   <h3
             class="titulo text-center"
-            *ngIf="cliente==' '"
+            *ngIf="cliente"
         >
             Listado de servicios de
             <span style="color: #08c;">
@@ -11,7 +11,7 @@
         </h3>
         <h1
             class="text-center"
-            *ngIf="cliente!=' '"
+            *ngIf="!cliente"
         >
             El usuario aun no ha contratado servicios
         </h1>

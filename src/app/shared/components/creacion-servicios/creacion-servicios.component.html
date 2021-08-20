@@ -138,7 +138,7 @@
                                 type="text"
                                 nz-input
                                 [(ngModel)]="data.name"
-                                (blur)="stopEdit(data.id,data.name,data.price)"
+                                (blur)="stopEdit(data.id,data.name,data.price,data.hours_service)"
                             >
                         </td>
 
@@ -155,10 +155,25 @@
                                 type="text"
                                 nz-input
                                 [(ngModel)]="data.price"
-                                (blur)="stopEdit(data.id,data.name,data.price)"
+                                (blur)="stopEdit(data.id,data.name,data.price,data.hours_service)"
                             >
                         </td>
-                        <td>{{data.hours_service}}</td>
+                        <td>
+                          <div
+                                class="editable-cell"
+                                [hidden]="editId === data.id"
+                                (click)="startEdit(data.id)"
+                            >
+                            {{data.hours_service}}
+                            </div>
+                            <input
+                                [hidden]="editId !== data.id"
+                                type="text"
+                                nz-input
+                                [(ngModel)]="data.hours_service"
+                                (blur)="stopEdit(data.id,data.name,data.price,data.hours_service)"
+                            >
+
                         <td>{{data.time_remaining}}</td>
                         <td class="text-center">
                           <a

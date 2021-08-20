@@ -6,6 +6,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { decode } from 'querystring';
 import { Observable, Observer } from 'rxjs';
 import { GestionClientesService } from 'src/app/shared/services/gestion-clientes.service';
+import { StringLiteralLike } from 'typescript';
 import { GestionUsuariosService } from '../../services/gestion-usuarios.service';
 
 @Component({
@@ -81,6 +82,7 @@ export class PerfilComponent implements OnInit {
         console.log("respuesta")
         this.createNotification('info', 'Actualizar Contraseña', 'La contraseña ha sido actualizada con éxito');
         this.get_data_this_user();
+
       }
     }, err => {
       this.createNotification('error', 'Cambiar contraseña fallo', 'Revise su contraseña');
@@ -109,16 +111,45 @@ export class PerfilComponent implements OnInit {
   // segundo form que contiene la informacion de cuenta bancaria, telefono y dirección
 
   validateForm2: FormGroup;
-  submitForm2(value: { cuentaBanco: string; email: string; password: string; confirm: string; comment: string }): void {
+  submitForm2(value: { cuentaBanco: string; email: string; password: string; confirm: string; comment: StringLiteralLike; telefono:string; direccion:string }): void {
     for (const key in this.validateForm2.controls) {
       this.validateForm2.controls[key].markAsDirty();
       this.validateForm2.controls[key].updateValueAndValidity();
     }
-    console.log(value);
-    if (this.datosUsuario) {                                              //en esta seccion verifica si en cliente ya contiene información, si contiene informacion solo la actualizara y si no creara una nueva entidad de dataUser en la base de datos para almacenarla
-      this.actualizarDatos(value);
+    let cuentaBanco;
+    let telefono;
+    let direccion;
+
+    // cuenta bancaria
+    if (value.cuentaBanco) {
+      cuentaBanco = value.cuentaBanco;
     } else {
-      this.nuevoRegistroDatosUsuarios(value)
+      cuentaBanco = ''
+    }
+
+    // telefono
+    if (value.telefono) {
+      telefono = value.telefono;
+    } else {
+      telefono = ''
+    }
+      // direccion
+      if (value.direccion) {
+        direccion = value.direccion;
+      } else {
+        direccion = ''
+      }
+
+    const data = { cuentaBanco: cuentaBanco, telefono:telefono, direccion:direccion }
+
+    console.log(data);
+    if (this.datosUsuario) {                                              //en esta seccion verifica si en cliente ya contiene información, si contiene informacion solo la actualizara y si no creara una nueva entidad de dataUser en la base de datos para almacenarla
+      this.actualizarDatos(data);
+      console.log('actualizar')
+    } else {
+      this.nuevoRegistroDatosUsuarios(data)
+      console.log('data')
+      console.log(data);
     }
 
 

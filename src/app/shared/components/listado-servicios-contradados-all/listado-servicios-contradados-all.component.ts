@@ -101,7 +101,7 @@ export class ListadoServiciosContradadosAllComponent implements OnInit {
     this.gestionServiciosContratados.getServiciosContratadosAprobados().subscribe(respuesta => {
       this.aprobados = respuesta;
       if (this.idEstado == '3') {
-        this.listOfData = this.sinAprobar
+        this.listOfData = this.aprobados
       }
       console.log(this.aprobados)
     }, err => {

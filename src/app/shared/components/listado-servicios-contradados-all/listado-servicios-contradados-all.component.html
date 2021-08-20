@@ -58,7 +58,7 @@
 
     </thead>
     <tbody *ngFor="let data of editRowTable.data" class="editable-row">
-      <tr *ngIf="data.subido==mesActual">
+      <tr *ngIf="data.subido==mesActual ">
         <td>
           {{ data.id }}
         </td>
@@ -125,7 +125,7 @@
     </td>
       </tr>
 
-      <tr *ngIf="data.subido==(mesActual-1)">
+      <tr *ngIf="data.subido==(mesActual-1) ">
         <td>
           {{ data.id }}
         </td>

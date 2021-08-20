@@ -41,7 +41,7 @@ export class ListadosSeComponent implements OnInit {
   idUser = this.route.snapshot.paramMap.get("idUser");
   idEstado = this.route.snapshot.paramMap.get("id");
   radioValue = this.idEstado;
-  cliente=" ";
+  cliente;
   documento;
   sinAprobar: any;
   aprobado: any;
@@ -162,11 +162,16 @@ export class ListadosSeComponent implements OnInit {
   getServiciosContratadosSinAprobarByUser() {
     const data = { userId: this.idUser }
     this.serviciosContratados.getServiciosContratadosSinAprobarByUser(data).subscribe(respuesta => {
-      this.cliente = respuesta[0].email;
       this.sinAprobar = respuesta;
       if (this.idEstado=="1") {
         this.listOfData= this.sinAprobar;
+        console.log(respuesta)
+
       }
+      if (!this.cliente) {
+        this.cliente = this.sinAprobar[0].email
+      }
+      console.log(this.sinAprobar);
     }, err => {
       console.log(err);
       this.createNotification('error', 'Listado: ', err);
@@ -177,11 +182,16 @@ export class ListadosSeComponent implements OnInit {
 
     const data = { userId: this.idUser }
     this.serviciosContratados.getServiciosContratadosPendientesDeAprobarByUser(data).subscribe(respuesta => {
-      this.cliente = respuesta[0].email;
       this.pendienteDeAprobar = respuesta;
+      console.log(respuesta)
       if (this.idEstado=="2") {
         this.listOfData= this.pendienteDeAprobar;
       }
+
+      if (!this.cliente) {
+        this.cliente = this.pendienteDeAprobar[0].email
+      }
+
     }, err => {
       console.log(err);
       this.createNotification('error', 'Listado: ', 'Error al obtener los servicio');
@@ -193,10 +203,12 @@ export class ListadosSeComponent implements OnInit {
 
     const data = { userId: this.idUser }
     this.serviciosContratados.getServiciosContratadosAprobadosByUser(data).subscribe(respuesta => {
-      this.cliente = respuesta[0].email;
       this.aprobado = respuesta
       if (this.idEstado=="2") {
         this.listOfData==this.aprobado
+      }
+      if (!this.cliente) {
+        this.cliente = this.aprobado[0].email
       }
     }, err => {
       console.log(err);

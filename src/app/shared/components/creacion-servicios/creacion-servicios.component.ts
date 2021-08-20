@@ -35,9 +35,9 @@ export class CreacionServiciosComponent implements OnInit {
   }
 
   //Funcion que indica que se ha finalizado la edicion y pasa los nuevos parametros para actualizarlos
-  stopEdit(id, nombre, precio): void {
+  stopEdit(id, nombre, precio,horasServicio): void {
     this.editId = null;
-    this.actualizacionServicio(id, nombre, precio);
+    this.actualizacionServicio(id, nombre, precio,horasServicio);
 
   }
 
@@ -98,8 +98,8 @@ export class CreacionServiciosComponent implements OnInit {
   }
 
   // funcion que hace la peticion put a la api para crear el nuevo servicio
-  actualizacionServicio(id, nombre, precio) {
-    const data = { name: nombre, price: precio }
+  actualizacionServicio(id, nombre, precio,horasServicio) {
+    const data = { name: nombre, price: precio,horasServicio:horasServicio }
     console.log(data);
     this.servicio.updateServicio(id, data).subscribe(
       resp => {
