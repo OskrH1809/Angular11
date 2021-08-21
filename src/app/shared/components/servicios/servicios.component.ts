@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';

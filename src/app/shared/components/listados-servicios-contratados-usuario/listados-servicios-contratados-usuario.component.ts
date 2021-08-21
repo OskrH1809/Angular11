@@ -9,7 +9,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import * as moment from 'moment';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 const baseUrlF = environment.baseURLF;
 
 

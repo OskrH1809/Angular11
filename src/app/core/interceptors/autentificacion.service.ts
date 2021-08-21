@@ -5,7 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GestionUsuariosService } from 'src/app/auth/services/gestion-usuarios.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 const baseUrl = environment.baseURLF;
 
 @Injectable({

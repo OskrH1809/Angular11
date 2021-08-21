@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import * as moment from 'moment';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import { GestionServiciosContratadosService } from '../../services/gestion-servicios-contratados.service';
 import { Location } from '@angular/common';
 const baseUrlF = environment.baseURLF;
