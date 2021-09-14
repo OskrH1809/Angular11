@@ -41,7 +41,7 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item *ngIf="role=='ADMIN' && role!=null">
+      <nz-form-item *ngIf="role=='ROLE_ADMIN' && role!=null">
         <nz-form-label [nzSpan]="7" nzFor="" nzRequired>Tipo Usuario</nz-form-label>
         <nz-form-control [nzSpan]="12" nzErrorTip="seleccionar tipo de usuario">
           <nz-select
@@ -50,8 +50,8 @@
             nzPlaceHolder="seleccionar tipo de usuario"
 
           >
-            <nz-option nzValue="ADMIN" nzLabel="ADMIN"></nz-option>
-            <nz-option nzValue="USER" nzLabel="USER"></nz-option>
+            <nz-option nzValue="ROLE_ADMIN" nzLabel="ADMIN"></nz-option>
+            <nz-option nzValue="ROLE_CLIENT" nzLabel="CLIENT"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>

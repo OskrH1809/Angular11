@@ -18,7 +18,7 @@ export class RegistroGuard implements CanActivate, CanLoad {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (this.verificarAcceso==false || this.role == 'ADMIN') {
+    if (this.verificarAcceso==false || this.role == 'ROLE_ADMIN') {
       return true
 
     } else {

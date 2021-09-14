@@ -21,13 +21,13 @@
        <div class="col-md-10" >
          <nz-table #editRowTable class="mb-3" nzBordered [nzData]="listOfData">
           <thead>
-            <tr *ngIf="role=='ADMIN'">
+            <tr *ngIf="role=='ROLE_ADMIN'">
               <th class="text-center" nzWidth="10%">Id</th>
               <th class="text-center" nzWidth="20%" >Titulo</th>
               <th class="text-center" nzWidth="10%">Tiempo en horas</th>
               <th class="text-center" nzWidth="10%" class="text-center">Estado</th>
             </tr>
-            <tr *ngIf="role=='USER'">
+            <tr *ngIf="role=='ROLE_CLIENT'">
               <th class="text-center" nzWidth="10%">Id</th>
               <th class="text-center" nzWidth="20%" >Titulo</th>
               <th class="text-center" nzWidth="20%">Tiempo en horas</th>
@@ -38,14 +38,14 @@
           </thead>
           <tbody *ngFor="let data of editRowTable.data"  class="editable-row">
             <tr>
-              <td *ngIf="role=='USER'"  >
+              <td *ngIf="role=='ROLE_CLIENT'"  >
                 <nz-badge nz-tooltip nzTooltipTitle="Presiona para ver mas información, Hay {{data.mensajesNuevoAdmin}} comentarios sin leer" [nzCount]="data.mensajesNuevoAdmin" (click)="verComentario(data.id,data.idUsuario)">
 
                   <a class="head-example">{{data.id}}</a>
 
                 </nz-badge>
               </td>
-              <td *ngIf="role=='ADMIN'"  >
+              <td *ngIf="role=='ROLE_ADMIN'"  >
                 <nz-badge nz-tooltip nzTooltipTitle="Presiona para ver mas información, Hay {{data.mensajesNuevosUser}} comentarios sin leer" [nzCount]="data.mensajesNuevosUser" (click)="verComentarioAdmin(data.id,data.idUsuario)">
 
                   <a class="head-example">{{data.id}}</a>
@@ -60,13 +60,13 @@
               </td>
 
 
-            <td class="text-center" *ngIf="role=='USER'" >
+            <td class="text-center" *ngIf="role=='ROLE_CLIENT'" >
 
               <p *ngIf="data.tiempo==null || data.tiempo==0">Aun no asignado</p>
               <p *ngIf="data.tiempo!=null && data.tiempo!=0">{{data.tiempo}}</p>
 
           </td>
-          <td *ngIf="role=='ADMIN'"><div
+          <td *ngIf="role=='ROLE_ADMIN'"><div
             class="editable-cell"
             [hidden]="editId === data.id"
             class="text-center"
@@ -82,49 +82,49 @@
             [(ngModel)]="data.tiempo"
             (blur)="stopEdit(data.id,data.tiempo)"
         ></td>
-            <td style="background-color: rgb(211, 81, 81);" *ngIf="data.estado=='Creado' && role=='ADMIN'" class="text-center">
-                  <a  *ngIf="mesActual==idMes && role=='ADMIN'"> <span (click)="showModal(data.id)" nz-tooltip nzTooltipTitle="Cambiar Estado. Estado actual: {{data.estado}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
-                  <a  *ngIf="mesActual!=idMes && role=='ADMIN'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar el estado esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+            <td style="background-color: rgb(236, 29, 29);" *ngIf="data.estado=='Creado' && role=='ROLE_ADMIN'" class="text-center">
+                  <a  *ngIf="mesActual==idMes && role=='ROLE_ADMIN'"> <span (click)="showModal(data.id)" nz-tooltip nzTooltipTitle="Cambiar Estado. Estado actual: {{data.estado}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+                  <a  *ngIf="mesActual!=idMes && role=='ROLE_ADMIN'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar el estado esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
 
                   &nbsp;
 
             </td>
 
-            <td style="background-color: rgb(255, 156, 75);" *ngIf="data.estado=='En revisión' && role=='ADMIN'" class="text-center">
-              <a  *ngIf="mesActual==idMes && role=='ADMIN'"> <span (click)="showModal(data.id)" nz-tooltip nzTooltipTitle="Cambiar Estado. Estado actual: {{data.estado}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
-              <a  *ngIf="mesActual!=idMes && role=='ADMIN'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar el estado esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+            <td style="background-color: rgb(247, 121, 19);" *ngIf="data.estado=='En revisión' && role=='ROLE_ADMIN'" class="text-center">
+              <a  *ngIf="mesActual==idMes && role=='ROLE_ADMIN'"> <span (click)="showModal(data.id)" nz-tooltip nzTooltipTitle="Cambiar Estado. Estado actual: {{data.estado}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+              <a  *ngIf="mesActual!=idMes && role=='ROLE_ADMIN'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar el estado esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
 
               &nbsp;
             </td>
-            <td style="background-color: rgb(165, 203, 235);" *ngIf="data.estado=='Finalizado' && role=='ADMIN'" class="text-center">
+            <td style="background-color: #2993e9;" *ngIf="data.estado=='Finalizado' && role=='ROLE_ADMIN'" class="text-center">
 
-              <a  *ngIf="mesActual==idMes && role=='ADMIN'"> <span (click)="showModal(data.id)" nz-tooltip nzTooltipTitle="Cambiar Estado. Estado actual: {{data.estado}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
-              <a  *ngIf="mesActual!=idMes && role=='ADMIN'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar el estado esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+              <a  *ngIf="mesActual==idMes && role=='ROLE_ADMIN'"> <span (click)="showModal(data.id)" nz-tooltip nzTooltipTitle="Cambiar Estado. Estado actual: {{data.estado}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+              <a  *ngIf="mesActual!=idMes && role=='ROLE_ADMIN'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar el estado esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
 
               &nbsp;
             </td>
 
-            <td *ngIf="role=='USER'" class="text-center">
-              <a  *ngIf="mesActual==idMes && role=='USER'"> <span (click)="llenarDatos(data.id,data.titulo,data.descripcion)" (click)="showModalFormulario()" nz-tooltip nzTooltipTitle="Editar {{data.titulo}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
-              <a  *ngIf="mesActual!=idMes && role=='USER'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+            <td *ngIf="role=='ROLE_CLIENT'" class="text-center">
+              <a  *ngIf="mesActual==idMes && role=='ROLE_CLIENT'"> <span (click)="llenarDatos(data.id,data.titulo,data.descripcion)" (click)="showModalFormulario()" nz-tooltip nzTooltipTitle="Editar {{data.titulo}}"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
+              <a  *ngIf="mesActual!=idMes && role=='ROLE_CLIENT'"> <span   nz-tooltip nzTooltipTitle="Ya no puede editar esta tarea"><i  nz-icon nzType="edit" nzTheme="outline"  style="font-size: 25px; color: rgb(0, 0, 0);"></i></span></a>
 
               &nbsp;
 
             </td>
 
 
-          <td  *ngIf="data.estado=='Creado' && role=='USER'" class="text-center">
+          <td  *ngIf="data.estado=='Creado' && role=='ROLE_CLIENT'" class="text-center">
             <nz-progress [nzPercent]="33" nzType="circle" [nzWidth]="80"></nz-progress>
 
 
 
           </td>
 
-          <td  *ngIf="data.estado=='En revisión' && role=='USER'" class="text-center">
+          <td  *ngIf="data.estado=='En revisión' && role=='ROLE_CLIENT'" class="text-center">
             <nz-progress [nzPercent]="66" nzType="circle" [nzWidth]="80"></nz-progress>
             <P style="color: black;">{{data.estado}}</P>            &nbsp;
           </td>
-          <td *ngIf="data.estado=='Finalizado' && role=='USER'" class="text-center">
+          <td *ngIf="data.estado=='Finalizado' && role=='ROLE_CLIENT'" class="text-center">
             <nz-progress [nzPercent]="100" nzType="circle" [nzWidth]="80"></nz-progress>
 
 

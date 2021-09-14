@@ -46,7 +46,7 @@ export class PanelAdministracionComponent implements OnInit {
 
   getTareas(){
     this.gestionServiciosContratados.getTareasAll().subscribe(respuesta=>{
-      this.tareasCreadas = respuesta.filter(respuesta=>respuesta.idEstado==4).length
+      this.tareasCreadas = respuesta.filter(respuesta=>respuesta.idEstado==1).length
       console.log(this.tareasCreadas);
     })
 

@@ -17,7 +17,7 @@ export class RegistroComponent implements OnInit {
 
   constructor(private router: Router, private notification: NzNotificationService, private servicelogin: GestionUsuariosService, private fb: FormBuilder) {
     // En esta validacion se verifica si tiene asignado  un rol la persona que quiere registrarse y si tiene rol de administrador le permitira elegir el rol de la persona que registrara
-    if (this.role == "ADMIN") {
+    if (this.role == "ROLE_ADMIN") {
       this.validateForm = this.fb.group({
         email: ['', [Validators.email, Validators.required]],
         password: ['', [Validators.required]],
@@ -45,11 +45,18 @@ export class RegistroComponent implements OnInit {
       this.validateForm.controls[key].updateValueAndValidity();
     }
     // validacion de si la existe un tipo de usuario enviado desde los formularios, si no existe por defecto sera vacio, y en la base de datos esta validado que si este campo se recibe vacio, por defecto le asignara el rol de user
-    if (value.tipoUsuario) {
-      this.perfilUsuario = value.tipoUsuario
-    } else {
-      this.perfilUsuario = ''
+    if (value.tipoUsuario=='ROLE_ADMIN') {
+      this.perfilUsuario = "1"
     }
+    if (value.tipoUsuario=='ROLE_CLIENT') {
+      this.perfilUsuario = "3"
+    }
+
+    if (!value.tipoUsuario) {
+      this.perfilUsuario = ""
+    }
+
+
     const datos = { email: value.email, password: value.password, perfil: this.perfilUsuario }
     console.log(datos);
     //esta funcion se utiliza para enviar los datos a la base de datos y registrar el nuevo usuario

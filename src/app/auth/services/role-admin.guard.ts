@@ -22,7 +22,7 @@ export class RolesGuard implements CanActivate, CanLoad {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.role=='ADMIN') {
+    if (this.role=='ROLE_ADMIN') {
 
       return true;
     } else {
@@ -38,7 +38,7 @@ export class RolesGuard implements CanActivate, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-      if (this.role=='ADMIN') {
+      if (this.role=='ROLE_ADMIN') {
         return true;
       } else {
 

@@ -12,7 +12,7 @@ export class AsideComponent implements OnInit {
 
 
 
-   role = 'ADMIN'
+   role = 'ROLE_ADMIN'
   ngOnInit(): void {
 
   }

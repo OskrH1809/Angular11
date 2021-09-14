@@ -61,8 +61,11 @@ export class RecuperarContraComponent implements OnInit {
     this.gestionUsuarios.recuperarcontra(data).subscribe(respuesta => {
       if (respuesta) {
         console.log("respuesta")
-        this.createNotification('success', 'Restauración de contraseña enviada.', 'Por favor revise su correo electrónico.');
 
+        this.createNotification('success', 'Restauración de contraseña enviada.', 'Por favor revise su correo electrónico.');
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
     }, err => {
       this.createNotification('error', 'Error al restaurar contraseña.', 'El correo no se encuentra registrado.');

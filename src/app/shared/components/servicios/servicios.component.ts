@@ -326,9 +326,15 @@ export class ServiciosComponent implements OnInit {
       this.serviciosContratados.contadorDocumentosServicioContratado(data).subscribe(respuesta => {
         respuesta.forEach(element => {
           fecha1 = moment(element.creado);
-          fecha2 = this.fechaActual.diff(this.fecha1, 'month')
+          fecha2 = this.fechaActual.diff(fecha1, 'months')
           if (parseInt(element.documentos) < parseInt(fecha2)) {
             this.contadorMesAnterior += 1
+            console.log(element.creado);
+            console.log(this.fechaActual);
+            console.log(fecha1)
+            console.log(fecha2)
+            console.log(respuesta)
+
 
           }
           this.verificador(this.contadorMesAnterior)

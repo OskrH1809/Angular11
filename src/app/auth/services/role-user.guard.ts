@@ -16,7 +16,7 @@ export class RoleUserGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if (this.role=='USER') {
+      if (this.role=='ROLE_CLIENT') {
 
         return true;
       } else {

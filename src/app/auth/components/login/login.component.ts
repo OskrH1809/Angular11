@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
     this.aut.login_check(this.validateForm.value).subscribe(data => { //funcion que enviara por medio el metodo post los parametros del formulario para iniciar session
       localStorage.setItem('token', data.token);                      // se almacena el token en el localstorage
-      if (data.data.role == "ADMIN") {
+      if (data.data.role == "ROLE_ADMIN") {
 
         window.location.reload();
         this.router.navigate(['/panel'])                                     // se actualiza la pagina para que se pueda visualizar el token

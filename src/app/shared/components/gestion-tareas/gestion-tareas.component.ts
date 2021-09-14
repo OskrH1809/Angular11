@@ -375,9 +375,9 @@ export class GestionTareasComponent implements OnInit {
 
   // select estado
   optionList = [
-    { label: 'Creado', value: '4' },
-    { label: 'En revisión', value: '5' },
-    { label: 'Finalizado', value: '6' }
+    { label: 'Creado', value: '1' },
+    { label: 'En revisión', value: '2' },
+    { label: 'Finalizado', value: '3' }
   ];
   selectedValue = 'Seleccionar estado'
   // tslint:disable-next-line:no-any
@@ -389,9 +389,9 @@ export class GestionTareasComponent implements OnInit {
 
 
     this.optionList = [
-      { label: 'Creado', value: '4' },
-      { label: 'En revisión', value: '5' },
-      { label: 'Finalizado', value: '6' }
+      { label: 'Creado', value: '1' },
+      { label: 'En revisión', value: '2' },
+      { label: 'Finalizado', value: '3' }
     ];
   }
 

@@ -15,7 +15,7 @@
       </ul>
     </nav><!-- #nav-menu-container -->
 
-    <nav *ngIf="verificarAcceso==true && role=='ADMIN'" id="nav-menu-container">
+    <nav *ngIf="verificarAcceso==true && role=='ROLE_ADMIN'" id="nav-menu-container">
       <ul class="nav-menu">
 
         <li><a href="/panel">Panel</a></li>
@@ -33,6 +33,8 @@
               <hr>
               <li> <a style="color: black;" href="/perfil">{{username}}</a> </li>
               <hr>
+              <li> <a style="color: black;" href="/registro">Registrar nuevo usuario</a> </li>
+              <hr>
               <li class="text-center"> <a style="color: black;" (click)="logout()">Cerrar sesión</a> </li>
                 <hr>
 
@@ -43,7 +45,7 @@
 
     </nav><!-- #nav-menu-container -->
 
-    <nav *ngIf="verificarAcceso==true && role!='ADMIN'" id="nav-menu-container">
+    <nav *ngIf="verificarAcceso==true && role=='ROLE_CLIENT'" id="nav-menu-container">
       <ul class="nav-menu">
 
         <li><a href="/cards">Servicios</a></li>

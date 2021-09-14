@@ -8,9 +8,9 @@
       <h5>Seleccionar Estado</h5>
 
       <nz-radio-group [(ngModel)]="radioValue"  (ngModelChange)="filtro($event)" >
-      <label nz-radio  style="color: red;" nzValue="4" >Creado</label>
-      <label nz-radio style="color: rgb(251, 102, 9);" nzValue="5">En revisión</label>
-      <label nz-radio style="color: #1b5b9b;" nzValue="6">Finalizado</label>
+      <label nz-radio  style="color: red;" nzValue="1" >Creado</label>
+      <label nz-radio style="color: rgb(251, 102, 9);" nzValue="2">En revisión</label>
+      <label nz-radio style="color: #1b5b9b;" nzValue="3">Finalizado</label>
 
     </nz-radio-group>
     </div>
@@ -70,21 +70,21 @@
                 nzTooltipTitle="Editar estado servicio {{data.servicio}}, Estado actual: {{data.estado}}"
             >
                 <i
-                    *ngIf="data.idEstado==4"
+                    *ngIf="data.idEstado==1"
                     nz-icon
                     nzType="edit"
                     style="font-size: 25px; color: red;"
                     nzTheme="outline"
                 ></i>
                 <i
-                    *ngIf="data.idEstado==5"
+                    *ngIf="data.idEstado==2"
                     nz-icon
                     nzType="edit"
                     style="font-size: 25px; color: rgb(251, 102, 9);"
                     nzTheme="outline"
                 ></i>
                 <i
-                    *ngIf="data.idEstado==6"
+                    *ngIf="data.idEstado==3"
                     nz-icon
                     nzType="edit"
                     style="font-size: 25px; color: #3d9efe"

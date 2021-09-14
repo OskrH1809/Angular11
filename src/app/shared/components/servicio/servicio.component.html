@@ -253,7 +253,7 @@
                                 <button
                                     mat-button
                                     [disabled]="servicio.idEstado == 1 && servicio.activo=='1'"
-                                    *ngIf="role == 'ADMIN'"
+                                    *ngIf="role == 'ROLE_ADMIN'"
                                     class="mat-buttonn"
                                 >
                                     Desbloquear Servicios
@@ -297,7 +297,7 @@
                                 </button>
                                 <button
                                     mat-button
-                                    *ngIf="role == 'ADMIN'"
+                                    *ngIf="role == 'ROLE_ADMIN'"
                                     class="mat-buttonn"
                                     (click)="nuevoEstado(servicio.id, 3)"
                                 >
@@ -332,7 +332,7 @@
 
                                 <button
                                     mat-button
-                                    *ngIf="role == 'ADMIN'"
+                                    *ngIf="role == 'ROLE_ADMIN'"
                                     class="mat-buttonn"
                                     (click)="nuevoEstado(servicio.id, 3)"
                                 >
@@ -443,7 +443,7 @@
                                 <button
                                     mat-button
                                     [disabled]="servicio.estado == 'Sin Aprobar' && servicio.activo=='1'"
-                                    *ngIf="role == 'ADMIN'"
+                                    *ngIf="role == 'ROLE_ADMIN'"
                                     class="mat-buttonn"
                                 >
                                     Desbloquear Servicios
