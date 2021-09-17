@@ -53,7 +53,7 @@ export class RegistroComponent implements OnInit {
     }
 
     if (!value.tipoUsuario) {
-      this.perfilUsuario = ""
+      this.perfilUsuario = "3"
     }
 
 
