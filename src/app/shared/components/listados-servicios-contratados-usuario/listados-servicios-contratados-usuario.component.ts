@@ -162,10 +162,10 @@ export class ListadosSeComponent implements OnInit {
   getServiciosContratadosSinAprobarByUser() {
     const data = { userId: this.idUser }
     this.serviciosContratados.getServiciosContratadosSinAprobarByUser(data).subscribe(respuesta => {
-      this.sinAprobar = respuesta;
+      this.sinAprobar = respuesta.data;
       if (this.idEstado=="1") {
         this.listOfData= this.sinAprobar;
-        console.log(respuesta)
+        console.log(respuesta.data)
 
       }
       if (!this.cliente) {
@@ -182,8 +182,8 @@ export class ListadosSeComponent implements OnInit {
 
     const data = { userId: this.idUser }
     this.serviciosContratados.getServiciosContratadosPendientesDeAprobarByUser(data).subscribe(respuesta => {
-      this.pendienteDeAprobar = respuesta;
-      console.log(respuesta)
+      this.pendienteDeAprobar = respuesta.data;
+      console.log(respuesta.data)
       if (this.idEstado=="2") {
         this.listOfData= this.pendienteDeAprobar;
       }
@@ -203,7 +203,7 @@ export class ListadosSeComponent implements OnInit {
 
     const data = { userId: this.idUser }
     this.serviciosContratados.getServiciosContratadosAprobadosByUser(data).subscribe(respuesta => {
-      this.aprobado = respuesta
+      this.aprobado = respuesta.data
       if (this.idEstado=="2") {
         this.listOfData==this.aprobado
       }

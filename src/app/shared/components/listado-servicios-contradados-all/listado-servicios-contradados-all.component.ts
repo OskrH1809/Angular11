@@ -73,8 +73,9 @@ export class ListadoServiciosContradadosAllComponent implements OnInit {
 
   getServiciosContratadosSinAprobar() {
     this.gestionServiciosContratados.getServiciosContratadosSinAprobar().subscribe(respuesta => {
-      this.sinAprobar = respuesta;
+      this.sinAprobar = respuesta.data;
       console.log(this.sinAprobar);
+
       if (this.idEstado == '1') {
         this.listOfData = this.sinAprobar
       }
@@ -86,7 +87,7 @@ export class ListadoServiciosContradadosAllComponent implements OnInit {
 
   getServiciosContratadosPendientesDeAprobar() {
     this.gestionServiciosContratados.getServiciosContratadosPendientesDeAprobar().subscribe(respuesta => {
-      this.pendientesDeAprobar = respuesta;
+      this.pendientesDeAprobar = respuesta.data;
       console.log(this.pendientesDeAprobar)
       if (this.idEstado == '2') {
         this.listOfData = this.pendientesDeAprobar
@@ -99,7 +100,7 @@ export class ListadoServiciosContradadosAllComponent implements OnInit {
 
   getServiciosContratadosAprobados() {
     this.gestionServiciosContratados.getServiciosContratadosAprobados().subscribe(respuesta => {
-      this.aprobados = respuesta;
+      this.aprobados = respuesta.data;
       if (this.idEstado == '3') {
         this.listOfData = this.aprobados
       }

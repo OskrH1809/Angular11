@@ -36,6 +36,7 @@ export class GestionTareasComponent implements OnInit {
   dataDescripcion: any;
   descripcion: any;
   public Editor = ClassicEditor;
+  tiempo_restante: any;
   public onChange({ editor }) {
     const data = editor.getData();
     console.log(data);
@@ -255,6 +256,7 @@ export class GestionTareasComponent implements OnInit {
     this.ServiciosContratados.getTareasEspeficas(this.idUsuario, this.idServicio).subscribe(
       respuesta => {
         console.log(respuesta);
+        this.tiempo_restante = respuesta[0]['tiempo_restante_servicio']
         this.listOfData = respuesta;
       }, err => {
         console.log(err);

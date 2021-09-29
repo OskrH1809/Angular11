@@ -55,7 +55,7 @@ export class PanelAdministracionComponent implements OnInit {
   //
   getServiciosContratadosSinAprobar() {
     this.gestionServiciosContratados.getServiciosContratadosSinAprobar().subscribe(respuesta => {
-      this.sinAprobar = respuesta.length;
+      this.sinAprobar = respuesta.data.length;
       console.log(this.sinAprobar);
 
     }, err => {
@@ -66,7 +66,7 @@ export class PanelAdministracionComponent implements OnInit {
 
   getServiciosContratadosPendientesDeAprobar() {
     this.gestionServiciosContratados.getServiciosContratadosPendientesDeAprobar().subscribe(respuesta => {
-      this.pendientes = respuesta.length;
+      this.pendientes = respuesta.data.length;
       console.log(this.pendientes)
 
     }, err => {
@@ -77,7 +77,7 @@ export class PanelAdministracionComponent implements OnInit {
 
   getServiciosContratadosAprobado() {
     this.gestionServiciosContratados.getServiciosContratadosAprobados().subscribe(respuesta => {
-      this.aprobado = respuesta.length;
+      this.aprobado = respuesta.data.length;
 
       console.log(this.aprobado)
     }, err => {

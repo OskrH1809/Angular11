@@ -8,7 +8,7 @@
         <a href="/listado-servicios-all/1" class="letra">
           <mat-card class="example-card">
 
-              <h3 class="text-center">Clientes sin aprobar</h3>
+              <h3 class="text-center">Clientes sin pagar</h3>
               <mat-card-header>
 
                       <mat-card-title>
@@ -21,13 +21,13 @@
                           >
                           </i>
                           <span *ngIf="sinAprobar==1" class="titulo2">
-                              Hay {{sinAprobar}} solicitud sin aprobar
+                              Hay {{sinAprobar}} servicio sin pagar
                           </span>
                           <span *ngIf="sinAprobar>1 || sinAprobar<1" class="titulo2">
-                            Hay {{sinAprobar}} solicitudes sin aprobar
+                            Hay {{sinAprobar}} servicios sin pagar
                           </span>
                           <span *ngIf="sinAprobar==null" class="titulo2">
-                          Hay 0 solicitudes pendientes de aprobación
+                          Hay 0 servicios sin pagar
                           </span>
 
                       </mat-card-title>
@@ -89,13 +89,13 @@
                           >
                           </i>
                           <span *ngIf="aprobado==1" class="titulo2">
-                            Hay {{aprobado}} solicitud pendiente de aprobación
+                            Hay {{aprobado}} solicitud aprobada
                           </span>
                          <span *ngIf="aprobado>1 || aprobado<1" class="titulo2">
-                          Hay {{aprobado}} solicitudes pendientes de aprobación
+                          Hay {{aprobado}} solicitudes aprobadas
                           </span>
                          <span *ngIf="aprobado==null" class="titulo2">
-                          Hay 0 solicitudes pendientes de aprobación
+                          Hay 0 solicitudes aprobadas
                           </span>
 
                       </mat-card-title>

@@ -151,7 +151,7 @@ export class ListadoTareasAllComponent implements OnInit {
     }, err => {
       console.log(err);
       this.getTareas();
-      this.createNotification('error', 'Error al actualizar estado: ', err);
+      this.createNotification('error', 'Error al actualizar estado: ', 'Verificar el tiempo ingresado');
     })
   }
 

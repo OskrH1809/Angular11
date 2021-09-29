@@ -46,7 +46,7 @@ export class GestionClientesComponent implements OnInit {
   // funcion que se utiliza para enviar la informacion del correo para registrar el nuevo usuario
   send(): any {
     console.log(this.form.value.email);
-    this.enviarCorreoNuevoUsuario(this.form.value.email, '')
+    this.enviarCorreoNuevoUsuario(this.form.value.email, 3)
   }
 
   //Funcion que permite regresar a la pagina anterior
@@ -86,11 +86,12 @@ export class GestionClientesComponent implements OnInit {
   enviarCorreoNuevoUsuario(email, perfil) {
     let data;
 
-    if (perfil) {
-      data = { email: email, perfil: perfil }
-    } else {
-      data = { email: email, perfil: '' }
-    }
+    data = { email: email, perfil: perfil }
+    // if (perfil) {
+    //   data = { email: email, perfil: perfil }
+    // } else {
+    //   data = { email: email, perfil: '' }
+    // }
 
     this.userService.envioCorreoNuevoUsuario(data).subscribe(respuesta => {
       if (respuesta) {
